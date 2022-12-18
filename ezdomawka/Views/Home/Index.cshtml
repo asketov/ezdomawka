@@ -1,1 +1,49 @@
-﻿
+﻿<label for="amount">Price range:</label>
+<input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+<div id="slider-range"></div>
+<div>
+    <div class="">
+        <div class="d-flex justify-content-center">
+            <input maxlength="150" size="100" placeholder="Что ищете?"/>
+            <button class="">Поиск</button>
+        </div>
+    </div>
+    <div class="findOptions d-flex justify-content-center pt-2">
+        <select class="form-select">
+            <option value="" disabled selected>Преподаватель</option>
+            <option>gfggrgrg</option>
+        </select>
+        <select class="form-select">
+            <option value="" disabled selected>Предмет</option>
+            <option>gfggrgrg</option>
+        </select>
+        <select class="form-select">
+            <option value="" disabled selected>Тема</option>
+            <option>gfggrgrg</option>
+        </select>
+    </div>
+    <div class="Cards pt-4 col-12">
+        <partial name="../FavorSolution/Partials/_FavorSolutionCard.cshtml"/>
+        <partial name="../FavorSolution/Partials/_FavorSolutionCard.cshtml" />
+    </div>
+</div>
+
+<link href="./css/Home/IndexHome.css" rel="stylesheet" type="text/css" />
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 500,
+            values: [75, 300],
+            slide: function (event, ui) {
+        $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+        }});
+        $("#amount").val("$" + $("#slider-range").slider("values", 0) +
+        " - $" + $("#slider-range").slider("values", 1));
+        });
+    </script>
+}

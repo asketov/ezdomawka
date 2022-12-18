@@ -12,6 +12,5 @@ namespace DAL.Entities
         public string Email { get; set; } = null!;
         public string PasswordHash { get; set; } = null!;
 
-
     }
 }
