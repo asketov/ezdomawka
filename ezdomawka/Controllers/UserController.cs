@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
-namespace DAL.Entities
+namespace ezdomawka.Controllers
 {
-    public class Subject
+    public class UserController : Controller
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; } = null!;
 
     }
 }

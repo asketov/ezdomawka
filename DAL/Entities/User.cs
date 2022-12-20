@@ -10,7 +10,8 @@ namespace DAL.Entities
     {
         public Guid Id { get; set; }
         public string Email { get; set; } = null!;
+        public string Nick { get; set; } = null!;
         public string PasswordHash { get; set; } = null!;
-
+        public virtual ICollection<FavorSolution> FavorSolutions { get; set; } = null!;
     }
 }

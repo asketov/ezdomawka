@@ -13,7 +13,6 @@ namespace DAL
         public DataContext(DbContextOptions<DataContext> options) : base(options){}
         public DbSet<User> Users => Set<User>();
         public DbSet<Subject> Subjects => Set<Subject>();
-        public DbSet<Teacher> Teachers => Set<Teacher>();
         public DbSet<FavorSolution> FavorSolutions => Set<FavorSolution>();
 
     }

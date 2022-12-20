@@ -2,15 +2,27 @@
     <div class="col-6">
         <div>
             <div class="pt-2">
-                <textarea data="elastic" class="form-control" placeholder="Введите текст"></textarea>
+                <textarea required maxlength="250" data="elastic" class="form-control" placeholder="Введите текст *"></textarea>
             </div>
             <div class="pt-2">
-                <input class=" form-control" placeholder="Введите цену" />
+                <input step="20" min="0" max="2000000"  type="number" required class="form-control" placeholder="Введите цену *" />
             </div>
             <div class="pt-2">
-                <select class=" form-select">
-                    <option value="" selected="" disabled="">Предмет</option>
+                <input maxlength="60" type="text" required class="form-control" placeholder="Введите связь *" />
+            </div>
+            <div class="pt-2">
+                <select required class=" form-select">
+                    <option value="" selected="" disabled="">Введите тему *</option>
                 </select>
+            </div>
+            <div class="pt-2">
+                <select class="form-select">
+                    <option value="" selected="" disabled="">Предмет *</option>
+                </select>
+            </div>
+            <div class="pt-2 text-center">
+                <button type="button" class="btn btn-dark">Добавить</button>
+                <button type="button" class="btn btn-danger">Очистить</button>
             </div>
         </div>
     </div>
