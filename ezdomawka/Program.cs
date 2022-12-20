@@ -1,3 +1,4 @@
+using BLL;
 using DAL;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -11,6 +12,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = new PathString("/Auth/Login");
     });
 builder.Services.AddDatabase(builder.Configuration);
+builder.Services.AddServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

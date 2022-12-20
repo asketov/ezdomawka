@@ -6,15 +6,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.AutoMapper.Profiles;
+using BLL.Services;
 
 namespace BLL
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddDatabase(this IServiceCollection
+        public static IServiceCollection AddServices(this IServiceCollection
             services)
         {
-            //services.AddScoped();
+            services.AddScoped<UserService>();
+            services.AddScoped<AuthService>();
+            services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(AuthProfile).Assembly);
             return services;
         }
     }

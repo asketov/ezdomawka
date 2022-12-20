@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities
+namespace BLL.Models.Auth
 {
-    public class User
+    public class RegisterModel
     {
-        public Guid Id { get; set; }
         public string Email { get; set; } = null!;
+        public string Password { get; set; } = null!;
         public string Nick { get; set; } = null!;
-        public string PasswordHash { get; set; } = null!;
-        public virtual ICollection<FavorSolution>? FavorSolutions { get; set; } = null!;
     }
 }

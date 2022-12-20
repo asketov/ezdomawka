@@ -48,7 +48,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("FavorSolutions");
+                    b.ToTable("FavorSolutions", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Subject", b =>
@@ -68,7 +68,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("FavorSolutionId");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -91,7 +91,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.FavorSolution", b =>

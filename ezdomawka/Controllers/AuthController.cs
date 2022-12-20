@@ -4,8 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using BLL.Models.Auth;
+using BLL.Models.User;
 using BLL.Services;
+using Common.Exceptions.General;
+using Common.Exceptions.User;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
@@ -16,9 +20,13 @@ namespace ezdomawka.Controllers
     public class AuthController : Controller
     {
         private readonly UserService _userService;
-        public AuthController(UserService userService)
+        private readonly AuthService _authService;
+        private readonly IMapper _mapper;
+        public AuthController(UserService userService, IMapper mapper, AuthService authService)
         {
             _userService = userService;
+            _mapper = mapper;
+            _authService = authService;
         }
 
         [HttpGet]
@@ -28,20 +36,19 @@ namespace ezdomawka.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginRequest model)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
-            if (ModelState.IsValid)
+            try
             {
-                User user = await _userService.GetUserById(Guid.NewGuid());
-                if (user != null)
-                {
-                    await Authenticate(model.Email); // аутентификация
-
-                    return RedirectToAction("Index", "Home");
-                }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                User user = await _userService.GetUserByCredentials(_mapper.Map<CredentialModel>(request));
+                await Authenticate(user.Nick);
+                return RedirectToAction("Index", "Home");
             }
-            return View(model);
+            catch(NotFoundException)
+            {
+                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                return View(request);
+            }
         }
         [HttpGet]
         public IActionResult Register()
@@ -50,23 +57,24 @@ namespace ezdomawka.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterRequest model)
+        public async Task<IActionResult> Register(RegisterRequest request)
         {
-            if (ModelState.IsValid)
+            try
             {
-                User user = await _userService.GetUserById(Guid.Empty);
-                if (user == null)
+                if (ModelState.IsValid)
                 {
-                    // добавляем пользователя в бд
-
-                    await Authenticate(model.Email); // аутентификация
-
+                    User user = await _authService.RegisterUser(_mapper.Map<RegisterModel>(request));
+                    await Authenticate(request.Nick); 
                     return RedirectToAction("Index", "Home");
                 }
-                else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                return View(request);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                if(ex is NickAlreadyExistException) ModelState.AddModelError(nameof(DAL.Entities.User.Nick), "Пользователь с таким ником уже существует");
+                if(ex is EmailAlreadyExistException) ModelState.AddModelError(nameof(DAL.Entities.User.Email), "Пользователь с такой почтой уже существует");
+                return View(request);
+            }
         }
 
         private async Task Authenticate(string userName)

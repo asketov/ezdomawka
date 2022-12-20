@@ -23,5 +23,11 @@ namespace BLL.Models.Auth
         [Compare("Password", ErrorMessage = "Пароль введен неверно")]
         [Required]
         public string ConfirmPassword { get; set; } = null!;
+        [MinLength(5)]
+        [MaxLength(50)]
+        [Required]
+        public string Nick { get; set; } = null!;
+
+
     }
 }

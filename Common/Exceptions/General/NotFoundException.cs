@@ -8,7 +8,7 @@ namespace Common.Exceptions.General
 {
     public class NotFoundException : Exception
     {
-        public string NotFoundModel { get; set; }
+        public string NotFoundModel { get; set; } = null!;
 
         public override string Message => $"{NotFoundModel} is not found";
     }
