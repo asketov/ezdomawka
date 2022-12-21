@@ -20,3 +20,11 @@ body {
 textarea {
     overflow: hidden;
 }
+
+.navbar {
+    background-color: #e3f2fd;
+}
+
+.nav-link:hover {
+    background:#bc8f8f;
+}

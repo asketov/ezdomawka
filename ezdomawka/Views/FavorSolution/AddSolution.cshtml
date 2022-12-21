@@ -1,30 +1,39 @@
-﻿<div class="d-flex justify-content-center">
+﻿@model BLL.Models.FavorSolution.AddSolutionRequest
+
+<div class="d-flex justify-content-center">
     <div class="col-6">
+        <form id="form" method="post" asp-action="AddSolution">
         <div>
             <div class="pt-2">
-                <textarea required maxlength="250" data="elastic" class="form-control" placeholder="Введите текст *"></textarea>
+                <textarea asp-for="Text" required maxlength="200" data="elastic" class="form-control" placeholder="Введите текст*(200)"></textarea>
+                <span class="text-danger" asp-validation-for="Text"></span>
             </div>
             <div class="pt-2">
-                <input step="20" min="0" max="2000000"  type="number" required class="form-control" placeholder="Введите цену *" />
+                <input asp-for="Price" step="20" min="0" max="2000000" type="number" required class="form-control" placeholder="Введите цену*(0-2000000)"/>
+                    <span class="text-danger" asp-validation-for="Price"></span>
             </div>
             <div class="pt-2">
-                <input maxlength="60" type="text" required class="form-control" placeholder="Введите связь *" />
+                <input asp-for="Connection" maxlength="50" type="text" required class="form-control" placeholder="Введите связь*(5-50)"/>
+                    <span class="text-danger" asp-validation-for="Connection"></span>
             </div>
             <div class="pt-2">
                 <select required class=" form-select">
                     <option value="" selected="" disabled="">Введите тему *</option>
                 </select>
+                    <span class="text-danger" asp-validation-for="Themes"></span>
             </div>
             <div class="pt-2">
                 <select class="form-select">
                     <option value="" selected="" disabled="">Предмет *</option>
+                    <span class="text-danger" asp-validation-for="Subject"></span>
                 </select>
             </div>
             <div class="pt-2 text-center">
-                <button type="button" class="btn btn-dark">Добавить</button>
-                <button type="button" class="btn btn-danger">Очистить</button>
+                <button type="submit" class="btn btn-dark">Добавить</button>
+                <button id="clearFormButton" type="button" class="btn btn-danger">Очистить</button>
             </div>
         </div>
+        </form>
     </div>
 </div>
        

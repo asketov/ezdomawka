@@ -14,6 +14,6 @@ namespace DAL
         public DbSet<User> Users => Set<User>();
         public DbSet<Subject> Subjects => Set<Subject>();
         public DbSet<FavorSolution> FavorSolutions => Set<FavorSolution>();
-
+        public DbSet<Theme> Themes => Set<Theme>();
     }
 }

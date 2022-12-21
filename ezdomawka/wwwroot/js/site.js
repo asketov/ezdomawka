@@ -13,3 +13,11 @@ $('div[data="'+tData.replace(''+data+'','clone')+'"]').html($(this).val());
 $(this).css('height',''+$('div[data="'+tData.replace(''+data+'','clone')+'"]').css('height')+'');
 }
 });
+
+
+
+$(document).ready(function () {
+    $("#clearFormButton").click(function () {
+        document.getElementById("form").reset();
+    });
+});

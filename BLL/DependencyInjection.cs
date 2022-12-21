@@ -18,7 +18,8 @@ namespace BLL
         {
             services.AddScoped<UserService>();
             services.AddScoped<AuthService>();
-            services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(AuthProfile).Assembly);
+            services.AddScoped<AdminService>();
+            services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(AuthProfile).Assembly, typeof(AdminProfile).Assembly);
             return services;
         }
     }
