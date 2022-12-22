@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Models.Auth;
-using BLL.Models.User;
+using BLL.Models.UserModels;
 
 namespace BLL.AutoMapper.Profiles
 {

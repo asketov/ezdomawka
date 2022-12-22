@@ -21,8 +21,8 @@ namespace BLL.Models.FavorSolution
         [StringLength(50, MinimumLength = 5, ErrorMessage = "Длина должна быть от 5 до 50 символов")]
         public string Connection { get; set; } = null!;
         [Required(ErrorMessage = "Введите предмет")]
-        public ICollection<SubjectVm> Subject { get; set; } = null!;
+        public IEnumerable<SubjectVm> Subjects { get; set; } = null!;
         [Required(ErrorMessage = "Введите тему")]
-        public ICollection<ThemeVm> Themes { get; set; } = null!;
+        public IEnumerable<ThemeVm> Themes { get; set; } = null!;
     }
 }

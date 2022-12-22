@@ -19,7 +19,9 @@ namespace BLL
             services.AddScoped<UserService>();
             services.AddScoped<AuthService>();
             services.AddScoped<AdminService>();
-            services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(AuthProfile).Assembly, typeof(AdminProfile).Assembly);
+            services.AddScoped<FavorSolutionService>();
+            services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(AuthProfile).Assembly,
+                typeof(AdminProfile).Assembly, typeof(FavorSolutionProfile).Assembly);
             return services;
         }
     }

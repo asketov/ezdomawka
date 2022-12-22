@@ -5,8 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Models.Admin;
+using BLL.Models.ViewModels;
+using Common.Exceptions.Admin;
 using DAL;
 using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
@@ -22,15 +25,36 @@ namespace BLL.Services
 
         public async Task AddTheme(ThemeModel model)
         {
+            if (await CheckThemeExistByName(model.Name)) throw new ThemeAlreadyExistException();
             var theme = _mapper.Map<Theme>(model);
             _db.Themes.Add(theme);
             await _db.SaveChangesAsync();
         }
-        public async Task AddSubject(SubjectRequest request)
+        public async Task AddSubject(SubjectModel model)
         {
-            var subject = _mapper.Map<Subject>(request);
+            if (await CheckSubjectExistByName(model.Name)) throw new SubjectAlreadyExistException();
+            var subject = _mapper.Map<Subject>(model);
             _db.Subjects.Add(subject);
             await _db.SaveChangesAsync();
+        }
+        public async Task<bool> CheckThemeExistByName(string name)
+        {
+            var theme = await _db.Themes.FirstOrDefaultAsync(u => u.Name == name);
+            return theme != null;
+        }
+        public async Task<bool> CheckSubjectExistByName(string name)
+        {
+            var subject = await _db.Subjects.FirstOrDefaultAsync(u => u.Name == name);
+            return subject != null;
+        }
+
+        public async Task<List<Subject>> GetSubjects()
+        {
+            return await _db.Subjects.Select(x=>_mapper.Map<Subject>(x)).ToListAsync();
+        }
+        public async Task<List<Theme>> GetThemes()
+        {
+            return await _db.Themes.Select(x => _mapper.Map<Theme>(x)).ToListAsync();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Models.Auth;
-using BLL.Models.User;
+using BLL.Models.UserModels;
 using BLL.Services;
 using Common.Exceptions.General;
 using Common.Exceptions.User;
@@ -41,7 +41,7 @@ namespace ezdomawka.Controllers
             try
             {
                 User user = await _userService.GetUserByCredentials(_mapper.Map<CredentialModel>(request));
-                await Authenticate(user.Nick);
+                await Authenticate(user.Nick, user.Id);
                 return RedirectToAction("Index", "Home");
             }
             catch(NotFoundException)
@@ -64,7 +64,7 @@ namespace ezdomawka.Controllers
                 if (ModelState.IsValid)
                 {
                     User user = await _authService.RegisterUser(_mapper.Map<RegisterModel>(request));
-                    await Authenticate(request.Nick); 
+                    await Authenticate(user.Nick, user.Id); 
                     return RedirectToAction("Index", "Home");
                 }
                 return View(request);
@@ -77,12 +77,13 @@ namespace ezdomawka.Controllers
             }
         }
 
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(string userName, Guid userId)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim("userId", userId.ToString())
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

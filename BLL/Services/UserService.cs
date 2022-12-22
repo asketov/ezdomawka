@@ -1,6 +1,4 @@
-﻿
-
-using BLL.Models.User;
+﻿using BLL.Models.UserModels;
 using Common.Exceptions.User;
 using Common.Helpers;
 using DAL;
