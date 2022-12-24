@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Models.FavorSolution;
 using BLL.Services;
+using Common.Consts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,9 +25,11 @@ namespace ezdomawka.Controllers
             _userService = userService;
         }
         [HttpGet]
-        public IActionResult AddSolution()
+        public async Task<IActionResult> AddSolution()
         {
-            return View();
+            var model = await _favorSolutionService.GetAddSolutionModel();
+            var f = _mapper.Map<AddSolutionRequest>(model);
+            return View(f);
         }
 
         [HttpPost]
@@ -36,9 +39,9 @@ namespace ezdomawka.Controllers
             {
                 var model = _mapper.Map<AddSolutionModel>(request);
                 model.Author = await _userService
-                    .GetUserById(Guid.Parse(User.Claims.FirstOrDefault(u => u.Type == "userId")!.Value));
+                    .GetUserById(Guid.Parse(User.Claims.FirstOrDefault(u => u.Type == Claims.UserClaim)!.Value));
                 await _favorSolutionService.AddFavor(model);
-                return View(request);
+                return RedirectToAction("Index","Home");
             }
             catch
             {

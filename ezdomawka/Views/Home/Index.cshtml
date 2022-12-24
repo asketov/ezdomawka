@@ -1,32 +1,31 @@
 ﻿
-
-<label for="amount">Price range:</label>
-<input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-<div id="slider-range"></div>
-<div>
+<div class="col-12">
+    <label for="amount">Price range:</label>
+    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+    <div id="slider-range"></div>
     <div class="">
-        <div class="d-flex justify-content-center">
-            <input maxlength="150" size="100" placeholder="Что ищете?"/>
-            <button class="">Поиск</button>
+        <div class="d-flex justify-content-center pt-2">
+            <input class="form-control" maxlength="150" size="100" placeholder="Что ищете?"/>
+            <button class="btn btn-dark">Поиск</button>
         </div>
     </div>
     <div class="d-flex justify-content-center pt-2">
-        <select class="form-select">
+        <select required class="form-select">
             <option value="" disabled selected>Предмет</option>
             <option>gfggrgrg</option>
         </select>
-        <select class="form-select">
+        <select required class="form-select">
             <option value="" disabled selected>Тема</option>
             <option>gfggrgrg</option>
         </select>
     </div>
     <div class="pt-4 col-12">
-        <partial name="../FavorSolution/Partials/_FavorSolutionCard.cshtml" />
-        <partial name="../FavorSolution/Partials/_FavorSolutionCard.cshtml" />
+        <partial name="../FavorSolution/Partials/_FavorSolutionCard.cshtml"/>
+        <partial name="../FavorSolution/Partials/_FavorSolutionCard.cshtml"/>
     </div>
 </div>
 
-<link href="./css/Home/IndexHome.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+<link href="~/css/Home/IndexHome.css" rel="stylesheet" type="text/css" asp-append-version="true" />
 
 
 @section Scripts{

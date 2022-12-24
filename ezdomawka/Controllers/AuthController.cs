@@ -8,6 +8,7 @@ using AutoMapper;
 using BLL.Models.Auth;
 using BLL.Models.UserModels;
 using BLL.Services;
+using Common.Consts;
 using Common.Exceptions.General;
 using Common.Exceptions.User;
 using DAL.Entities;
@@ -83,12 +84,10 @@ namespace ezdomawka.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
-                new Claim("userId", userId.ToString())
+                new Claim(Claims.UserClaim, userId.ToString())
             };
-            // создаем объект ClaimsIdentity
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            ClaimsIdentity identity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
         }
 
         public async Task<IActionResult> Logout()

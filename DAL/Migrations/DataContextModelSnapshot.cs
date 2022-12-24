@@ -41,9 +41,6 @@ namespace DAL.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("integer");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("double precision");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("text");
@@ -55,13 +52,40 @@ namespace DAL.Migrations
                     b.ToTable("FavorSolutions");
                 });
 
+            modelBuilder.Entity("DAL.Entities.FavorSubject", b =>
+                {
+                    b.Property<Guid>("FavorSolutionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("FavorSolutionId", "SubjectId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("FavorSubject");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FavorTheme", b =>
+                {
+                    b.Property<Guid>("FavorSolutionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ThemeId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("FavorSolutionId", "ThemeId");
+
+                    b.HasIndex("ThemeId");
+
+                    b.ToTable("FavorTheme");
+                });
+
             modelBuilder.Entity("DAL.Entities.Subject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("FavorSolutionId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -69,8 +93,6 @@ namespace DAL.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FavorSolutionId");
 
                     b.ToTable("Subjects");
                 });
@@ -81,16 +103,11 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("FavorSolutionId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FavorSolutionId");
 
                     b.ToTable("Themes");
                 });
@@ -129,25 +146,59 @@ namespace DAL.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("DAL.Entities.Subject", b =>
+            modelBuilder.Entity("DAL.Entities.FavorSubject", b =>
                 {
-                    b.HasOne("DAL.Entities.FavorSolution", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("FavorSolutionId");
+                    b.HasOne("DAL.Entities.FavorSolution", "FavorSolution")
+                        .WithMany("FavorSubjects")
+                        .HasForeignKey("FavorSolutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Entities.Subject", "Subject")
+                        .WithMany("FavorSubjects")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FavorSolution");
+
+                    b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("DAL.Entities.Theme", b =>
+            modelBuilder.Entity("DAL.Entities.FavorTheme", b =>
                 {
-                    b.HasOne("DAL.Entities.FavorSolution", null)
-                        .WithMany("Themes")
-                        .HasForeignKey("FavorSolutionId");
+                    b.HasOne("DAL.Entities.FavorSolution", "FavorSolution")
+                        .WithMany("FavorThemes")
+                        .HasForeignKey("FavorSolutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Entities.Theme", "Theme")
+                        .WithMany("FavorThemes")
+                        .HasForeignKey("ThemeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FavorSolution");
+
+                    b.Navigation("Theme");
                 });
 
             modelBuilder.Entity("DAL.Entities.FavorSolution", b =>
                 {
-                    b.Navigation("Subjects");
+                    b.Navigation("FavorSubjects");
 
-                    b.Navigation("Themes");
+                    b.Navigation("FavorThemes");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Subject", b =>
+                {
+                    b.Navigation("FavorSubjects");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Theme", b =>
+                {
+                    b.Navigation("FavorThemes");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>

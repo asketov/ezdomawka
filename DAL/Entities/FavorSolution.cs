@@ -10,13 +10,12 @@ namespace DAL.Entities
     {
         public Guid Id { get; set; }
         public DateTimeOffset Created { get; set; }
-        public int Price { get; set; } 
-        public double Rating { get; set; }
+        public int Price { get; set; }
         public string Text { get; set; } = null!;
         public string Connection { get; set; } = null!;
         public virtual User Author { get; set; } = null!;
         public Guid AuthorId { get; set; }
-        public virtual ICollection<Subject> Subjects { get; set; } = null!;
-        public virtual ICollection<Theme> Themes { get; set; } = null!;
+        public virtual ICollection<FavorSubject> FavorSubjects { get; set; } = null!;
+        public virtual ICollection<FavorTheme> FavorThemes { get; set; } = null!;
     }
 }

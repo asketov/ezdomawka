@@ -1,40 +1,59 @@
 ﻿@model BLL.Models.FavorSolution.AddSolutionRequest
 
-<div class="d-flex justify-content-center">
-    <div class="col-6">
-        <form id="form" method="post" asp-action="AddSolution">
-        <div>
-            <div class="pt-2">
-                <textarea asp-for="Text" required maxlength="200" data="elastic" class="form-control" placeholder="Введите текст*(200)"></textarea>
-                <span class="text-danger" asp-validation-for="Text"></span>
-            </div>
-            <div class="pt-2">
-                <input asp-for="Price" step="20" min="0" max="2000000" type="number" required class="form-control" placeholder="Введите цену*(0-2000000)"/>
-                    <span class="text-danger" asp-validation-for="Price"></span>
-            </div>
-            <div class="pt-2">
-                <input asp-for="Connection" maxlength="50" type="text" required class="form-control" placeholder="Введите связь*(5-50)"/>
-                    <span class="text-danger" asp-validation-for="Connection"></span>
-            </div>
-            <div class="pt-2">
-                <select required class=" form-select">
-                    <option value="" selected="" disabled="">Введите тему *</option>
-                </select>
-                    <span class="text-danger" asp-validation-for="Themes"></span>
-            </div>
-            <div class="pt-2">
-                <select class="form-select">
-                    <option value="" selected="" disabled="">Предмет *</option>
 
+<div class="d-flex justify-content-center">
+    <div class="col-10">
+        <form id="form" method="post" asp-action="AddSolution">
+            <div>
+                <div class="pt-2">
+                    <textarea id="text" asp-for="Text" required maxlength="200" data="elastic" class="form-control" placeholder="Введите текст*(200)"></textarea>
+                    <span class="text-danger" asp-validation-for="Text"></span>
+                </div>
+                <div class="pt-2">
+                    <input id="price" asp-for="Price" min="0" max="2000000" type="number" required class="form-control" placeholder="Введите цену*(0-2000000)"/>
+                    <span class="text-danger" asp-validation-for="Price"></span>
+                </div>
+                <div class="pt-2">
+                    <input id="connect" asp-for="Connection" maxlength="50" type="text" required class="form-control" placeholder="Введите связь*(5-50)"/>
+                    <span class="text-danger" asp-validation-for="Connection"></span>
+                </div>
+                <div class="box pt-2 d-flex">
+                    <select id="themes" class="item form-select">
+                        @foreach (var theme in Model.Themes)
+                        {
+                            <option value="@theme.Id">@theme.Name</option>
+                        }
+                    </select>
+                    <button id="addTheme" type="button" class="item btn btn-dark"><i class="fa-solid fa-plus"></i></button>
+                    <span class="text-danger" asp-validation-for="Themes"></span>
+                </div>
+                <div class="SelectedThemes pt-2">
+                    
+                </div>
+                <div class="box pt-2 d-flex">
+                    <select class="item form-select" id="subjects">
+                        @foreach (var subject in Model.Subjects)
+                        {
+                            <option value="@subject.Id">@subject.Name</option>
+                        }
+                    </select>
+                    <button id="addSubject" type="button" class="item btn btn-dark"><i class="fa-solid fa-plus"></i></button>
                     <span class="text-danger" asp-validation-for="Subjects"></span>
-                </select>
+                </div>
+                <div class="SelectedSubjects pt-2">
+                    
+                </div>
+                <div class="pt-2 text-center">
+                    <button id="submit" type="button" class="btn btn-dark">Добавить</button>
+                    <button id="clearFormButton" type="button" class="btn btn-danger">Очистить</button>
+                </div>
             </div>
-            <div class="pt-2 text-center">
-                <button type="submit" class="btn btn-dark">Добавить</button>
-                <button id="clearFormButton" type="button" class="btn btn-danger">Очистить</button>
-            </div>
-        </div>
         </form>
     </div>
 </div>
+
+<link href="~/css/Favor/addSolution.css" rel="stylesheet" type="text/css" asp-append-version="true" />
        
+@section Scripts{
+    <script src="~/js/Favor/AddSolution.js" asp-append-version="true"></script>
+}
