@@ -68,6 +68,9 @@ $(document).ready(function () {
                         // data.redirect contains the string URL to redirect to
                         window.location.href = data.redirect
                     }
+                    else {
+                    $("#form").replaceWith(data.form);
+                    }
                 }
             });
         }

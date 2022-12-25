@@ -6,7 +6,7 @@
         <form id="form" method="post" asp-action="AddSolution">
             <div>
                 <div class="pt-2">
-                    <textarea id="text" asp-for="Text" required maxlength="200" data="elastic" class="form-control" placeholder="Введите текст*(200)"></textarea>
+                    <textarea id="text" asp-for="Text" required maxlength="1500" data="elastic" class="form-control" placeholder="Введите текст*(200)"></textarea>
                     <span class="text-danger" asp-validation-for="Text"></span>
                 </div>
                 <div class="pt-2">

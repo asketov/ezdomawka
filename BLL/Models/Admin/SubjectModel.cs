@@ -8,6 +8,7 @@ namespace BLL.Models.Admin
 {
     public class SubjectModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; } = null!;
     }
 }

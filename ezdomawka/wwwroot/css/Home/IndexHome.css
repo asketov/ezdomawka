@@ -1,4 +1,12 @@
 ﻿select {
-    max-width: 200px;
-    min-width: 200px;
+   
+}
+
+
+.box {
+    margin: 0 -5px;
+}
+
+.item {
+    margin: 0 5px;
 }

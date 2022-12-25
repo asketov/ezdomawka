@@ -37,7 +37,7 @@ namespace ezdomawka.Controllers
         {
             try
             {
-                var model = _mapper.Map<AddSolutionModel>(request);
+                var model = _mapper.Map<SolutionModel>(request);
                 model.Author = await _userService
                     .GetUserById(Guid.Parse(User.Claims.FirstOrDefault(u => u.Type == Claims.UserClaim)!.Value));
                 await _favorSolutionService.AddFavor(model);

@@ -16,10 +16,12 @@ namespace BLL.AutoMapper.Profiles
         {
             CreateMap<ThemeRequest, ThemeModel>();
             CreateMap<ThemeModel, Theme>();
-            CreateMap<Theme, ThemeVm>();
+            CreateMap<ThemeModel, ThemeVm>();
             CreateMap<SubjectRequest, SubjectModel>();
             CreateMap<SubjectModel, Subject>();
-            CreateMap<Subject, SubjectVm>();
+            CreateMap<SubjectModel, SubjectVm>();
+            CreateMap<Theme, ThemeModel>();
+            CreateMap<Subject, SubjectModel>();
         }
     }
 }

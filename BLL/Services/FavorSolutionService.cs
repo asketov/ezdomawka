@@ -16,26 +16,36 @@ namespace BLL.Services
     {
         private readonly DataContext _db;
         private readonly IMapper _mapper;
+        private readonly AdminService _adminService;
 
-        public FavorSolutionService(DataContext db, IMapper mapper)
+        public FavorSolutionService(DataContext db, IMapper mapper, AdminService adminService)
         {
             _db = db;
             _mapper = mapper;
+            _adminService = adminService;
         }
 
-        public async Task AddFavor(AddSolutionModel model)
+        public async Task AddFavor(SolutionModel model)
         {
             var favor = _mapper.Map<FavorSolution>(model);
             _db.FavorSolutions.Add(favor);
             await _db.SaveChangesAsync();
         }
 
-        public async Task<AddSolutionModel> GetAddSolutionModel()
+        public async Task<SolutionModel> GetAddSolutionModel()
         {
-            var model = new AddSolutionModel();
-            model.Subjects = await _db.Subjects.ToListAsync();
-            model.Themes = await _db.Themes.ToListAsync();
+            var model = new SolutionModel();
+            model.Subjects = await _adminService.GetSubjectModels();
+            model.Themes = await _adminService.GetThemeModels();
             return model;
+        }
+
+        public async Task<List<SolutionModel>> GetAllSolutionModels()
+        {
+            var favorSolutions = await _db.FavorSolutions.Include(x => x.FavorSubjects)
+                .ThenInclude(f=>f.Subject).Include(x => x.FavorThemes).ThenInclude(m=>m.Theme).Include(d=>d.Author)
+                .Select(x=>_mapper.Map<SolutionModel>(x)).ToListAsync();
+             return favorSolutions;
         }
     }
 }

@@ -1,28 +1,42 @@
-﻿
+﻿@model BLL.Models.ViewModels.IndexVm
+
+
 <div class="col-12">
     <label for="amount">Price range:</label>
     <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
     <div id="slider-range"></div>
-    <div class="">
-        <div class="d-flex justify-content-center pt-2">
-            <input class="form-control" maxlength="150" size="100" placeholder="Что ищете?"/>
-            <button class="btn btn-dark">Поиск</button>
-        </div>
+</div>
+<div class="col-12 pt-2">
+    <div class="box d-flex justify-content-center">
+        <input class="form-control item" maxlength="150" size="100" placeholder="Что ищете?"/>
+        <button class="btn btn-dark item">Поиск</button>
     </div>
-    <div class="d-flex justify-content-center pt-2">
+</div>
+<div class="pt-2 col-12 d-flex justify-content-center">
+    <div class="col-6 item">
         <select required class="form-select">
             <option value="" disabled selected>Предмет</option>
-            <option>gfggrgrg</option>
+            @foreach (var subject in Model.SubjectVms)
+            {
+                <option value="@subject.Id">@subject.Name</option>
+            }
         </select>
+    </div>
+    <div class="col-6 item">
         <select required class="form-select">
             <option value="" disabled selected>Тема</option>
-            <option>gfggrgrg</option>
+            @foreach (var theme in Model.ThemeVms)
+            {
+                <option value="@theme.Id">@theme.Name</option>
+            }
         </select>
     </div>
-    <div class="pt-4 col-12">
-        <partial name="../FavorSolution/Partials/_FavorSolutionCard.cshtml"/>
-        <partial name="../FavorSolution/Partials/_FavorSolutionCard.cshtml"/>
-    </div>
+</div>
+<div class="pt-4 col-12">
+    @foreach (var el in Model.FavorSolutionVms)
+    {
+        <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard.cshtml"/>
+    }
 </div>
 
 <link href="~/css/Home/IndexHome.css" rel="stylesheet" type="text/css" asp-append-version="true" />

@@ -1,33 +1,45 @@
-﻿<div class=" d-flex justify-content-center pt-5">
-    <div class="border FavorCard">
+﻿@model BLL.Models.ViewModels.FavorSolutionVm
+
+<div class="pt-2">
+    <div class="col-12 border">
         <div class="">
             <div class="col-12 row text-center">
-                <div class="col-4">
-                    <b class="">Asketov</b>
+                <div class="col-6">
+                    <b class="">@Model.Nick</b>
                 </div>
-                <div class="col-4">
-                    <small>Предметы: Архитектуры Эвм</small>
-                </div>
-                <div class="col-4">
-                    <small class=""> Цена: 100 руб </small>
+                <div class="col-6">
+                    <small class=""> Цена: @Model.Price руб </small>
                 </div>
             </div>
-            <div class="col-12 text-center row pt-1 ">
-                <div class="col-8">
-                    <i> Делаю тесты по архитектурам по хорошим ценам обращайтесь ко мне
-                    Делаю тесты по архитектурам по хорошим ценам обращайтесь ко мне
-                    Делаю тесты по архитектурам по хорошим ценам обращайтесь ко мне
-                    </i>
+            <div class="col-12 row pt-1 ">
+                <div class="col-12 text-center">
+                    <i>@Model.Text</i>
                 </div>
-                <div class="col-4">
-                    <b class="">Рейтинг: 5.0</b>
+            </div>
+            <div class="col-12 row pt-1 text-center">
+                <div class="col-6">
+                    <b>
+                        Темы:
+                        @foreach (var modelTheme in Model.Themes)
+                        {
+                            <i>@modelTheme.Name;</i>
+                        }
+                    </b>
+                </div>
+                <div class="col-6">
+                    <small>Предметы:
+                        @foreach (var modelSubject in Model.Subjects)
+                        {
+                            <i>@modelSubject.Name;</i>
+                        }
+                    </small>
                 </div>
             </div>
             <div class="col-12 row pt-1 pb-1 text-center">
-                <div class="col-8">
-                    <em class=""> Связь: https://t.me/fantastic19 </em>
+                <div class="col-6">
+                    <em class=""> Связь: @Model.Connection </em>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <a class="" asp-controller="home" asp-action="index">Отзывы</a>
                 </div>
             </div>

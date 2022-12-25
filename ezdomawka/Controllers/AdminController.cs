@@ -27,13 +27,13 @@ namespace ezdomawka.Controllers
         [HttpGet]
         public async Task<IActionResult> ThemeManager()
         {
-            var themes = await _adminService.GetThemes();
+            var themes = await _adminService.GetThemeModels();
             return View(themes.Select(x=> _mapper.Map<ThemeVm>(x)));
         }
         [HttpGet]
         public async Task<IActionResult> SubjectManager()
         {
-            var subjects = await _adminService.GetSubjects();
+            var subjects = await _adminService.GetSubjectModels();
             return View(subjects.Select(x => _mapper.Map<SubjectVm>(x)));
         }
 

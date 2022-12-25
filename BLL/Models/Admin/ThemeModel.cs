@@ -8,6 +8,7 @@ namespace BLL.Models.Admin
 {
     public class ThemeModel
     {
-        public string Name { get; set; }
+        public Guid Id { get; set; }
+        public string Name { get; set; } = null!;
     }
 }

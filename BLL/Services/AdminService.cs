@@ -48,13 +48,13 @@ namespace BLL.Services
             return subject != null;
         }
 
-        public async Task<List<Subject>> GetSubjects()
+        public async Task<List<SubjectModel>> GetSubjectModels()
         {
-            return await _db.Subjects.Select(x=>_mapper.Map<Subject>(x)).ToListAsync();
+            return await _db.Subjects.Select(x=>_mapper.Map<SubjectModel>(x)).ToListAsync();
         }
-        public async Task<List<Theme>> GetThemes()
+        public async Task<List<ThemeModel>> GetThemeModels()
         {
-            return await _db.Themes.Select(x => _mapper.Map<Theme>(x)).ToListAsync();
+            return await _db.Themes.Select(x => _mapper.Map<ThemeModel>(x)).ToListAsync();
         }
     }
 }
