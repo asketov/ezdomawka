@@ -45,9 +45,14 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("ThemeId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("ThemeId");
 
                     b.ToTable("FavorSolutions");
                 });
@@ -65,21 +70,6 @@ namespace DAL.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("FavorSubject");
-                });
-
-            modelBuilder.Entity("DAL.Entities.FavorTheme", b =>
-                {
-                    b.Property<Guid>("FavorSolutionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ThemeId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("FavorSolutionId", "ThemeId");
-
-                    b.HasIndex("ThemeId");
-
-                    b.ToTable("FavorTheme");
                 });
 
             modelBuilder.Entity("DAL.Entities.Subject", b =>
@@ -143,7 +133,15 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DAL.Entities.Theme", "Theme")
+                        .WithMany("FavorSolutions")
+                        .HasForeignKey("ThemeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Author");
+
+                    b.Navigation("Theme");
                 });
 
             modelBuilder.Entity("DAL.Entities.FavorSubject", b =>
@@ -165,30 +163,9 @@ namespace DAL.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("DAL.Entities.FavorTheme", b =>
-                {
-                    b.HasOne("DAL.Entities.FavorSolution", "FavorSolution")
-                        .WithMany("FavorThemes")
-                        .HasForeignKey("FavorSolutionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DAL.Entities.Theme", "Theme")
-                        .WithMany("FavorThemes")
-                        .HasForeignKey("ThemeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FavorSolution");
-
-                    b.Navigation("Theme");
-                });
-
             modelBuilder.Entity("DAL.Entities.FavorSolution", b =>
                 {
                     b.Navigation("FavorSubjects");
-
-                    b.Navigation("FavorThemes");
                 });
 
             modelBuilder.Entity("DAL.Entities.Subject", b =>
@@ -198,7 +175,7 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.Theme", b =>
                 {
-                    b.Navigation("FavorThemes");
+                    b.Navigation("FavorSolutions");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>

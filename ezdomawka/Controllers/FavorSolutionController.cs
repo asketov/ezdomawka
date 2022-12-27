@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Models.FavorSolution;
+using BLL.Models.ViewModels;
 using BLL.Services;
 using Common.Consts;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,7 @@ namespace ezdomawka.Controllers
         public async Task<IActionResult> AddSolution()
         {
             var model = await _favorSolutionService.GetAddSolutionModel();
-            var f = _mapper.Map<AddSolutionRequest>(model);
+            var f = _mapper.Map<AddSolutionVm>(model);
             return View(f);
         }
 
@@ -41,11 +42,11 @@ namespace ezdomawka.Controllers
                 model.Author = await _userService
                     .GetUserById(Guid.Parse(User.Claims.FirstOrDefault(u => u.Type == Claims.UserClaim)!.Value));
                 await _favorSolutionService.AddFavor(model);
-                return RedirectToAction("Index","Home");
+                return Ok();
             }
             catch
             {
-                return RedirectToAction(nameof(AddSolution));
+                return BadRequest();
             }
         }
     }

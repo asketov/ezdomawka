@@ -32,9 +32,9 @@ namespace BLL.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task<SolutionModel> GetAddSolutionModel()
+        public async Task<AddSolutionModel> GetAddSolutionModel()
         {
-            var model = new SolutionModel();
+            var model = new AddSolutionModel();
             model.Subjects = await _adminService.GetSubjectModels();
             model.Themes = await _adminService.GetThemeModels();
             return model;
@@ -43,7 +43,7 @@ namespace BLL.Services
         public async Task<List<SolutionModel>> GetAllSolutionModels()
         {
             var favorSolutions = await _db.FavorSolutions.Include(x => x.FavorSubjects)
-                .ThenInclude(f=>f.Subject).Include(x => x.FavorThemes).ThenInclude(m=>m.Theme).Include(d=>d.Author)
+                .ThenInclude(f=>f.Subject).Include(x => x.Theme).Include(d=>d.Author)
                 .Select(x=>_mapper.Map<SolutionModel>(x)).ToListAsync();
              return favorSolutions;
         }

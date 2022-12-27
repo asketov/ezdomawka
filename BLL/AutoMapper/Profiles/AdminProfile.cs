@@ -22,6 +22,8 @@ namespace BLL.AutoMapper.Profiles
             CreateMap<SubjectModel, SubjectVm>();
             CreateMap<Theme, ThemeModel>();
             CreateMap<Subject, SubjectModel>();
+            CreateMap<SubjectVm, SubjectModel>();
+            CreateMap<ThemeVm, ThemeModel>();
         }
     }
 }

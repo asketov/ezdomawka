@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221220000806_Init")]
-    partial class Init
+    [Migration("20221227124726_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,24 +34,45 @@ namespace DAL.Migrations
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Connection")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Price")
                         .HasColumnType("integer");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("double precision");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid>("ThemeId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("ThemeId");
+
                     b.ToTable("FavorSolutions");
+                });
+
+            modelBuilder.Entity("DAL.Entities.FavorSubject", b =>
+                {
+                    b.Property<Guid>("FavorSolutionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("FavorSolutionId", "SubjectId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("FavorSubject");
                 });
 
             modelBuilder.Entity("DAL.Entities.Subject", b =>
@@ -60,7 +81,19 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("FavorSolutionId")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Theme", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -69,9 +102,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FavorSolutionId");
-
-                    b.ToTable("Subjects");
+                    b.ToTable("Themes");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -105,19 +136,49 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DAL.Entities.Theme", "Theme")
+                        .WithMany("FavorSolutions")
+                        .HasForeignKey("ThemeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Author");
+
+                    b.Navigation("Theme");
                 });
 
-            modelBuilder.Entity("DAL.Entities.Subject", b =>
+            modelBuilder.Entity("DAL.Entities.FavorSubject", b =>
                 {
-                    b.HasOne("DAL.Entities.FavorSolution", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("FavorSolutionId");
+                    b.HasOne("DAL.Entities.FavorSolution", "FavorSolution")
+                        .WithMany("FavorSubjects")
+                        .HasForeignKey("FavorSolutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Entities.Subject", "Subject")
+                        .WithMany("FavorSubjects")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FavorSolution");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("DAL.Entities.FavorSolution", b =>
                 {
-                    b.Navigation("Subjects");
+                    b.Navigation("FavorSubjects");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Subject", b =>
+                {
+                    b.Navigation("FavorSubjects");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Theme", b =>
+                {
+                    b.Navigation("FavorSolutions");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>

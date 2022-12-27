@@ -1,9 +1,9 @@
 ﻿@model BLL.Models.ViewModels.FavorSolutionVm
 
 <div class="pt-2">
-    <div class="col-12 border">
+    <div class="col-12 border bg-light">
         <div class="">
-            <div class="col-12 row text-center">
+            <div  class="col-12 row text-center">
                 <div class="col-6">
                     <b class="">@Model.Nick</b>
                 </div>
@@ -11,7 +11,7 @@
                     <small class=""> Цена: @Model.Price руб </small>
                 </div>
             </div>
-            <div class="col-12 row pt-1 ">
+            <div class="col-12 row pt-1">
                 <div class="col-12 text-center">
                     <i>@Model.Text</i>
                 </div>
@@ -19,11 +19,8 @@
             <div class="col-12 row pt-1 text-center">
                 <div class="col-6">
                     <b>
-                        Темы:
-                        @foreach (var modelTheme in Model.Themes)
-                        {
-                            <i>@modelTheme.Name;</i>
-                        }
+                        Тема:
+                        <i>@Model.Theme.Name</i>
                     </b>
                 </div>
                 <div class="col-6">
@@ -40,7 +37,7 @@
                     <em class=""> Связь: @Model.Connection </em>
                 </div>
                 <div class="col-6">
-                    <a class="" asp-controller="home" asp-action="index">Отзывы</a>
+                    <em class=""> Дата: @Model.Created.ToLocalTime().ToString().Split()[0] </em>
                 </div>
             </div>
         </div>

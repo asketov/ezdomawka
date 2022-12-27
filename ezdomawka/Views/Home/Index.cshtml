@@ -6,14 +6,8 @@
     <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
     <div id="slider-range"></div>
 </div>
-<div class="col-12 pt-2">
-    <div class="box d-flex justify-content-center">
-        <input class="form-control item" maxlength="150" size="100" placeholder="Что ищете?"/>
-        <button class="btn btn-dark item">Поиск</button>
-    </div>
-</div>
-<div class="pt-2 col-12 d-flex justify-content-center">
-    <div class="col-6 item">
+<div class="pt-2 box d-flex justify-content-center">
+    <div class="col-4 item">
         <select required class="form-select">
             <option value="" disabled selected>Предмет</option>
             @foreach (var subject in Model.SubjectVms)
@@ -22,7 +16,7 @@
             }
         </select>
     </div>
-    <div class="col-6 item">
+    <div class="col-4 item">
         <select required class="form-select">
             <option value="" disabled selected>Тема</option>
             @foreach (var theme in Model.ThemeVms)
@@ -31,6 +25,8 @@
             }
         </select>
     </div>
+    <button class="item col-3 btn btn-dark">Поиск</button>
+   
 </div>
 <div class="pt-4 col-12">
     @foreach (var el in Model.FavorSolutionVms)
@@ -38,6 +34,8 @@
         <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard.cshtml"/>
     }
 </div>
+
+
 
 <link href="~/css/Home/IndexHome.css" rel="stylesheet" type="text/css" asp-append-version="true" />
 
