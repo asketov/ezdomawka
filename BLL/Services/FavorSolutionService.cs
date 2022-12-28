@@ -47,5 +47,10 @@ namespace BLL.Services
                 .Select(x=>_mapper.Map<SolutionModel>(x)).ToListAsync();
              return favorSolutions;
         }
+
+        public async Task<int> GetCountSolutions()
+        {
+            return await _db.FavorSolutions.CountAsync();
+        }
     }
 }

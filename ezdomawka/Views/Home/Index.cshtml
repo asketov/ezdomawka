@@ -1,39 +1,43 @@
 ﻿@model BLL.Models.ViewModels.IndexVm
-
-
-<div class="col-12">
-    <label for="amount">Price range:</label>
-    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-    <div id="slider-range"></div>
-</div>
-<div class="pt-2 box d-flex justify-content-center">
-    <div class="col-4 item">
-        <select required class="form-select">
-            <option value="" disabled selected>Предмет</option>
-            @foreach (var subject in Model.SubjectVms)
+<div class="d-flex justify-content-center">
+    <div class="indexMain">
+        <div class="col-12">
+            <label for="amount">Price range:</label>
+            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            <div id="slider-range"></div>
+        </div>
+        <div class="pt-2 box d-flex justify-content-center">
+            <div class="col-4 item">
+                <select required class="form-select">
+                    <option value="" disabled selected>Предмет</option>
+                    @foreach (var subject in Model.SubjectVms)
+                    {
+                        <option value="@subject.Id">@subject.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-4 item">
+                <select required class="form-select">
+                    <option value="" disabled selected>Тема</option>
+                    @foreach (var theme in Model.ThemeVms)
+                    {
+                        <option value="@theme.Id">@theme.Name</option>
+                    }
+                </select>
+            </div>
+            <button id="submitForm" class="item col-3 btn btn-dark">Поиск</button>
+           
+        </div>
+        <div class="pt-4 col-12">
+            @foreach (var el in Model.FavorSolutionVms)
             {
-                <option value="@subject.Id">@subject.Name</option>
+                <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard.cshtml"/>
             }
-        </select>
+        </div>
+        <partial name="Pagination" model="@Model.CountFavorSolutions" />
     </div>
-    <div class="col-4 item">
-        <select required class="form-select">
-            <option value="" disabled selected>Тема</option>
-            @foreach (var theme in Model.ThemeVms)
-            {
-                <option value="@theme.Id">@theme.Name</option>
-            }
-        </select>
-    </div>
-    <button class="item col-3 btn btn-dark">Поиск</button>
-   
 </div>
-<div class="pt-4 col-12">
-    @foreach (var el in Model.FavorSolutionVms)
-    {
-        <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard.cshtml"/>
-    }
-</div>
+
 
 
 

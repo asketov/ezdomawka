@@ -22,11 +22,13 @@ namespace ezdomawka.Controllers
             var favorSolutions = (await _favorSolutionService.GetAllSolutionModels()).Select(x => _mapper.Map<FavorSolutionVm>(x));
             var themes = (await _adminService.GetThemeModels()).Select(x => _mapper.Map<ThemeVm>(x));
             var subjects = (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x));
+            var countFavor = await _favorSolutionService.GetCountSolutions();
             IndexVm vm = new IndexVm()
             {
                 FavorSolutionVms = favorSolutions,
                 ThemeVms = themes,
-                SubjectVms = subjects
+                SubjectVms = subjects,
+                CountFavorSolutions = countFavor
             };
             return View(vm);
         }

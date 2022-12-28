@@ -3,19 +3,6 @@
 
 $(document).ready(function () {
     let selectedSubjects = [];
-    //$("#addTheme").click(function () {
-    //    if ($("#themes option").length > 0) {
-    //        selectedThemes.push({ id: $("#themes option:selected").val(), name: $("#themes option:selected").html() });
-    //        console.log(selectedThemes);
-    //        $(".SelectedThemes")
-    //            .append(`<div class='d-flex justify-content-center box pt-2 ${$("#themes option:selected").val()}'>
-    //                    <div class='selectedTheme p-3'>
-    //                    <i class='item'>${$("#themes option:selected").html()}</i>
-    //                    <button value='${$("#themes option:selected").val()}' id='deleteThemeButton' type='button' 
-    //                    class='item btn btn-dark'><i class='fa-solid fa-trash'></i></button></div></div>`);
-    //        $("#themes :selected").remove();
-    //    }
-    //});
 
     $("#addSubject").click(function () {
         if ($("#subjects option").length > 0) {
@@ -41,33 +28,34 @@ $(document).ready(function () {
         $(`.${id}`).remove();
     });
 
-    //$(document).on('click', '#deleteThemeButton', function (event) {
-    //    let id = event.currentTarget.value;
-    //    optionText = selectedThemes.find(el => el.id == id).name;
-    //    optionValue = id;
-    //    $('#themes').append(`<option value="${optionValue}">${optionText}</option>`);
-    //    selectedThemes = selectedThemes.filter(el => el.id != id);
-    //    console.log(selectedThemes);
-    //    $(`.${id}`).remove();
-    //});
+
     $("#submitForm").click(function () {
-        //$.validator.unobtrusive.parse($("#form"));
         if ($("#form").valid() && selectedSubjects.length > 0) { 
             $.ajax({
                 url: '/FavorSolution/AddSolution',
                 method: 'post',
-                dataType: 'html',
+                dataType: 'json',
                 data: {
                     Subjects: selectedSubjects, 
                     Theme: { id: $("#themes option:selected").val(), name: $("#themes option:selected").html() }, Text: $("#text").val(),
                     Price: $('#price').val(),  Connection: $('#connect').val() },
                 success: function (data) {
-                    
+                    if(data.redirect) {
                         window.location = '/home/index'
-                    //else {
-                    //$("#form").replaceWith(data.form);
-                    //}
+                    }
+                    else {
+                        window.location = data.redirect
+                    }
+                },
+                statusCode: {
+                    400: function () { // выполнить функцию если код ответа HTTP 400
+                        alert("Неправильный запрос");
+                    },
+                    404: function () { // выполнить функцию если код ответа HTTP 404
+                        alert("Страница не найдена");
+                    }
                 }
+
             });
         }
     });

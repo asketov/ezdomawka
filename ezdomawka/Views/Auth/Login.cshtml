@@ -4,6 +4,7 @@
     <div class="col-6">
         <div>
             <form id="form" asp-action="Login" method="post">
+                <input name="returnUrl" value="@ViewBag.returnUrl" hidden/>
                 <div class="pt-2">
                     <input asp-for="Email" maxlength="60" type="email" required class="form-control" placeholder="Введите почту *"/>
                     <span class="text-danger" asp-validation-for="Email"></span>

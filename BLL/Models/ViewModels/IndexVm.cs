@@ -11,5 +11,6 @@ namespace BLL.Models.ViewModels
         public IEnumerable<FavorSolutionVm> FavorSolutionVms { get; set; } = null!;
         public IEnumerable<ThemeVm> ThemeVms { get; set; } = null!;
         public IEnumerable<SubjectVm> SubjectVms { get; set; } = null!;
+        public int CountFavorSolutions { get; set; } 
     }
 }

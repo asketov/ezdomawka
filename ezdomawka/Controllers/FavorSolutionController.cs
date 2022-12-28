@@ -42,12 +42,13 @@ namespace ezdomawka.Controllers
                 model.Author = await _userService
                     .GetUserById(Guid.Parse(User.Claims.FirstOrDefault(u => u.Type == Claims.UserClaim)!.Value));
                 await _favorSolutionService.AddFavor(model);
-                return Ok();
+                return StatusCode(StatusCodes.Status200OK, new {redirect = "/home/index"});
             }
             catch
             {
                 return BadRequest();
             }
         }
+        
     }
 }

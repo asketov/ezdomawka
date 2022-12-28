@@ -10,9 +10,6 @@ namespace BLL.Models.FavorSolution
     public class GetSolutionsRequest
     {
         [Required]
-        [StringLength(150, MinimumLength = 1)]
-        public string FindText { get; set; } = null!;
-        [Required]
         public Guid ThemeId { get; set; }
         [Required]
         public Guid SubjectId { get; set; }

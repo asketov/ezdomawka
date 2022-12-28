@@ -31,18 +31,20 @@ namespace ezdomawka.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string? returnUrl = null)
         {
+            if (returnUrl != null) ViewBag.returnUrl = returnUrl;
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginRequest request)
+        public async Task<IActionResult> Login(LoginRequest request, string? returnUrl = null)
         {
             try
             {
                 User user = await _userService.GetUserByCredentials(_mapper.Map<CredentialModel>(request));
                 await Authenticate(user.Nick, user.Id);
+                if (returnUrl != null) return Redirect(returnUrl);
                 return RedirectToAction("Index", "Home");
             }
             catch(NotFoundException)
