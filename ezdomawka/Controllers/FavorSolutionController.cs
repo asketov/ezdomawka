@@ -9,7 +9,9 @@ using BLL.Models.ViewModels;
 using BLL.Services;
 using Common.Consts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ezdomawka.Controllers
 {
@@ -49,6 +51,13 @@ namespace ezdomawka.Controllers
                 return BadRequest();
             }
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetSolutions(GetSolutionsRequest request)
+        //{
+        //    var favorSolutions = await _favorSolutionService.GetSolutionModels(_mapper.Map<GetSolutionsModel>(request));
+        //    var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x));
+        //}
         
     }
 }

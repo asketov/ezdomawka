@@ -14,6 +14,7 @@
         $("#amount").val("Р" + $("#slider-range").slider("values", 0) +
             " - Р" + $("#slider-range").slider("values", 1));
     });
+    console.log(countPages);
 
     $("#submitForm").click(function () {
         if ($("#form").valid() && selectedSubjects.length > 0) {

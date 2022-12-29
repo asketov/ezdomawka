@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -40,17 +41,31 @@ namespace BLL.Services
             return model;
         }
 
-        public async Task<List<SolutionModel>> GetAllSolutionModels()
+        public async Task<List<SolutionModel>> GetSolutionModels(int skip, int take)
         {
             var favorSolutions = await _db.FavorSolutions.Include(x => x.FavorSubjects)
-                .ThenInclude(f=>f.Subject).Include(x => x.Theme).Include(d=>d.Author)
+                .ThenInclude(f=>f.Subject).Include(x => x.Theme).Include(d=>d.Author).Skip(skip).Take(take)
                 .Select(x=>_mapper.Map<SolutionModel>(x)).ToListAsync();
              return favorSolutions;
+        }
+
+        public async Task<List<SolutionModel>> GetSolutionModels(GetSolutionsModel model)
+        {
+            var favorSolutions = await _db.FavorSolutions
+                .Where(x=>x.ThemeId == model.ThemeId && x.FavorSubjects.Any(x => x.SubjectId == model.SubjectId))
+                .Include(x => x.FavorSubjects)
+                .ThenInclude(f => f.Subject).Include(x => x.Theme).Include(d => d.Author)
+                .Skip(model.Skip).Take(model.Take)
+                .Select(x => _mapper.Map<SolutionModel>(x)).ToListAsync();
+            return favorSolutions;
         }
 
         public async Task<int> GetCountSolutions()
         {
             return await _db.FavorSolutions.CountAsync();
         }
+
+
+
     }
 }

@@ -31,10 +31,10 @@
         <div class="pt-4 col-12">
             @foreach (var el in Model.FavorSolutionVms)
             {
-                <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard.cshtml"/>
+                <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard"/>
             }
         </div>
-        <partial name="Pagination" model="@Model.CountFavorSolutions" />
+        <partial name="Partials/Pagination" model="@Model.CountFavorSolutions" />
     </div>
 </div>
 
