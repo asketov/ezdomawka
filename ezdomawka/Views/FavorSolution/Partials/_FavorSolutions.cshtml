@@ -1,0 +1,9 @@
+﻿@model IEnumerable<BLL.Models.ViewModels.FavorSolutionVm>
+<div id="favorSolutions">
+    <div class="pt-4 col-12">
+        @foreach (var el in Model)
+        {
+            <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard"/>
+        }
+    </div>
+</div>

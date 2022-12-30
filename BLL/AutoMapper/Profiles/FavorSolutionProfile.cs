@@ -29,6 +29,10 @@ namespace BLL.AutoMapper.Profiles
                 .ForMember(k => k.Id, f => f.MapFrom(l => l.Subject.Id))
                 .ForMember(m => m.Name, f => f.MapFrom(s => s.Subject.Name));
             CreateMap<AddSolutionModel, AddSolutionVm>();
+            CreateMap<GetSolutionsRequest, GetSolutionsModel>();
+            CreateMap<FindFavorsRequest, GetSolutionsModel>()
+                .ForMember(x => x.Skip, k => k.MapFrom(m => 0))
+                .ForMember(m => m.Take, f => f.MapFrom(m => 10));
 
         }
     }

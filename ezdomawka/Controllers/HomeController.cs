@@ -25,10 +25,12 @@ namespace ezdomawka.Controllers
             var countFavor = await _favorSolutionService.GetCountSolutions();
             IndexVm vm = new IndexVm()
             {
-                FavorSolutionVms = favorSolutions,
                 ThemeVms = themes,
                 SubjectVms = subjects,
-                CountFavorSolutions = countFavor
+                FavorsWithPaginationVm = new FavorsWithPaginationVm()
+                {
+                    FavorSolutionVms = favorSolutions, CountFavorSolutions = countFavor
+                }
             };
             return View(vm);
         }

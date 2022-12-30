@@ -45,18 +45,18 @@ namespace BLL.Services
         {
             var favorSolutions = await _db.FavorSolutions.Include(x => x.FavorSubjects)
                 .ThenInclude(f=>f.Subject).Include(x => x.Theme).Include(d=>d.Author).Skip(skip).Take(take)
-                .Select(x=>_mapper.Map<SolutionModel>(x)).ToListAsync();
+                .Select(x=>_mapper.Map<SolutionModel>(x)).AsNoTracking().ToListAsync();
              return favorSolutions;
         }
 
         public async Task<List<SolutionModel>> GetSolutionModels(GetSolutionsModel model)
         {
             var favorSolutions = await _db.FavorSolutions
-                .Where(x=>x.ThemeId == model.ThemeId && x.FavorSubjects.Any(x => x.SubjectId == model.SubjectId))
+                .Where(x=>x.ThemeId == model.ThemeId && x.FavorSubjects.Any(n => n.SubjectId == model.SubjectId))
                 .Include(x => x.FavorSubjects)
                 .ThenInclude(f => f.Subject).Include(x => x.Theme).Include(d => d.Author)
                 .Skip(model.Skip).Take(model.Take)
-                .Select(x => _mapper.Map<SolutionModel>(x)).ToListAsync();
+                .Select(x => _mapper.Map<SolutionModel>(x)).AsNoTracking().ToListAsync();
             return favorSolutions;
         }
 
@@ -65,6 +65,12 @@ namespace BLL.Services
             return await _db.FavorSolutions.CountAsync();
         }
 
+        public async Task<int> GetCountSolutions(GetSolutionsModel model)
+        {
+            return await _db.FavorSolutions
+                .Where(x => x.ThemeId == model.ThemeId && x.FavorSubjects.Any(n => n.SubjectId == model.SubjectId))
+                .CountAsync();
+        }
 
 
     }

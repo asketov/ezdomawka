@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -52,12 +53,38 @@ namespace ezdomawka.Controllers
             }
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetSolutions(GetSolutionsRequest request)
-        //{
-        //    var favorSolutions = await _favorSolutionService.GetSolutionModels(_mapper.Map<GetSolutionsModel>(request));
-        //    var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x));
-        //}
-        
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetSolutions(GetSolutionsRequest request)
+        {
+            if (request.SubjectId == null || request.ThemeId == null)
+            {
+                var models = await _favorSolutionService.GetSolutionModels(request.Skip, request.Take);
+                var vms = models.Select(x => _mapper.Map<FavorSolutionVm>(x));
+                return PartialView("Partials/_FavorSolutions", vms);
+            }
+            else
+            {
+                var favorSolutions =
+                    await _favorSolutionService.GetSolutionModels(_mapper.Map<GetSolutionsModel>(request));
+                var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x));
+                return PartialView("Partials/_FavorSolutions", vms);
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> FindFavors(FindFavorsRequest request)
+        {
+            var model = _mapper.Map<GetSolutionsModel>(request);
+            var count = await _favorSolutionService.GetCountSolutions(model);
+            var favors = (await _favorSolutionService.GetSolutionModels(model)).Select(x => _mapper.Map<FavorSolutionVm>(x));
+            var vm = new FavorsWithPaginationVm()
+            {
+                CountFavorSolutions = count, FavorSolutionVms = favors
+            };
+            return PartialView("../Home/Partials/_FavorsWithPagination", vm);
+        }
+
     }
 }

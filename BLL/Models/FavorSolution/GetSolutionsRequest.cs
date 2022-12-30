@@ -4,10 +4,8 @@ namespace BLL.Models.FavorSolution
 {
     public class GetSolutionsRequest
     {
-        [Required]
-        public Guid ThemeId { get; set; }
-        [Required]
-        public Guid SubjectId { get; set; }
+        public Guid? ThemeId { get; set; }
+        public Guid? SubjectId { get; set; }
         [Required]
         [Range(0, 200000)]
         public int Skip { get; set; }

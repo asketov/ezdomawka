@@ -39,13 +39,13 @@
                         }
                         else
                         {
-                            <li class="nav-item dropdown">
+                            @*<li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Админ</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ThemeManager">Работа с темами</a>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="SubjectManager">Работа с предметами</a>
                                 </ul>
-                            </li>
+                            </li>*@
                             <li class="nav-item">
                                 <i class="nav-link text-dark">@User.Identity.Name</i>
                             </li>
