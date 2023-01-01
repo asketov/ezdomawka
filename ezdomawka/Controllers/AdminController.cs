@@ -50,28 +50,37 @@ namespace ezdomawka.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTheme(ThemeRequest request)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await _adminService.AddTheme(_mapper.Map<ThemeModel>(request));
-                return RedirectToAction(nameof(ThemeManager));
+                try
+                {
+                    await _adminService.AddTheme(_mapper.Map<ThemeModel>(request));
+                    return RedirectToAction(nameof(ThemeManager));
+                }
+                catch (ThemeAlreadyExistException)
+                {
+                    return View(request);
+                }
             }
-            catch(ThemeAlreadyExistException)
-            {
-                return View(request);
-            }
+            return BadRequest();
         }
         [HttpPost]
         public async Task<IActionResult> AddSubject(SubjectRequest request)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await _adminService.AddSubject(_mapper.Map<SubjectModel>(request));
-                return RedirectToAction(nameof(SubjectManager));
+                try
+                {
+                    await _adminService.AddSubject(_mapper.Map<SubjectModel>(request));
+                    return RedirectToAction(nameof(SubjectManager));
+                }
+                catch (SubjectAlreadyExistException)
+                {
+                    return View(request);
+                }
             }
-            catch (SubjectAlreadyExistException)
-            {
-                return View(request);
-            }
+
+            return BadRequest();
         }
 
     }

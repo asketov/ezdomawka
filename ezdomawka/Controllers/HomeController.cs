@@ -11,14 +11,17 @@ namespace ezdomawka.Controllers
         private readonly FavorSolutionService _favorSolutionService;
         private readonly IMapper _mapper;
         private readonly AdminService _adminService;
-        public HomeController(FavorSolutionService favorSolutionService, IMapper mapper, AdminService adminService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public HomeController(FavorSolutionService favorSolutionService, IMapper mapper, AdminService adminService, IWebHostEnvironment webHostEnvironment)
         {
             _favorSolutionService = favorSolutionService;
             _mapper = mapper;
             _adminService = adminService;
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task<IActionResult> Index()
         {
+            //await EmailService.SendConfirmCodeToEmailAsync("asket200211@mail.ru", _webHostEnvironment.WebRootPath);
             var favorSolutions = (await _favorSolutionService.GetSolutionModels(skip : 0, take : 10)).Select(x => _mapper.Map<FavorSolutionVm>(x));
             var themes = (await _adminService.GetThemeModels()).Select(x => _mapper.Map<ThemeVm>(x));
             var subjects = (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x));

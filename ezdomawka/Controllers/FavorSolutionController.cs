@@ -32,58 +32,70 @@ namespace ezdomawka.Controllers
         public async Task<IActionResult> AddSolution()
         {
             var model = await _favorSolutionService.GetAddSolutionModel();
-            var f = _mapper.Map<AddSolutionVm>(model);
-            return View(f);
+            return View(_mapper.Map<AddSolutionVm>(model));
         }
 
         [HttpPost]
         public async Task<IActionResult> AddSolution(AddSolutionRequest request)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var model = _mapper.Map<SolutionModel>(request);
-                model.Author = await _userService
-                    .GetUserById(Guid.Parse(User.Claims.FirstOrDefault(u => u.Type == Claims.UserClaim)!.Value));
-                await _favorSolutionService.AddFavor(model);
-                return StatusCode(StatusCodes.Status200OK, new {redirect = "/home/index"});
+                try
+                {
+                    var model = _mapper.Map<SolutionModel>(request);
+                    model.Author = await _userService
+                        .GetUserById(Guid.Parse(User.Claims.FirstOrDefault(u => u.Type == Claims.UserClaim)!.Value));
+                    await _favorSolutionService.AddFavor(model);
+                    return StatusCode(StatusCodes.Status200OK, new {redirect = "/home/index"});
+                }
+                catch
+                {
+                    return BadRequest();
+                }
             }
-            catch
-            {
-                return BadRequest();
-            }
+            return BadRequest();
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetSolutions(GetSolutionsRequest request)
         {
-            if (request.SubjectId == null || request.ThemeId == null)
+            if (ModelState.IsValid)
             {
-                var models = await _favorSolutionService.GetSolutionModels(request.Skip, request.Take);
-                var vms = models.Select(x => _mapper.Map<FavorSolutionVm>(x));
-                return PartialView("Partials/_FavorSolutions", vms);
+                if (request.SubjectId == null || request.ThemeId == null)
+                {
+                    var models = await _favorSolutionService.GetSolutionModels(request.Skip, request.Take);
+                    var vms = models.Select(x => _mapper.Map<FavorSolutionVm>(x));
+                    return PartialView("Partials/_FavorSolutions", vms);
+                }
+                else
+                {
+                    var favorSolutions =
+                        await _favorSolutionService.GetSolutionModels(_mapper.Map<GetSolutionsModel>(request));
+                    var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x));
+                    return PartialView("Partials/_FavorSolutions", vms);
+                }
             }
-            else
-            {
-                var favorSolutions =
-                    await _favorSolutionService.GetSolutionModels(_mapper.Map<GetSolutionsModel>(request));
-                var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x));
-                return PartialView("Partials/_FavorSolutions", vms);
-            }
+            return BadRequest();
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> FindFavors(FindFavorsRequest request)
         {
-            var model = _mapper.Map<GetSolutionsModel>(request);
-            var count = await _favorSolutionService.GetCountSolutions(model);
-            var favors = (await _favorSolutionService.GetSolutionModels(model)).Select(x => _mapper.Map<FavorSolutionVm>(x));
-            var vm = new FavorsWithPaginationVm()
+            if (ModelState.IsValid)
             {
-                CountFavorSolutions = count, FavorSolutionVms = favors
-            };
-            return PartialView("../Home/Partials/_FavorsWithPagination", vm);
+                var model = _mapper.Map<GetSolutionsModel>(request);
+                var count = await _favorSolutionService.GetCountSolutions(model);
+                var favors =
+                    (await _favorSolutionService.GetSolutionModels(model)).Select(x => _mapper.Map<FavorSolutionVm>(x));
+                var vm = new FavorsWithPaginationVm()
+                {
+                    CountFavorSolutions = count, FavorSolutionVms = favors
+                };
+                return PartialView("../Home/Partials/_FavorsWithPagination", vm);
+            }
+            return BadRequest();
         }
 
     }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using AutoMapper;
 using BLL.Models.Auth;
 using BLL.Models.UserModels;
@@ -22,12 +17,17 @@ namespace ezdomawka.Controllers
     {
         private readonly UserService _userService;
         private readonly AuthService _authService;
+        private readonly EmailService _emailService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
-        public AuthController(UserService userService, IMapper mapper, AuthService authService)
+
+        public AuthController(UserService userService, IMapper mapper, AuthService authService, EmailService emailService, IWebHostEnvironment webHostEnvironment)
         {
             _userService = userService;
             _mapper = mapper;
             _authService = authService;
+            _emailService = emailService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -36,23 +36,29 @@ namespace ezdomawka.Controllers
             if (returnUrl != null) ViewBag.returnUrl = returnUrl;
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginRequest request, string? returnUrl = null)
         {
             try
             {
-                User user = await _userService.GetUserByCredentials(_mapper.Map<CredentialModel>(request));
-                await Authenticate(user.Nick, user.Id);
-                if (returnUrl != null) return Redirect(returnUrl);
-                return RedirectToAction("Index", "Home");
+                if (ModelState.IsValid)
+                {
+                    User user = await _userService.GetUserByCredentials(_mapper.Map<CredentialModel>(request));
+                    await Authenticate(user.Nick, user.Id);
+                    if (returnUrl != null) return Redirect(returnUrl);
+                    return RedirectToAction("Index", "Home");
+                }
+                return View(request);
             }
-            catch(NotFoundException)
+            catch (NotFoundException)
             {
                 ModelState.AddModelError("", "Некорректные логин и(или) пароль");
                 return View(request);
             }
         }
+
         [HttpGet]
         public IActionResult Register()
         {
@@ -95,7 +101,19 @@ namespace ezdomawka.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Auth");
+            return RedirectToAction("Index","Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail(RegisterRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                await _emailService.SendConfirmCodeToEmailAsync(request.Email, _webHostEnvironment.WebRootPath);
+                return Ok();
+            }
+
+            return RedirectToAction("Register", request);
         }
 
     }

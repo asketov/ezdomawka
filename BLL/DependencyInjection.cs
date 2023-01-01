@@ -20,8 +20,10 @@ namespace BLL
             services.AddScoped<AuthService>();
             services.AddScoped<AdminService>();
             services.AddScoped<FavorSolutionService>();
+            services.AddScoped<EmailService>();
             services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(AuthProfile).Assembly,
                 typeof(AdminProfile).Assembly, typeof(FavorSolutionProfile).Assembly);
+            services.AddMemoryCache();
             return services;
         }
     }
