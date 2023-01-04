@@ -1,9 +1,11 @@
 using BLL;
+using Common.Configs;
 using DAL;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var emailSection = builder.Configuration.GetSection(EmailConfig.Position);
+builder.Services.Configure<EmailConfig>(emailSection);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

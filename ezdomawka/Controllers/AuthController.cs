@@ -65,25 +65,18 @@ namespace ezdomawka.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<IActionResult> Register(RegisterExtensionRequest request)
         {
-            try
+            if (await _userService.CheckUserExistByEmail(request.Email)) ModelState.AddModelError(nameof(DAL.Entities.User.Email), "Пользователь с такой почтой уже существует");
+            if (await _userService.CheckUserExistByNick(request.Nick)) ModelState.AddModelError(nameof(DAL.Entities.User.Nick), "Пользователь с таким ником уже существует");
+            if (!_emailService.CheckCorrectConfirmCode(request.Email, request.ConfirmCode.ToString())) ModelState.AddModelError(nameof(RegisterExtensionRequest.ConfirmCode), "Неправильный код");
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    User user = await _authService.RegisterUser(_mapper.Map<RegisterModel>(request));
-                    await Authenticate(user.Nick, user.Id); 
-                    return RedirectToAction("Index", "Home");
-                }
-                return View(request);
+                User user = await _authService.RegisterUser(_mapper.Map<RegisterModel>(request));
+                await Authenticate(user.Nick, user.Id); 
+                return Ok();
             }
-            catch (Exception ex)
-            {
-                if(ex is NickAlreadyExistException) ModelState.AddModelError(nameof(DAL.Entities.User.Nick), "Пользователь с таким ником уже существует");
-                if(ex is EmailAlreadyExistException) ModelState.AddModelError(nameof(DAL.Entities.User.Email), "Пользователь с такой почтой уже существует");
-                return View(request);
-            }
+            return BadRequest();
         }
 
         private async Task Authenticate(string userName, Guid userId)
@@ -107,13 +100,14 @@ namespace ezdomawka.Controllers
         [HttpPost]
         public async Task<IActionResult> ConfirmEmail(RegisterRequest request)
         {
+            if(await _userService.CheckUserExistByEmail(request.Email)) ModelState.AddModelError(nameof(DAL.Entities.User.Email), "Пользователь с такой почтой уже существует");
+            if(await _userService.CheckUserExistByNick(request.Nick)) ModelState.AddModelError(nameof(DAL.Entities.User.Nick), "Пользователь с таким ником уже существует");
             if (ModelState.IsValid)
             {
                 await _emailService.SendConfirmCodeToEmailAsync(request.Email, _webHostEnvironment.WebRootPath);
                 return Ok();
             }
-
-            return RedirectToAction("Register", request);
+            return BadRequest();
         }
 
     }

@@ -5,6 +5,8 @@
     $("#submitForm").click(function () {
         let selectedThemeId = $("#themes option:selected").val();
         let selectedSubjectId = $("#subjects option:selected").val();
+        $('#FavorsWithPagination').empty();
+        $('#FavorsWithPagination').append("<div class='loader'></div>");
         if (selectedSubjectId && selectedThemeId) {
             $.ajax({
                 url: '/FavorSolution/FindFavors/',
@@ -33,8 +35,10 @@
         }
     });
 
+
     $(document).on('click', '.page', function (event) {
         let skip = (Number.parseInt(event.currentTarget.value) - 1) * 10;
+        $('#favorSolutions').append("<div class='pt-4'><div class='loader'></div></div>");
         $.ajax({
             url: '/FavorSolution/GetSolutions/',
             method: 'get',
@@ -43,6 +47,7 @@
                 ThemeId: ThemeId, SubjectId: SubjectId, Take: 10, Skip: skip
             },
             success: function (data) {
+                $('#favorSolutions').empty();
                 $('#favorSolutions').replaceWith(data);
                 window.scrollTo(0, 0);
             },
@@ -54,7 +59,6 @@
                     alert("Страница не найдена");
                 }
             }
-
         });
     })
 

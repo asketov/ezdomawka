@@ -24,7 +24,5 @@ namespace BLL.Models.Auth
         [StringLength(50, MinimumLength = 5, ErrorMessage = "Длина должна быть от 5 до 50 символов")]
         [Required(ErrorMessage = "Введите имя пользователя")]
         public string Nick { get; set; } = null!;
-
-
     }
 }

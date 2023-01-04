@@ -1,9 +1,18 @@
 ﻿@model IEnumerable<BLL.Models.ViewModels.FavorSolutionVm>
 <div id="favorSolutions">
-    <div class="pt-4 col-12">
-        @foreach (var el in Model)
-        {
-            <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard"/>
-        }
-    </div>
+    @if (Model.Any())
+    {
+        <div class="pt-4 col-12">
+            @foreach (var el in Model)
+            {
+                <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard"/>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center pt-4">
+            <div>Таких услуг нет</div>
+        </div>
+    }
 </div>

@@ -1,21 +1,25 @@
-﻿using MimeKit;
+﻿using Common.Configs;
+using MimeKit;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 
 namespace BLL.Services
 {
     public class EmailService
     {
         private readonly IMemoryCache _memoryCache;
-        public EmailService(IMemoryCache memoryCache)
+        private readonly EmailConfig _emailConfig;
+        public EmailService(IMemoryCache memoryCache, IOptions<EmailConfig> config)
         {
             _memoryCache = memoryCache;
+            _emailConfig = config.Value;
         }
-        public static async Task SendEmailAsync(string email, string subject, string text)
+        public async Task SendEmailAsync(string email, string subject, string text)
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("ezdomawka", "ezdomawka@gmail.com"));
+            emailMessage.From.Add(new MailboxAddress("ezdomawka", _emailConfig.Name));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -26,7 +30,7 @@ namespace BLL.Services
             using (var client = new SmtpClient())
             {
                 await client.ConnectAsync("smtp.gmail.com", 465, true);
-                await client.AuthenticateAsync("ezdomawka@gmail.com", "fdviusqezjykwsee");
+                await client.AuthenticateAsync(_emailConfig.Name, _emailConfig.Password);
                 await client.SendAsync(emailMessage);
                 await client.DisconnectAsync(true);
             }
@@ -46,6 +50,12 @@ namespace BLL.Services
             }
             _memoryCache.Set(email, codeToConfirmEmail,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+        }
+
+        public bool CheckCorrectConfirmCode(string email, string code)
+        {
+           if( _memoryCache.TryGetValue(email, out object? value)) return code == value!.ToString();
+           return false;
         }
 
         //public async Task SendRecoverCodeToEmailAsync(string email, string WebRootPath)

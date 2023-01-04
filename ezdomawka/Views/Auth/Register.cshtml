@@ -1,27 +1,31 @@
-﻿@model BLL.Models.Auth.RegisterRequest
+﻿@model BLL.Models.Auth.RegisterExtensionRequest
 
 <div class="d-flex justify-content-center">
     <div class="col-6">
         <div>
             <form id="form" method="post" asp-action="Register">
                 <div class="pt-2">
-                    <input asp-for="Email" maxlength="60" type="text" required class="form-control" placeholder="Введите почту *"/>
+                    <input id="email" asp-for="Email" maxlength="60" type="text" required class="form-control" placeholder="Введите почту *"/>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="pt-2">
-                    <input asp-for="Nick" maxlength="60" type="text" required class="form-control" placeholder="Введите никнейм *"/>
+                    <input id="nick" asp-for="Nick" maxlength="60" type="text" required class="form-control" placeholder="Введите никнейм *"/>
                     <span asp-validation-for="Nick" class="text-danger"></span>
                 </div>
                 <div class="pt-2">
-                    <input asp-for="Password" maxlength="60" type="password" required class="form-control" placeholder="Введите пароль *"/>
+                    <input id="password" asp-for="Password" maxlength="60" type="password" required class="form-control" placeholder="Введите пароль *"/>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
                 <div class="pt-2">
-                    <input asp-for="ConfirmPassword" maxlength="60" type="password" required class="form-control" placeholder="Повторите пароль *"/>
+                    <input id="confirmPassword" asp-for="ConfirmPassword" maxlength="60" type="password" required class="form-control" placeholder="Повторите пароль *"/>
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
-                <div class="pt-2 text-center">
-                    <button type="submit" class="btn btn-dark">Далее</button>
+                <div class="code pt-2" hidden>
+                    <input id="code" asp-for="ConfirmCode" maxlength="60" required class="form-control" placeholder="Введите код из письма"/>
+                    <span asp-validation-for="ConfirmCode" class="text-danger"></span>
+                </div>
+                <div id="buttons" class="pt-2 text-center">
+                    <button id="continue" type="button" class="btn btn-dark">Далее</button>
                     <button id="clearFormButton" type="button" class="btn btn-danger">Очистить</button>
                 </div>
             </form>
@@ -32,6 +36,6 @@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-        
     }
+    <script src="~/js/Auth/Register.js" asp-append-version="true"></script>
 }

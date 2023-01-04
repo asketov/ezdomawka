@@ -1,35 +1,40 @@
 ﻿@model BLL.Models.ViewModels.IndexVm
 <div class="d-flex justify-content-center">
     <div class="indexMain">
-        @*<div class="col-12">
-            <label for="amount">Price range:</label>
-            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-            <div id="slider-range"></div>
-        </div>*@
-        <div class="pt-2 box d-flex justify-content-center">
-            <div class="col-4 item">
-                <select id="subjects" required class="form-select">
-                    <option value="" disabled selected>Предмет</option>
-                    @foreach (var subject in Model.SubjectVms)
-                    {
-                        <option value="@subject.Id">@subject.Name</option>
-                    }
-                </select>
+        <div >
+            @*<div class="col-12">
+                <label for="amount">Price range:</label>
+                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                <div id="slider-range"></div>
+            </div>*@
+            <div class="pt-2 row">
+                <div class="col-12 col-md-4 pt-1">
+                    <select id="subjects" required class="form-select">
+                        <option value="" disabled selected>Предмет</option>
+                        @foreach (var subject in Model.SubjectVms)
+                        {
+                            <option value="@subject.Id">@subject.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-md-4 pt-1">
+                    <select id="themes" required class="form-select">
+                        <option value="" disabled selected>Тема</option>
+                        @foreach (var theme in Model.ThemeVms)
+                        {
+                            <option value="@theme.Id">@theme.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-md-4 pt-1">
+                    <button style="width: 100%;" id="submitForm" class="btn btn-outline-secondary d-block">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
             </div>
-            <div class="col-4 item">
-                <select id="themes" required class="form-select">
-                    <option value="" disabled selected>Тема</option>
-                    @foreach (var theme in Model.ThemeVms)
-                    {
-                        <option value="@theme.Id">@theme.Name</option>
-                    }
-                </select>
-            </div>
-            <button id="submitForm" class="item col-3 btn btn-dark">Поиск</button>
-           
         </div>
         <div id="FavorsWithPagination">
-            <partial name="Partials/_FavorsWithPagination" model="Model.FavorsWithPaginationVm" />
+            <partial name="Partials/_FavorsWithPagination" model="Model.FavorsWithPaginationVm"/>
         </div>
     </div>
 </div>
