@@ -4,9 +4,8 @@
     <script>
         var countPages = @countPages;
     </script>
-} 
-
-@if (countPages <= 5)
+}
+@if (countPages <= 5 && countPages != 1)
 {
     <div class="d-flex justify-content-center">
         <div class="box d-flex pt-2 col-12">
@@ -17,7 +16,7 @@
         </div>
     </div>
 }
-else
+else if(countPages > 5)
 {
     <div class="d-flex justify-content-center">
         <div class="box d-flex pt-2 col-12">

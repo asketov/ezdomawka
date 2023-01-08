@@ -5,7 +5,6 @@ using BLL.Models.UserModels;
 using BLL.Services;
 using Common.Consts;
 using Common.Exceptions.General;
-using Common.Exceptions.User;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;

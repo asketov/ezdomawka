@@ -28,5 +28,7 @@ namespace DAL
         public DbSet<Subject> Subjects => Set<Subject>();
         public DbSet<FavorSolution> FavorSolutions => Set<FavorSolution>();
         public DbSet<Theme> Themes => Set<Theme>();
+        public DbSet<Role> Roles => Set<Role>();
+
     }
 }

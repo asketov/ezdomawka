@@ -16,7 +16,8 @@ namespace BLL.AutoMapper.Profiles
         {
             CreateMap<RegisterRequest, RegisterModel>();
             CreateMap<RegisterModel, User>()
-                .ForMember(k => k.PasswordHash, f => f.MapFrom(m => HashHelper.GetHash(m.Password)));
+                .ForMember(k => k.PasswordHash, f => f.MapFrom(m => HashHelper.GetHash(m.Password)))
+                .ForMember(k => k.RoleId, m => m.MapFrom(f => "48497234-123a-4a7a-8a3c-ebbffa7a99c6"));
         }
     }
 }

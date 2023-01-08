@@ -72,6 +72,21 @@ namespace DAL.Migrations
                     b.ToTable("FavorSubject");
                 });
 
+            modelBuilder.Entity("DAL.Entities.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("DAL.Entities.Subject", b =>
                 {
                     b.Property<Guid>("Id")
@@ -120,7 +135,12 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -163,9 +183,25 @@ namespace DAL.Migrations
                     b.Navigation("Subject");
                 });
 
+            modelBuilder.Entity("DAL.Entities.User", b =>
+                {
+                    b.HasOne("DAL.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("DAL.Entities.FavorSolution", b =>
                 {
                     b.Navigation("FavorSubjects");
+                });
+
+            modelBuilder.Entity("DAL.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("DAL.Entities.Subject", b =>

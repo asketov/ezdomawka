@@ -15,6 +15,7 @@ $(document).ready(function () {
                     type='button' class='item btn btn-dark'><i class='fa-solid fa-trash'></i>
                     </button></div></div>`);
             $("#subjects :selected").remove();
+            
         }
     });
 
