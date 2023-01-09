@@ -1,14 +1,29 @@
 ﻿@model BLL.Models.ViewModels.IndexVm
 <div class="d-flex justify-content-center">
     <div class="indexMain">
-        <div >
-            @*<div class="col-12">
-                <label for="amount">Price range:</label>
-                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-                <div id="slider-range"></div>
-            </div>*@
+        <div>
+            <div class="col-12">
+                <div class="wrapper">
+                    <div class="price-input">
+                        <div class="field">
+                            <input type="text" class="input-min" value="0 Р">
+                        </div>
+                        <div class="separator">-</div>
+                        <div class="field">
+                            <input type="text" class="input-max" value="10000 Р">
+                        </div>
+                    </div>
+                      <div class="slider">
+                        <div class="progress"></div>
+                      </div>
+                      <div class="range-input">
+                        <input type="range" class="range-min" min="0" max="10000" value="0" step="100">
+                        <input type="range" class="range-max" min="0" max="10000" value="10000" step="100">
+                      </div>
+                </div>
+            </div>
             <div class="pt-2 row">
-                <div class="col-12 col-md-4 pt-1">
+                <div class="col-12 col-md-5 pt-1">
                     <select id="subjects" required class="form-select">
                         <option value="" disabled selected>Предмет</option>
                         @foreach (var subject in Model.SubjectVms)
@@ -17,7 +32,7 @@
                         }
                     </select>
                 </div>
-                <div class="col-12 col-md-4 pt-1">
+                <div class="col-12 col-md-5 pt-1">
                     <select id="themes" required class="form-select">
                         <option value="" disabled selected>Тема</option>
                         @foreach (var theme in Model.ThemeVms)
@@ -26,8 +41,8 @@
                         }
                     </select>
                 </div>
-                <div class="col-12 col-md-4 pt-1">
-                    <button style="width: 100%;" id="submitForm" class="btn btn-outline-secondary d-block">
+                <div class="col-12 col-md-2 pt-1">
+                    <button  id="findFavors" class="btn btn-outline-secondary d-block w-100">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>

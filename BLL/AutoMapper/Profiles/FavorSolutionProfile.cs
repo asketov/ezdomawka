@@ -33,7 +33,6 @@ namespace BLL.AutoMapper.Profiles
             CreateMap<FindFavorsRequest, GetSolutionsModel>()
                 .ForMember(x => x.Skip, k => k.MapFrom(m => 0))
                 .ForMember(m => m.Take, f => f.MapFrom(m => 10));
-
         }
     }
 }

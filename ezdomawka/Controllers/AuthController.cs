@@ -45,7 +45,7 @@ namespace ezdomawka.Controllers
                 if (ModelState.IsValid)
                 {
                     User user = await _userService.GetUserByCredentials(_mapper.Map<CredentialModel>(request));
-                    await Authenticate(user.Nick, user.Id);
+                    await Authenticate(user.Nick, user.Id, user.RoleId);
                     if (returnUrl != null) return Redirect(returnUrl);
                     return RedirectToAction("Index", "Home");
                 }
@@ -72,19 +72,20 @@ namespace ezdomawka.Controllers
             if (ModelState.IsValid)
             {
                 User user = await _authService.RegisterUser(_mapper.Map<RegisterModel>(request));
-                await Authenticate(user.Nick, user.Id); 
+                await Authenticate(user.Nick, user.Id, user.RoleId); 
                 return Ok();
             }
             return BadRequest();
         }
 
-        private async Task Authenticate(string userName, Guid userId)
+        private async Task Authenticate(string userName, Guid userId, Guid RoleId)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
-                new Claim(Claims.UserClaim, userId.ToString())
+                new Claim(Claims.UserClaim, userId.ToString()),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, RoleId.ToString())
             };
             ClaimsIdentity identity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));

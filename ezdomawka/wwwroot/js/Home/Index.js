@@ -2,7 +2,7 @@
     let ThemeId = null;
     let SubjectId = null;
 
-    $("#submitForm").click(function () {
+    $("#findFavors").click(function () {
         let selectedThemeId = $("#themes option:selected").val();
         let selectedSubjectId = $("#subjects option:selected").val();
         $('#FavorsWithPagination').empty();
@@ -33,6 +33,10 @@
 
             });
         }
+        else{
+            $('#FavorsWithPagination').empty();
+            $('#FavorsWithPagination').append('<div class="d-flex justify-content-center pt-3"><div class="text-danger">Выберите предмет и тему</div></div>');
+        }
     });
 
 
@@ -62,20 +66,45 @@
         });
     })
 
-    $(function () {
-        $("#slider-range").slider({
-            range: true,
-            min: 0,
-            max: 500,
-            values: [75, 300],
-            slide: function (ui) {
-                $("#amount").val("Р" + ui.values[0] + " - Р" + ui.values[1]);
+    const rangeInput = document.querySelectorAll(".range-input input"), 
+    priceInput = document.querySelectorAll(".price-input input"),
+    range = document.querySelector(".slider .progress");
+    let priceGap = 1;
+    priceInput.forEach(input =>{
+        input.addEventListener("input", e =>{
+            let minPrice = parseInt(priceInput[0].value),
+                maxPrice = parseInt(priceInput[1].value);
+
+            if((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max){
+                if(e.target.className === "input-min"){
+                    rangeInput[0].value = minPrice;
+                    range.style.left = ((minPrice / rangeInput[0].max) * 100) + "%";
+                }else{
+                    rangeInput[1].value = maxPrice;
+                    range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+                }
             }
         });
-        $("#amount").val("Р" + $("#slider-range").slider("values", 0) +
-            " - Р" + $("#slider-range").slider("values", 1));
     });
-    console.log(countPages);
-
+    rangeInput.forEach(input =>{
+        input.addEventListener("input", e =>{
+            let minVal = parseInt(rangeInput[0].value),
+                maxVal = parseInt(rangeInput[1].value);
+            if((maxVal - minVal) < priceGap){
+                if(e.target.className === "range-min"){
+                    rangeInput[0].value = maxVal - priceGap;
+                }else{
+                    rangeInput[1].value = minVal + priceGap;
+                }
+            }else{
+                priceInput[0].value = minVal + ' Р';
+                priceInput[1].value = maxVal + ' Р';
+                range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
+                range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+            }
+        });
+    });
+    
+    
 });
 

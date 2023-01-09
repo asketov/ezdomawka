@@ -41,7 +41,7 @@ textarea {
     left: -100%;
     bottom: -100%;
     margin: auto;
-    z-index: 0;
+    z-index: 100;
 }
 
 @keyframes rotate {
@@ -52,4 +52,11 @@ textarea {
     to {
         transform: rotate(360deg) scale(1.4);
     }
+}
+
+.leftBlock{
+    margin-left: 5px;
+}
+.rightBlock{
+    margin-right: 5px;
 }

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Common.Consts
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,7 +7,6 @@
     <title>ezdomawka</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
 </head>
 <body>
@@ -17,7 +17,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex">
+                <div class="navbar-collapse collapse d-sm-inline-flex leftBlock">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Услуги</a>
@@ -27,7 +27,17 @@
                             </ul>
                         </li>
                     </ul>
-                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+                    <ul class="navbar-nav flex-grow-1 justify-content-end rightBlock">
+                        @if ( User.IsInRole(Roles.SuperAdminId) || User.IsInRole(Roles.AdminId) )
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Админ</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ThemeManager">Работа с темами</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="SubjectManager">Работа с предметами</a>
+                                </ul>
+                            </li>
+                        }
                         @if (!User.Identity!.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -39,15 +49,13 @@
                         }
                         else
                         {
-                            @*<li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Админ</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">@User.Identity.Name</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ThemeManager">Работа с темами</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="SubjectManager">Работа с предметами</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ThemeManager">Мои услуги</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ThemeManager">Сменить пароль</a>
+                                    <a class="nav-link text-danger" asp-area="" asp-controller="Admin" asp-action="SubjectManager">Удалить аккаунт</a>
                                 </ul>
-                            </li>*@
-                            <li class="nav-item">
-                                <i class="nav-link text-dark">@User.Identity.Name</i>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Выйти</a>
@@ -66,7 +74,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="lib/fontawesome/js/all.min.js"></script>
