@@ -9,6 +9,7 @@ using BLL.Models.FavorSolution;
 using BLL.Models.ViewModels;
 using DAL;
 using DAL.Entities;
+using DAL.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
@@ -52,8 +53,8 @@ namespace BLL.Services
         public async Task<List<SolutionModel>> GetSolutionModels(GetSolutionsModel model)
         {
             var favorSolutions = await _db.FavorSolutions
-                .Where(x=>x.ThemeId == model.ThemeId && x.FavorSubjects.Any(n => n.SubjectId == model.SubjectId))
-                .Include(x => x.FavorSubjects)
+                .WithSubjectIdFilter(model.SubjectId).WithThemeIdFilter(model.ThemeId)
+                .WithPriceFilter(model.MinPrice, model.MaxPrice).Include(x => x.FavorSubjects)
                 .ThenInclude(f => f.Subject).Include(x => x.Theme).Include(d => d.Author)
                 .Skip(model.Skip).Take(model.Take)
                 .Select(x => _mapper.Map<SolutionModel>(x)).AsNoTracking().ToListAsync();

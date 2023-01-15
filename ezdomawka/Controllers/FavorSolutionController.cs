@@ -62,19 +62,10 @@ namespace ezdomawka.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (request.SubjectId == null || request.ThemeId == null)
-                {
-                    var models = await _favorSolutionService.GetSolutionModels(request.Skip, request.Take);
-                    var vms = models.Select(x => _mapper.Map<FavorSolutionVm>(x));
-                    return PartialView("Partials/_FavorSolutions", vms);
-                }
-                else
-                {
-                    var favorSolutions =
+                var favorSolutions =
                         await _favorSolutionService.GetSolutionModels(_mapper.Map<GetSolutionsModel>(request));
                     var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x));
                     return PartialView("Partials/_FavorSolutions", vms);
-                }
             }
             return BadRequest();
         }

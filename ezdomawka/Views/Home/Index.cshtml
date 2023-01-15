@@ -6,11 +6,11 @@
                 <div class="wrapper">
                     <div class="price-input">
                         <div class="field">
-                            <input type="text" class="input-min" value="0 Р">
+                            <input id="minPrice" type="text" class="input-min" value="0 Р">
                         </div>
                         <div class="separator">-</div>
                         <div class="field">
-                            <input type="text" class="input-max" value="10000 Р">
+                            <input id="maxPrice" type="text" class="input-max" value="10000 Р">
                         </div>
                     </div>
                       <div class="slider">
@@ -25,7 +25,7 @@
             <div class="pt-2 row">
                 <div class="col-12 col-md-5 pt-1">
                     <select id="subjects" required class="form-select">
-                        <option value="" disabled selected>Предмет</option>
+                        <option value="" selected>Любой предмет</option>
                         @foreach (var subject in Model.SubjectVms)
                         {
                             <option value="@subject.Id">@subject.Name</option>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-12 col-md-5 pt-1">
                     <select id="themes" required class="form-select">
-                        <option value="" disabled selected>Тема</option>
+                        <option value="" selected>Любая тема</option>
                         @foreach (var theme in Model.ThemeVms)
                         {
                             <option value="@theme.Id">@theme.Name</option>

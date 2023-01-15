@@ -1,25 +1,31 @@
 ﻿$(document).ready(function () {
     let ThemeId = null;
     let SubjectId = null;
+    let MinPrice = null;
+    let MaxPrice = null;
 
     $("#findFavors").click(function () {
         let selectedThemeId = $("#themes option:selected").val();
         let selectedSubjectId = $("#subjects option:selected").val();
+        let minPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
+        let maxPrice = Number.parseInt($("#maxPrice").val().split(' ')[0]);
         $('#FavorsWithPagination').empty();
         $('#FavorsWithPagination').append("<div class='loader'></div>");
-        if (selectedSubjectId && selectedThemeId) {
             $.ajax({
                 url: '/FavorSolution/FindFavors/',
                 method: 'get',
                 dataType: 'html',
                 data: {
-                    ThemeId: selectedThemeId, SubjectId: selectedSubjectId
+                    ThemeId: selectedThemeId, SubjectId: selectedSubjectId,
+                    MinPrice: minPrice, MaxPrice: maxPrice
                 },
                 success: function (data) {
                     $('#FavorsWithPagination').empty();
                     $('#FavorsWithPagination').append(data);
                     ThemeId = selectedThemeId;
                     SubjectId = selectedSubjectId;
+                    MinPrice = minPrice;
+                    MaxPrice = maxPrice;
                     window.scrollTo(0, 0);
                 },
                 statusCode: {
@@ -32,11 +38,6 @@
                 }
 
             });
-        }
-        else{
-            $('#FavorsWithPagination').empty();
-            $('#FavorsWithPagination').append('<div class="d-flex justify-content-center pt-3"><div class="text-danger">Выберите предмет и тему</div></div>');
-        }
     });
 
 
@@ -48,7 +49,8 @@
             method: 'get',
             dataType: 'html',
             data: {
-                ThemeId: ThemeId, SubjectId: SubjectId, Take: 10, Skip: skip
+                ThemeId: ThemeId, SubjectId: SubjectId, Take: 10,
+                Skip: skip, MinPrice: MinPrice, MaxPrice: MaxPrice
             },
             success: function (data) {
                 $('#favorSolutions').empty();

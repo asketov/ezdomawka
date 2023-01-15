@@ -12,6 +12,8 @@ namespace BLL.Models.FavorSolution
         [Required]
         [Range(10, 10)]
         public int Take { get; set; }
+        public int MinPrice { get; set; }
+        public int MaxPrice { get; set; }
 
     }
 }

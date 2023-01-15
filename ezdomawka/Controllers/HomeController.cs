@@ -21,7 +21,6 @@ namespace ezdomawka.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //await EmailService.SendConfirmCodeToEmailAsync("asket200211@mail.ru", _webHostEnvironment.WebRootPath);
             var favorSolutions = (await _favorSolutionService.GetSolutionModels(skip : 0, take : 10)).Select(x => _mapper.Map<FavorSolutionVm>(x));
             var themes = (await _adminService.GetThemeModels()).Select(x => _mapper.Map<ThemeVm>(x));
             var subjects = (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x));
