@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /ezdomawka/wwwroot/lib/fontawesome
 /ezdomawka/appsettings.json
+/.idea/
