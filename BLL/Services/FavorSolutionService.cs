@@ -47,7 +47,7 @@ namespace BLL.Services
             var favorSolutions = await _db.FavorSolutions.Include(x => x.FavorSubjects)
                 .ThenInclude(f=>f.Subject).Include(x => x.Theme).Include(d=>d.Author).Skip(skip).Take(take)
                 .Select(x=>_mapper.Map<SolutionModel>(x)).AsNoTracking().ToListAsync();
-             return favorSolutions;
+            return favorSolutions;
         }
 
         public async Task<List<SolutionModel>> GetSolutionModels(GetSolutionsModel model)

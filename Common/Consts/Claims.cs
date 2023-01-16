@@ -9,5 +9,6 @@ namespace Common.Consts
     public static class Claims
     {
         public static string UserClaim = "userId";
+        public static string EmailClaim = "emailId";
     }
 }

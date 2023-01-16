@@ -5,10 +5,12 @@ using BLL.Models.UserModels;
 using BLL.Services;
 using Common.Consts;
 using Common.Exceptions.General;
+using Common.Generics;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace ezdomawka.Controllers
 {
@@ -45,7 +47,7 @@ namespace ezdomawka.Controllers
                 if (ModelState.IsValid)
                 {
                     User user = await _userService.GetUserByCredentials(_mapper.Map<CredentialModel>(request));
-                    await Authenticate(user.Nick, user.Id, user.RoleId);
+                    await Authenticate(user);
                     if (returnUrl != null) return Redirect(returnUrl);
                     return RedirectToAction("Index", "Home");
                 }
@@ -72,20 +74,21 @@ namespace ezdomawka.Controllers
             if (ModelState.IsValid)
             {
                 User user = await _authService.RegisterUser(_mapper.Map<RegisterModel>(request));
-                await Authenticate(user.Nick, user.Id, user.RoleId); 
+                await Authenticate(user); 
                 return Ok();
             }
             return BadRequest();
         }
 
-        private async Task Authenticate(string userName, Guid userId, Guid RoleId)
+        private async Task Authenticate(User user)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
-                new Claim(Claims.UserClaim, userId.ToString()),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, RoleId.ToString())
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Nick),
+                new Claim(Claims.UserClaim, user.Id.ToString()),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.RoleId.ToString()),
+                new Claim(Claims.EmailClaim, user.Email)
             };
             ClaimsIdentity identity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
@@ -109,6 +112,5 @@ namespace ezdomawka.Controllers
             }
             return BadRequest();
         }
-
     }
 }

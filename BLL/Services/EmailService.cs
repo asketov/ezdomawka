@@ -46,7 +46,7 @@ namespace BLL.Services
             {
                string HtmlBody = sr.ReadToEnd();
                string messageBody = string.Format(HtmlBody, codeToConfirmEmail);
-                await SendEmailAsync(email, subject, messageBody);
+               await SendEmailAsync(email, subject, messageBody);
             }
             _memoryCache.Set(email, codeToConfirmEmail,
                 new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
@@ -58,21 +58,27 @@ namespace BLL.Services
            return false;
         }
 
-        //public async Task SendRecoverCodeToEmailAsync(string email, string WebRootPath)
-        //{
-        //    var PathToTemplate = WebRootPath + Path.DirectorySeparatorChar.ToString() + "templates"
-        //                         + Path.DirectorySeparatorChar.ToString() +
-        //                         "RecoverPassword.html";
-        //    var subject = "Восстановление пароля на сайте SweetsShopNCH";
-        //    string HtmlBody = "";
-        //    using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
-        //    {
-        //        HtmlBody = sr.ReadToEnd();
-        //    }
-        //    Random rnd = new Random();
-        //    CodeToRecoverPassword = rnd.Next(100000, 999999);
-        //    string messageBody = string.Format(HtmlBody, CodeToRecoverPassword);
-        //    await SendEmailAsync(email, subject, messageBody);
-        //}
+        public bool CheckCorrectLink(string code, out string? email)
+        {
+            var exist = _memoryCache.TryGetValue(code, out object? value);
+            if (exist) email = value!.ToString();
+            else email = null;
+            return exist;
+        }
+
+        public async Task SendChangePasswordLinkToEmail(string email, string urlToMethod, string webRootPath)
+        {
+            var PathToTemplate = Path.Combine(webRootPath, "templates", "changePassword.html");
+            var subject = "Смена пароля на сайте ezdomawka.com";
+            var code = Guid.NewGuid();
+            using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
+            {
+                string HtmlBody = sr.ReadToEnd();
+                string messageBody = string.Format(HtmlBody, urlToMethod + "?code=" + code);
+                await SendEmailAsync(email, subject, messageBody);
+            }
+            _memoryCache.Set(code.ToString(), email,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30)));
+        }
     }
 }

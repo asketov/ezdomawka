@@ -34,6 +34,6 @@ namespace BLL.Services
             await _db.SaveChangesAsync();
             return user;
         }
-       
+        
     }
 }

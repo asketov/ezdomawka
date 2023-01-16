@@ -1,4 +1,5 @@
-﻿using BLL.Models.UserModels;
+﻿using BLL.Models.Auth;
+using BLL.Models.UserModels;
 using Common.Exceptions.User;
 using Common.Helpers;
 using DAL;
@@ -39,6 +40,13 @@ namespace BLL.Services
         {
             var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
             return user != null;
+        }
+
+        public async Task ChangePassword(ChangePasswordModel model)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            user.PasswordHash = model.PasswordHash;
+            await _db.SaveChangesAsync();
         }
     }
 }

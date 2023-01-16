@@ -32,10 +32,8 @@
                     alert("Страница не найдена");
                 }
             }
-
         });
     });
-
     $(document).on('click', '#send', function () {
         $.ajax({
             url: '/Auth/Register/',
