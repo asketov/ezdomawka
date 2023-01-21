@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BLL.Models.Admin;
 using BLL.Models.ViewModels;
 using Common.Exceptions.Admin;
@@ -50,11 +51,11 @@ namespace BLL.Services
 
         public async Task<List<SubjectModel>> GetSubjectModels()
         {
-            return await _db.Subjects.Select(x=>_mapper.Map<SubjectModel>(x)).ToListAsync();
+            return await _db.Subjects.ProjectTo<SubjectModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
         public async Task<List<ThemeModel>> GetThemeModels()
         {
-            return await _db.Themes.Select(x => _mapper.Map<ThemeModel>(x)).ToListAsync();
+            return await _db.Themes.ProjectTo<ThemeModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
     }
 }

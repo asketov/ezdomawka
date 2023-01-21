@@ -9,6 +9,7 @@ using Common.Generics;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
@@ -98,6 +99,13 @@ namespace ezdomawka.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index","Home");
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            await _userService.DeleteUser(User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim));
+            return await Logout();
         }
 
         [HttpPost]

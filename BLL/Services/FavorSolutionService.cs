@@ -5,6 +5,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using BLL.Models.Admin;
 using BLL.Models.FavorSolution;
 using BLL.Models.ViewModels;
 using DAL;
@@ -42,22 +44,22 @@ namespace BLL.Services
             return model;
         }
 
-        public async Task<List<SolutionModel>> GetSolutionModels(int skip, int take)
+        public async Task<List<SolutionModel>> GetSolutionModels(int skip, int take, CancellationToken token)
         {
             var favorSolutions = await _db.FavorSolutions.Include(x => x.FavorSubjects)
                 .ThenInclude(f=>f.Subject).Include(x => x.Theme).Include(d=>d.Author).Skip(skip).Take(take)
-                .Select(x=>_mapper.Map<SolutionModel>(x)).AsNoTracking().ToListAsync();
+                .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
             return favorSolutions;
         }
 
-        public async Task<List<SolutionModel>> GetSolutionModels(GetSolutionsModel model)
+        public async Task<List<SolutionModel>> GetSolutionModels(GetSolutionsModel model, CancellationToken token)
         {
             var favorSolutions = await _db.FavorSolutions
                 .WithSubjectIdFilter(model.SubjectId).WithThemeIdFilter(model.ThemeId)
                 .WithPriceFilter(model.MinPrice, model.MaxPrice).Include(x => x.FavorSubjects)
                 .ThenInclude(f => f.Subject).Include(x => x.Theme).Include(d => d.Author)
                 .Skip(model.Skip).Take(model.Take)
-                .Select(x => _mapper.Map<SolutionModel>(x)).AsNoTracking().ToListAsync();
+                .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
             return favorSolutions;
         }
 
@@ -66,11 +68,11 @@ namespace BLL.Services
             return await _db.FavorSolutions.CountAsync();
         }
 
-        public async Task<int> GetCountSolutions(GetSolutionsModel model)
+        public async Task<int> GetCountSolutions(GetSolutionsModel model, CancellationToken token)
         {
             return await _db.FavorSolutions
-                .Where(x => x.ThemeId == model.ThemeId && x.FavorSubjects.Any(n => n.SubjectId == model.SubjectId))
-                .CountAsync();
+                .WithSubjectIdFilter(model.SubjectId).WithThemeIdFilter(model.ThemeId)
+                .CountAsync(token);
         }
 
 

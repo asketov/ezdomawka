@@ -44,8 +44,22 @@ namespace BLL.Services
 
         public async Task ChangePassword(ChangePasswordModel model)
         {
-            var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            var user = await GetUserByEmail(model.Email);
             user.PasswordHash = model.PasswordHash;
+            await _db.SaveChangesAsync();
+        }
+        /// <exception cref="UserNotFoundException"></exception>
+        public async Task<User> GetUserByEmail(string email)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Email == email);
+            if (user == null) throw new UserNotFoundException();
+            return user;
+        }
+
+        public async Task DeleteUser(Guid userId)
+        {
+            var user = await GetUserById(userId);
+            _db.Users.Remove(user);
             await _db.SaveChangesAsync();
         }
     }

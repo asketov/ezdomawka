@@ -19,9 +19,9 @@ namespace ezdomawka.Controllers
             _adminService = adminService;
             _webHostEnvironment = webHostEnvironment;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken token)
         {
-            var favorSolutions = (await _favorSolutionService.GetSolutionModels(skip : 0, take : 10)).Select(x => _mapper.Map<FavorSolutionVm>(x));
+            var favorSolutions = (await _favorSolutionService.GetSolutionModels(skip : 0, take : 10, token)).Select(x => _mapper.Map<FavorSolutionVm>(x));
             var themes = (await _adminService.GetThemeModels()).Select(x => _mapper.Map<ThemeVm>(x));
             var subjects = (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x));
             var countFavor = await _favorSolutionService.GetCountSolutions();

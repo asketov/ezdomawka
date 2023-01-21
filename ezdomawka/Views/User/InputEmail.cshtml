@@ -3,9 +3,10 @@
 <div class="d-flex justify-content-center">
     <div class="col-10 block">
         <div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <form id="form" asp-action="SendChangePasswordLinkToEmail" method="get">
                 <div class="pt-2">
-                    <input name="email" maxlength="60" type="email" required class="form-control" placeholder="Введите почту *" />
+                    <input name="email" maxlength="60" type="email" required class="form-control" placeholder="Введите почту *"/>
                 </div>
                 <div class="pt-2 text-center">
                     <button type="submit" class="btn btn-dark">Отправить письмо</button>
@@ -17,3 +18,9 @@
 </div>
 
 <link rel="stylesheet" type="text/css" href="~/css/Auth/Login.css" asp-append-version="true" />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

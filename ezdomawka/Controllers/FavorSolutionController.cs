@@ -58,12 +58,12 @@ namespace ezdomawka.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetSolutions(GetSolutionsRequest request)
+        public async Task<IActionResult> GetSolutions(GetSolutionsRequest request, CancellationToken token)
         {
             if (ModelState.IsValid)
             {
                 var favorSolutions =
-                        await _favorSolutionService.GetSolutionModels(_mapper.Map<GetSolutionsModel>(request));
+                        await _favorSolutionService.GetSolutionModels(_mapper.Map<GetSolutionsModel>(request), token);
                     var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x));
                     return PartialView("Partials/_FavorSolutions", vms);
             }
@@ -72,14 +72,14 @@ namespace ezdomawka.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> FindFavors(FindFavorsRequest request)
+        public async Task<IActionResult> FindFavors(FindFavorsRequest request, CancellationToken token)
         {
             if (ModelState.IsValid)
             {
                 var model = _mapper.Map<GetSolutionsModel>(request);
-                var count = await _favorSolutionService.GetCountSolutions(model);
+                var count = await _favorSolutionService.GetCountSolutions(model, token);
                 var favors =
-                    (await _favorSolutionService.GetSolutionModels(model)).Select(x => _mapper.Map<FavorSolutionVm>(x));
+                    (await _favorSolutionService.GetSolutionModels(model, token)).Select(x => _mapper.Map<FavorSolutionVm>(x));
                 var vm = new FavorsWithPaginationVm()
                 {
                     CountFavorSolutions = count, FavorSolutionVms = favors

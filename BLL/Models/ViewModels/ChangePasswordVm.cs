@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.Models.Auth
+namespace BLL.Models.ViewModels
 {
-    public class ChangePasswordRequest
+    public class ChangePasswordVm
     {
         [DataType(DataType.Password)]
         [StringLength(50, MinimumLength = 5, ErrorMessage = "Длина должна быть от 5 до 50 символов")]
