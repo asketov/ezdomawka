@@ -5,6 +5,7 @@ namespace BLL.Models.FavorSolution
 {
     public class SolutionModel
     {
+        public Guid Id { get; set; }
         public string Text { get; set; } = null!;
         public string Price { get; set; } = null!;
         public string Connection { get; set; } = null!;

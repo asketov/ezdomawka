@@ -5,7 +5,9 @@
         <div class="pt-4 col-12">
             @foreach (var el in Model)
             {
-                <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard"/>
+                <div class="pt-2">
+                    <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard"/>
+                </div>
             }
         </div>
     }

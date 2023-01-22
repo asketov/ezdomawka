@@ -10,9 +10,9 @@ namespace BLL.Models.ViewModels
     public class AddSolutionVm
     {
         [Required(ErrorMessage = "Введите текст заявки")]
-        [StringLength(200, MinimumLength = 10, ErrorMessage = "Текст должен быть меньше 200 символов")]
+        [StringLength(200, MinimumLength = 1, ErrorMessage = "Текст должен быть меньше 200 символов")]
         public string Text { get; set; } = null!;
-        [Range(0, 2000000)]
+        [Range(0, 20000, ErrorMessage = "Цена должна быть между 0 и 20000")]
         [Required(ErrorMessage = "Введите цену")]
         public string Price { get; set; } = null!;
         [Required(ErrorMessage = "Введите контакты для связи")]

@@ -1,4 +1,7 @@
-﻿using BLL.Models.Auth;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using BLL.Models.Auth;
+using BLL.Models.FavorSolution;
 using BLL.Models.UserModels;
 using Common.Exceptions.User;
 using Common.Helpers;
@@ -11,9 +14,11 @@ namespace BLL.Services
     public class UserService
     {
         private readonly DataContext _db;
-        public UserService(DataContext db)
+        private readonly IMapper _mapper;
+        public UserService(DataContext db, IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
         }
         /// <exception cref="UserNotFoundException"></exception>
         public async Task<User> GetUserById(Guid id)
@@ -61,6 +66,13 @@ namespace BLL.Services
             var user = await GetUserById(userId);
             _db.Users.Remove(user);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<List<SolutionModel>> GetFavorSolutionsByUserId(Guid userId, CancellationToken token)
+        {
+            var favorSolutions = await _db.FavorSolutions.Where(x => x.AuthorId == userId)
+                .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
+            return favorSolutions;
         }
     }
 }

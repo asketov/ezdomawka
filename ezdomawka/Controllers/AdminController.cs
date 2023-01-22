@@ -7,13 +7,15 @@ using AutoMapper;
 using BLL.Models.Admin;
 using BLL.Models.ViewModels;
 using BLL.Services;
+using Common.Consts;
 using Common.Exceptions.Admin;
+using DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ezdomawka.Controllers
 {
-    [Authorize]
+    [Authorize(Roles =  $"{Roles.SuperAdminId},{Roles.AdminId}")]
     public class AdminController : Controller
     {
         private readonly IMapper _mapper;
@@ -79,10 +81,8 @@ namespace ezdomawka.Controllers
                     return View(request);
                 }
             }
-
             return BadRequest();
         }
-
     }
 
 }

@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Models.Auth;
+using BLL.Models.FavorSolution;
 using BLL.Models.ViewModels;
 using BLL.Services;
 using Common.Consts;
 using Common.Exceptions.User;
 using Common.Generics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ezdomawka.Controllers
@@ -20,12 +22,17 @@ namespace ezdomawka.Controllers
         private readonly IWebHostEnvironment _webHostBuilder;
         private readonly UserService _userService;
         private readonly IMapper _mapper;
-        public UserController(EmailService emailService, IWebHostEnvironment webHostBuilder, IMapper mapper, UserService userService)
+        private readonly FavorSolutionService _favorSolutionService;
+        private readonly AdminService _adminService;
+        public UserController(EmailService emailService, IWebHostEnvironment webHostBuilder, IMapper mapper, 
+            UserService userService, FavorSolutionService favorSolutionService, AdminService adminService)
         {
             _emailService = emailService;
             _webHostBuilder = webHostBuilder;
             _mapper = mapper;
             _userService = userService;
+            _favorSolutionService = favorSolutionService;
+            _adminService = adminService;
         }
 
         [HttpGet]
@@ -59,7 +66,6 @@ namespace ezdomawka.Controllers
                 return View("../Home/Information", "Что-то пошло не так, попробуйте позже");
             }
         }
-
         [HttpGet]
         public IActionResult ChangePasswordByLink(Guid code)
         {
@@ -73,7 +79,6 @@ namespace ezdomawka.Controllers
             }
             return View("../Home/Information", "Ссылка является недействительной, попробуйте еще раз");
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordVm request)
@@ -86,6 +91,28 @@ namespace ezdomawka.Controllers
                 return View("../Home/Information", "Пароль успешно изменён");
             }
             return View("../Home/Information", "Ссылка истекла, попробуйте еще раз");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> FavorSolutions(CancellationToken token)
+        {
+            var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
+            var favorSolutions = await _userService.GetFavorSolutionsByUserId(userId, token);
+            var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x)).ToList();
+            return View("MyFavors", vms);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> EditFavor(Guid favorId, CancellationToken token)
+        {
+            var solutionModel = await _favorSolutionService.GetSolutionModelById(favorId);
+            var addSolutionModel = await _favorSolutionService.GetAddSolutionModel();
+            var editVm = new EditSolutionVm()
+            {
+                
+            };
         }
     }
 }

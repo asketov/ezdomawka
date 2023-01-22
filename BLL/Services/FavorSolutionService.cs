@@ -75,6 +75,11 @@ namespace BLL.Services
                 .CountAsync(token);
         }
 
+        public async Task<SolutionModel> GetSolutionModelById(Guid favorId)
+        {
+            var favor = await _db.FavorSolutions.FirstOrDefaultAsync(x => x.Id == favorId);
+            return _mapper.Map<SolutionModel>(favor);
+        }
 
     }
 }
