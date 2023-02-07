@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿  using AutoMapper;
 using BLL.Models.Admin;
 using BLL.Models.FavorSolution;
 using BLL.Models.ViewModels;
@@ -33,6 +33,9 @@ namespace BLL.AutoMapper.Profiles
             CreateMap<FindFavorsRequest, GetSolutionsModel>()
                 .ForMember(x => x.Skip, k => k.MapFrom(m => 0))
                 .ForMember(m => m.Take, f => f.MapFrom(m => 10));
+            CreateMap<SolutionModel, EditSolutionVm>()
+                .ForMember(x => x.Subjects, opt => opt.Ignore())
+                .ForMember(x => x.SelectedSubjects, f=>f.MapFrom(x => x.Subjects));
         }
     }
 }

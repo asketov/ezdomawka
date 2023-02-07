@@ -6,7 +6,7 @@
         <div class="border border-1 border-dark">
             <partial name="../FavorSolution/Partials/_FavorSolutionCard" model="@el" />
             <div class="text-center pt-2 pb-2 box">
-                <button asp-action="EditFavor" asp-route-id="@el.Id" class="btn btn-dark item">Редактировать</button>
+                <a asp-action="EditFavor" asp-route-favorId="@el.Id" class="btn btn-dark item">Редактировать</a>
                 <button asp-route-id="@el.Id" class="btn btn-danger item">Удалить</button>
             </div>
         </div>

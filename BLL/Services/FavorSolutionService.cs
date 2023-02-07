@@ -77,7 +77,7 @@ namespace BLL.Services
 
         public async Task<SolutionModel> GetSolutionModelById(Guid favorId)
         {
-            var favor = await _db.FavorSolutions.FirstOrDefaultAsync(x => x.Id == favorId);
+            var favor = await _db.FavorSolutions.Include(x=>x.FavorSubjects).ThenInclude(x => x.Subject).Include(x=>x.Theme).FirstOrDefaultAsync(x => x.Id == favorId);
             return _mapper.Map<SolutionModel>(favor);
         }
 

@@ -60,4 +60,12 @@
            
 @section Scripts{
     <script src="~/js/Favor/AddSolution.js" asp-append-version="true"></script>
+    
+        @foreach (var el in Model.SelectedSubjects)
+        {
+            <script>
+                selectedSubjects.push({ id: '@el.Id', name: '@el.Name' });
+            </script>
+        }
+    
 }

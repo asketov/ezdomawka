@@ -103,16 +103,17 @@ namespace ezdomawka.Controllers
             return View("MyFavors", vms);
         }
 
-        [HttpGet]
+        [HttpGet("{favorId}")]
         [Authorize]
         public async Task<IActionResult> EditFavor(Guid favorId, CancellationToken token)
         {
             var solutionModel = await _favorSolutionService.GetSolutionModelById(favorId);
-            var addSolutionModel = await _favorSolutionService.GetAddSolutionModel();
-            var editVm = new EditSolutionVm()
-            {
-                
-            };
+            var subjects =   (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x)).ToList();
+            var themes = (await _adminService.GetThemeModels()).Select(x => _mapper.Map<ThemeVm>(x)).ToList();
+            var editVm = _mapper.Map<EditSolutionVm>(solutionModel);
+            editVm.Subjects = subjects.Where(x => !editVm.SelectedSubjects.Any(f => f.Id == x.Id)).ToList();
+            editVm.Themes = themes.Where(x => x.Id != solutionModel.Theme.Id).Prepend(_mapper.Map<ThemeVm>(solutionModel.Theme)).ToList();
+            return View(editVm);
         }
     }
 }
