@@ -15,6 +15,7 @@ namespace BLL.AutoMapper.Profiles
             CreateMap<AddSolutionRequest, SolutionModel>()
                 .ForMember(d=>d.Created, f=>f.MapFrom(a => DateTimeOffset.UtcNow));
             CreateMap<SolutionModel, AddSolutionRequest>();
+            CreateMap<EditSolutionRequest, SolutionModel>();
             CreateMap<SolutionModel, FavorSolution>()
                 .ForMember(u => u.Created, k => k.MapFrom(d => DateTimeOffset.UtcNow))
                 .ForMember(d => d.FavorSubjects, s => s.MapFrom(a => a.Subjects))

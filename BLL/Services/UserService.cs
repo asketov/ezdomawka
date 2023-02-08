@@ -74,5 +74,10 @@ namespace BLL.Services
                 .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
             return favorSolutions;
         }
+
+        public async Task<bool> CheckUserHasFavor(Guid userId, Guid favorId)
+        {
+            return await _db.FavorSolutions.AnyAsync(x => x.AuthorId == userId && x.Id == favorId);
+        }
     }
 }

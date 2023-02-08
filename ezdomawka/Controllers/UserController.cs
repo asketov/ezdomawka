@@ -108,12 +108,26 @@ namespace ezdomawka.Controllers
         public async Task<IActionResult> EditFavor(Guid favorId, CancellationToken token)
         {
             var solutionModel = await _favorSolutionService.GetSolutionModelById(favorId);
-            var subjects =   (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x)).ToList();
             var themes = (await _adminService.GetThemeModels()).Select(x => _mapper.Map<ThemeVm>(x)).ToList();
             var editVm = _mapper.Map<EditSolutionVm>(solutionModel);
-            editVm.Subjects = subjects.Where(x => !editVm.SelectedSubjects.Any(f => f.Id == x.Id)).ToList();
             editVm.Themes = themes.Where(x => x.Id != solutionModel.Theme.Id).Prepend(_mapper.Map<ThemeVm>(solutionModel.Theme)).ToList();
+            editVm.Subjects = (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x)).ToList();
             return View(editVm);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> EditFavor(EditSolutionRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
+                if (!await _userService.CheckUserHasFavor(userId, request.Id)) return BadRequest();
+
+                return Ok();
+            }
+
+            return BadRequest();
         }
     }
 }

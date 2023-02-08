@@ -81,5 +81,15 @@ namespace BLL.Services
             return _mapper.Map<SolutionModel>(favor);
         }
 
+        public async Task UpdateFavor(SolutionModel model)
+        {
+            var favor = _mapper.Map<FavorSolution>(model);
+            var dbFavor = await _db.FavorSolutions.AnyAsync(x => x.Id == model.Id);
+            if (dbFavor)
+            {
+
+            }
+            await _db.SaveChangesAsync();
+        }
     }
 }
