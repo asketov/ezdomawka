@@ -80,16 +80,19 @@ namespace BLL.Services
             var favor = await _db.FavorSolutions.Include(x=>x.FavorSubjects).ThenInclude(x => x.Subject).Include(x=>x.Theme).FirstOrDefaultAsync(x => x.Id == favorId);
             return _mapper.Map<SolutionModel>(favor);
         }
-
+        /// <summary>
+        /// update if favor exist
+        /// </summary>
         public async Task UpdateFavor(SolutionModel model)
         {
             var favor = _mapper.Map<FavorSolution>(model);
-            var dbFavor = await _db.FavorSolutions.AnyAsync(x => x.Id == model.Id);
-            if (dbFavor)
+            var favorExist = await _db.FavorSolutions.Include(x=>x.FavorSubjects).FirstOrDefaultAsync(x => x.Id == model.Id);
+            if (favorExist != null)
             {
-
+                _db.Entry(favorExist).CurrentValues.SetValues(favor);
+                favorExist.FavorSubjects = favor.FavorSubjects;
+                await _db.SaveChangesAsync();
             }
-            await _db.SaveChangesAsync();
         }
     }
 }

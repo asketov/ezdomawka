@@ -1,6 +1,4 @@
-﻿
-
-let selectedSubjects = [];
+﻿let selectedSubjects = [];
 $(document).ready(function () {
     $("#addSubject").click(function () {
         let selectedOption = $("#subjects :selected");
@@ -37,13 +35,13 @@ $(document).ready(function () {
     $("#submitForm").click(function () {
         if ($("#form").valid() && selectedSubjects.length > 0) { 
             $.ajax({
-                url: '/FavorSolution/AddSolution',
+                url: '/User/EditFavor',
                 method: 'post',
                 dataType: 'json',
                 data: {
                     Subjects: selectedSubjects, 
                     Theme: { id: $("#themes option:selected").val(), name: $("#themes option:selected").html() }, Text: $("#text").val(),
-                    Price: $('#price').val(),  Connection: $('#connect').val() },
+                    Price: $('#price').val(),  Connection: $('#connect').val(), Id: $('#id').val() },
                 success: function (data) {
                     if(data.redirect) {
                         window.location = '/home/index'

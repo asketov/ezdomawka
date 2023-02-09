@@ -18,5 +18,33 @@ namespace DAL.Extensions
         {
             return query.Where(x => x.Price >= minPrice && x.Price <= maxPrice);
         }
+        //public static void UpdateOrDeleteGraph(this DataContext context, FavorSolution favorSolution)
+        //{
+        //    context.Entry(existingBlog).CurrentValues.SetValues(blog);
+        //        foreach (var post in blog.Posts)
+        //        {
+        //            var existingPost = existingBlog.Posts
+        //                .FirstOrDefault(p => p.PostId == post.PostId);
+
+        //            if (existingPost == null)
+        //            {
+        //                existingBlog.Posts.Add(post);
+        //            }
+        //            else
+        //            {
+        //                context.Entry(existingPost).CurrentValues.SetValues(post);
+        //            }
+        //        }
+
+        //        foreach (var post in existingBlog.Posts)
+        //        {
+        //            if (!blog.Posts.Any(p => p.PostId == post.PostId))
+        //            {
+        //                context.Remove(post);
+        //            }
+        //        }
+
+        //        context.SaveChanges();
+        //}
     }
 }

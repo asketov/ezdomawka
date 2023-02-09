@@ -11,6 +11,7 @@ using BLL.Services;
 using Common.Consts;
 using Common.Exceptions.User;
 using Common.Generics;
+using DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -123,7 +124,9 @@ namespace ezdomawka.Controllers
             {
                 var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
                 if (!await _userService.CheckUserHasFavor(userId, request.Id)) return BadRequest();
-
+                var model = _mapper.Map<SolutionModel>(request);
+                model.Author = new User() { Id = userId };
+                await _favorSolutionService.UpdateFavor(model);
                 return Ok();
             }
 

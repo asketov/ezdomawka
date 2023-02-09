@@ -3,6 +3,7 @@
 <div class="d-flex justify-content-center">
     <div class="col-12 addSolutionCard">
         <form id="form">
+            <input hidden id="id" value="@Model.Id"/>
             <div>
                 <div class="pt-2">
                     <textarea id="text" asp-for="Text" data="elastic" class="form-control" placeholder="Введите текст* (опишите вашу услугу)"></textarea>
@@ -13,7 +14,7 @@
                     <span class="text-danger" asp-validation-for="Price"></span>
                 </div>
                 <div class="pt-2">
-                    <input id="connect" asp-for="Connection" type="text" class="form-control" placeholder="Как с вами связаться?* (пример: https://t.me/name)" />
+                    <input id="connect" asp-for="Connection" type="text" class="form-control" placeholder="Как с вами связаться?* (пример: https://t.me/name)"/>
                     <span class="text-danger" asp-validation-for="Connection"></span>
                 </div>
                 <div class="box pt-2 d-flex">

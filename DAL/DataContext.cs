@@ -23,6 +23,25 @@ namespace DAL
                 .HasOne(bc => bc.Subject)
                 .WithMany(c => c.FavorSubjects)
                 .HasForeignKey(bc => bc.SubjectId);
+            modelBuilder.Entity("DAL.Entities.FavorSolution", b =>
+            {
+                b.HasOne("DAL.Entities.User", "Author")
+                    .WithMany("FavorSolutions")
+                    .HasForeignKey("AuthorId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+
+                b.HasOne("DAL.Entities.Theme", "Theme")
+                    .WithMany("FavorSolutions")
+                    .HasForeignKey("ThemeId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+                b.HasMany("DAL.Entities.FavorSubject", "FavorSubjects")
+                    .WithOne("FavorSolution")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
         }
         public DbSet<User> Users => Set<User>();
         public DbSet<Subject> Subjects => Set<Subject>();
