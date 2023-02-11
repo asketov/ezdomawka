@@ -83,6 +83,32 @@ namespace ezdomawka.Controllers
             }
             return BadRequest();
         }
+        [HttpGet]
+        public async Task<IActionResult> DeleteSubject(Guid id)
+        {
+            try
+            {
+                await _adminService.DeleteSubject(id);
+                return RedirectToAction(nameof(SubjectManager));
+            }
+            catch
+            {
+                return RedirectToAction("SubjectManager");
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteTheme(Guid id)
+        {
+            try
+            {
+                await _adminService.DeleteTheme(id);
+                return RedirectToAction(nameof(ThemeManager));
+            }
+            catch
+            {
+                return RedirectToAction("ThemeManager");
+            }
+        }
     }
 
 }

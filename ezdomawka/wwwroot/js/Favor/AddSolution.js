@@ -31,8 +31,16 @@ $(document).ready(function () {
         $(`.${id}`).remove();
     });
 
+    $('#clearFormButton').click(function () {
+        selectedSubjects = [];
+        $(".SelectedSubjects").empty();
+        document.getElementById("form").reset();
+        $('#price').val("");
+        $('#connect').val("");
+        $("#text").val("");
+    });
 
-    $("#submitForm").click(function () {
+    $("#editFavor").click(function () {
         if ($("#form").valid() && selectedSubjects.length > 0) { 
             $.ajax({
                 url: '/User/EditFavor',
@@ -44,6 +52,37 @@ $(document).ready(function () {
                     Price: $('#price').val(),  Connection: $('#connect').val(), Id: $('#id').val() },
                 success: function (data) {
                     if(data.redirect) {
+                        window.location = '/home/index'
+                    }
+                    else {
+                        window.location = data.redirect
+                    }
+                },
+                statusCode: {
+                    400: function () { // выполнить функцию если код ответа HTTP 400
+                        alert("Неправильный запрос");
+                    },
+                    404: function () { // выполнить функцию если код ответа HTTP 404
+                        alert("Страница не найдена");
+                    }
+                }
+
+            });
+        }
+    });
+    $("#addFavor").click(function () {
+        if ($("#form").valid() && selectedSubjects.length > 0) {
+            $.ajax({
+                url: '/FavorSolution/AddSolution',
+                method: 'post',
+                dataType: 'json',
+                data: {
+                    Subjects: selectedSubjects,
+                    Theme: { id: $("#themes option:selected").val(), name: $("#themes option:selected").html() }, Text: $("#text").val(),
+                    Price: $('#price').val(), Connection: $('#connect').val()
+                },
+                success: function (data) {
+                    if (data.redirect) {
                         window.location = '/home/index'
                     }
                     else {

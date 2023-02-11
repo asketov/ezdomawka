@@ -14,6 +14,7 @@ using Common.Generics;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace ezdomawka.Controllers
 {
@@ -104,11 +105,11 @@ namespace ezdomawka.Controllers
             return View("MyFavors", vms);
         }
 
-        [HttpGet("{favorId}")]
+        [HttpGet]
         [Authorize]
-        public async Task<IActionResult> EditFavor(Guid favorId, CancellationToken token)
+        public async Task<IActionResult> EditFavor(Guid id, CancellationToken token)
         {
-            var solutionModel = await _favorSolutionService.GetSolutionModelById(favorId);
+            var solutionModel = await _favorSolutionService.GetSolutionModelById(id);
             var themes = (await _adminService.GetThemeModels()).Select(x => _mapper.Map<ThemeVm>(x)).ToList();
             var editVm = _mapper.Map<EditSolutionVm>(solutionModel);
             editVm.Themes = themes.Where(x => x.Id != solutionModel.Theme.Id).Prepend(_mapper.Map<ThemeVm>(solutionModel.Theme)).ToList();
@@ -127,10 +128,19 @@ namespace ezdomawka.Controllers
                 var model = _mapper.Map<SolutionModel>(request);
                 model.Author = new User() { Id = userId };
                 await _favorSolutionService.UpdateFavor(model);
-                return Ok();
+                return StatusCode(StatusCodes.Status200OK, new { redirect = "/home/index" });
             }
-
             return BadRequest();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> DeleteFavor(Guid id)
+        {
+            var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
+            if (!await _userService.CheckUserHasFavor(userId, id)) return BadRequest();
+            await _favorSolutionService.DeleteFavor(id);
+            return RedirectToAction(nameof(FavorSolutions));
         }
     }
 }

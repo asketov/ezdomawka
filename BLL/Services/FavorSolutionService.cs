@@ -94,5 +94,15 @@ namespace BLL.Services
                 await _db.SaveChangesAsync();
             }
         }
+
+        public async Task DeleteFavor(Guid id)
+        {
+            var favorExist = await _db.FavorSolutions.FirstOrDefaultAsync(x => x.Id == id);
+            if (favorExist != null)
+            {
+                _db.FavorSolutions.Remove(favorExist);
+                await _db.SaveChangesAsync();
+            }
+        }
     }
 }

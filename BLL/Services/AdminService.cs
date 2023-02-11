@@ -57,5 +57,24 @@ namespace BLL.Services
         {
             return await _db.Themes.ProjectTo<ThemeModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
+
+        public async Task DeleteSubject(Guid id)
+        {
+            var subject = await _db.Subjects.FirstOrDefaultAsync(x => x.Id == id);
+            if (subject != null)
+            {
+                _db.Subjects.Remove(subject);
+                await _db.SaveChangesAsync();
+            }
+        }
+        public async Task DeleteTheme(Guid id)
+        {
+            var theme = await _db.Themes.FirstOrDefaultAsync(x => x.Id == id);
+            if (theme != null)
+            {
+                _db.Themes.Remove(theme);
+                await _db.SaveChangesAsync();
+            }
+        }
     }
 }

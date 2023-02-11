@@ -18,11 +18,23 @@ namespace DAL
             modelBuilder.Entity<FavorSubject>()
                 .HasOne(bc => bc.FavorSolution)
                 .WithMany(b => b.FavorSubjects)
-                .HasForeignKey(bc => bc.FavorSolutionId);
+                .HasForeignKey(bc => bc.FavorSolutionId)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<FavorSubject>()
                 .HasOne(bc => bc.Subject)
                 .WithMany(c => c.FavorSubjects)
-                .HasForeignKey(bc => bc.SubjectId);
+                .HasForeignKey(bc => bc.SubjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Theme>()
+                .HasMany(x => x.FavorSolutions)
+                .WithOne(x => x.Theme)
+                .HasForeignKey(x => x.ThemeId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Subject>()
+                .HasMany(x => x.FavorSubjects)
+                .WithOne(x => x.Subject)
+                .HasForeignKey(x => x.SubjectId)
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity("DAL.Entities.FavorSolution", b =>
             {
                 b.HasOne("DAL.Entities.User", "Author")
@@ -30,18 +42,11 @@ namespace DAL
                     .HasForeignKey("AuthorId")
                     .OnDelete(DeleteBehavior.Restrict)
                     .IsRequired();
-
-                b.HasOne("DAL.Entities.Theme", "Theme")
-                    .WithMany("FavorSolutions")
-                    .HasForeignKey("ThemeId")
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .IsRequired();
                 b.HasMany("DAL.Entities.FavorSubject", "FavorSubjects")
                     .WithOne("FavorSolution")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
-
         }
         public DbSet<User> Users => Set<User>();
         public DbSet<Subject> Subjects => Set<Subject>();

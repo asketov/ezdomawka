@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<BLL.Models.ViewModels.FavorSolutionVm>
-
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @foreach (var el in Model)
 {
     <div class="pb-4">
         <div class="border border-1 border-dark">
             <partial name="../FavorSolution/Partials/_FavorSolutionCard" model="@el" />
             <div class="text-center pt-2 pb-2 box">
-                <a asp-action="EditFavor" asp-route-favorId="@el.Id" class="btn btn-dark item">Редактировать</a>
-                <button asp-route-id="@el.Id" class="btn btn-danger item">Удалить</button>
+                <a asp-route-id="@el.Id" asp-action="EditFavor" class="btn btn-dark item">Редактировать</a>
+                <a asp-route-id="@el.Id" asp-action="DeleteFavor" class="btn btn-danger item">Удалить</a>
             </div>
         </div>
     </div>

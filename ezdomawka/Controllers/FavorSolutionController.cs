@@ -88,6 +88,5 @@ namespace ezdomawka.Controllers
             }
             return BadRequest();
         }
-
     }
 }
