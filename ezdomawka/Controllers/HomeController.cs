@@ -36,5 +36,11 @@ namespace ezdomawka.Controllers
             };
             return View(vm);
         }
+
+        [HttpGet]
+        public ActionResult Rools()
+        {
+            return View();
+        }
     }
 }

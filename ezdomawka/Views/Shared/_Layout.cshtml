@@ -26,6 +26,9 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Просмотреть услуги</a>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Rools">О сайте</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1 justify-content-end rightBlock">
                         @if ( User.IsInRole(Roles.SuperAdminId) || User.IsInRole(Roles.AdminId) )
@@ -75,7 +78,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="lib/fontawesome/js/all.min.js"></script>
+    <script src="~/lib/fontawesome/js/all.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

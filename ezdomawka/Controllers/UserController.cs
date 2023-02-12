@@ -14,7 +14,7 @@ using Common.Generics;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Org.BouncyCastle.Asn1.Ocsp;
+
 
 namespace ezdomawka.Controllers
 {

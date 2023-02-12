@@ -4,12 +4,23 @@
     margin: 0 -5px;
 }
 
+.selectedSubject {
+    background-color: #008080;
+    color: seashell;
+    border-radius: 30px;
+}
+
+.blockSelSubj {
+    display: inline-block;
+}
+
 .item {
     margin: 0 5px;
 }
 
 .indexMain {
     width: 1000px;
+    
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
