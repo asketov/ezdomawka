@@ -29,6 +29,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Rools">О сайте</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Пожаловаться</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1 justify-content-end rightBlock">
                         @if ( User.IsInRole(Roles.SuperAdminId) || User.IsInRole(Roles.AdminId) )

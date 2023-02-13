@@ -46,8 +46,8 @@ namespace BLL.Services
 
         public async Task<List<SolutionModel>> GetSolutionModels(int skip, int take, CancellationToken token)
         {
-            var favorSolutions = await _db.FavorSolutions.Include(x => x.FavorSubjects)
-                .ThenInclude(f=>f.Subject).Include(x => x.Theme).Include(d=>d.Author).Skip(skip).Take(take)
+            var favorSolutions = await _db.FavorSolutions
+                .Skip(skip).Take(take)
                 .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
             return favorSolutions;
         }
@@ -56,8 +56,7 @@ namespace BLL.Services
         {
             var favorSolutions = await _db.FavorSolutions
                 .WithSubjectIdFilter(model.SubjectId).WithThemeIdFilter(model.ThemeId)
-                .WithPriceFilter(model.MinPrice, model.MaxPrice).Include(x => x.FavorSubjects)
-                .ThenInclude(f => f.Subject).Include(x => x.Theme).Include(d => d.Author)
+                .WithPriceFilter(model.MinPrice, model.MaxPrice)
                 .Skip(model.Skip).Take(model.Take)
                 .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
             return favorSolutions;
@@ -104,5 +103,13 @@ namespace BLL.Services
                 await _db.SaveChangesAsync();
             }
         }
+
+        public async Task<List<SubjectModel>> GetFavorSubjects(Guid favorId)
+        {
+            var subjects = await _db.Subjects.Where(x => x.FavorSubjects!.Any(x => x.FavorSolution.Id == favorId))
+                .ProjectTo<SubjectModel>(_mapper.ConfigurationProvider).ToListAsync();
+            return subjects;
+        }
+
     }
 }

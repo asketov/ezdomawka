@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
     let ThemeId = null;
     let SubjectId = null;
     let MinPrice = null;
@@ -27,10 +28,13 @@
                     MinPrice = minPrice;
                     MaxPrice = maxPrice;
                     window.scrollTo(0, 0);
+                    addSubjectToCard();
                 },
                 statusCode: {
                     400: function () { // выполнить функцию если код ответа HTTP 400
-                        alert("Неправильный запрос");
+                        $('#FavorsWithPagination').empty();
+                        $('#FavorsWithPagination').append(`<div class='d-flex justify-content-center pt-3'>
+                                                <div class='text-danger'>Запрос введён неверно</div></div>`);
                     },
                     404: function () { // выполнить функцию если код ответа HTTP 404
                         alert("Страница не найдена");
@@ -106,7 +110,59 @@
             }
         });
     });
-    
-    
+    function addSubjectToCard() {
+        let val = $("#subjects option:selected").html();
+        if (val != "Любой предмет") {
+            $('.subjects').append(
+                `<div class='pt-2 blockSelSubj'>
+                            <div class='selectedSubject p-3'>
+                                   <i class=''>${val} </i>
+                            </div>
+                </div>`);
+        }
+    }
+
+    $(document).on('click', '.checkSubjects', function (event) {
+        event.stopPropagation();
+        let favorId = event.currentTarget.value;
+        $('.Content').append("<div><div class='loader'></div></div>");
+        $('.Modal').addClass('Active');
+        $.ajax({
+            url: '/FavorSolution/GetFavorSubjects/',
+            method: 'get',
+            dataType: 'html',
+            data: {
+                FavorId: favorId
+            },
+            success: function (data) {
+                $('.Content').empty();
+                $('.Content').append(`<div style='width: 300px;' class="modalSubjects"></div>`);
+                data = JSON.parse(data);
+                data.forEach(function (x) {
+                        $('.modalSubjects')
+                        .append(`<div class='col-12 pt-1 blockSelSubj'>
+                                     <div class='selectedSubject p-3'>
+                                         <i class=''>${x.name}</i>
+                                     </div>
+                              </div>`)
+                    }
+                );
+            },
+            statusCode: {
+                400: function () {
+                    alert("Неправильный запрос");
+                },
+                404: function () {
+                    alert("Страница не найдена");
+                }
+            }
+        });
+    })
+
+    $(document).on('click', '.Modal', function (event) {
+        event.stopPropagation();
+        $('.Modal').removeClass('Active');
+        $('.Content').empty();
+    })
 });
 

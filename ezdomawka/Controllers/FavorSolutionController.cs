@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using BLL.Models.Admin;
 using BLL.Models.FavorSolution;
 using BLL.Models.ViewModels;
 using BLL.Services;
@@ -87,6 +88,15 @@ namespace ezdomawka.Controllers
                 return PartialView("../Home/Partials/_FavorsWithPagination", vm);
             }
             return BadRequest();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetFavorSubjects(Guid favorId)
+        {
+            Thread.Sleep(5000);
+            var subjects = await _favorSolutionService.GetFavorSubjects(favorId);
+            return Ok(subjects);
         }
     }
 }

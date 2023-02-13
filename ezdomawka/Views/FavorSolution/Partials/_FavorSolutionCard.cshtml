@@ -22,30 +22,29 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 pt-1 text-center">
-                @foreach (var modelSubject in Model.Subjects)
-                {
-                    <div class='pt-2 blockSelSubj'>
-                        <div class='selectedSubject p-3'>
-                            <i class=''>@modelSubject.Name</i>
-                        </div>
-                    </div>
-                }
+            <div class="subjects col-12 pt-1 text-center">
             </div>
-            <div class="col-12 row pt-3 pb-1 text-center">
-                <div style="font-size: 20px;" class="col-6">
+            <div class="row pb-1 text-center">
+                <div class="col-12 col-md-6 pt-2">
+                    <button value="@Model.Id" class="checkSubjects btn btn-outline-dark"> Просмотреть предметы <i class="fa-solid fa-circle-info align-middle"></i></button>
+                </div>
+                <div class="col-12 col-md-6 pt-2">
                     @if (Model.Connection.Substring(0, 5) == "https")
                     {
-                    <a href="@Model.Connection">Связаться</a>
+                        <a class="btn btn-outline-dark" href="@Model.Connection">Связаться <i class="fa-solid fa-phone"></i></a>
                     }
                     else
                     {
-                        <a href="https://@Model.Connection">Связаться</a>
+                        <a class="btn btn-outline-dark" href="https://@Model.Connection">Связаться <i class="fa-solid fa-phone"></i></a>
                     }
-                    <div>@Model.Connection</div>
                 </div>
-                <div class="col-6">
-                    <small style="font-size: 13px;" class=""> Дата создания: @Model.Created.ToLocalTime().ToString().Split()[0] </small>
+            </div>
+            <div class="row text-center">
+                <div class="col-12 col-md-6">
+                    <span> Дата создания: @Model.Created.ToLocalTime().ToString().Split()[0] </span>
+                </div>
+                <div style="font-size: 20px;" class="col-12 col-md-6">
+                    <div>@Model.Connection</div>
                 </div>
             </div>
         </div>
