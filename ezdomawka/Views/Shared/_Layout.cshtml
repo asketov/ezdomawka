@@ -30,7 +30,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Rools">О сайте</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Пожаловаться</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddSuggestion">Предложить идею</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1 justify-content-end rightBlock">
@@ -71,11 +71,11 @@
             </div>
         </nav>
     </header>
-<div class="container">
-    <main id="main" role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
+    <div class="container">
+        <main id="main" role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

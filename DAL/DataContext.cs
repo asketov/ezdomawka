@@ -53,6 +53,8 @@ namespace DAL
         public DbSet<FavorSolution> FavorSolutions => Set<FavorSolution>();
         public DbSet<Theme> Themes => Set<Theme>();
         public DbSet<Role> Roles => Set<Role>();
+        public DbSet<Suggestion> Suggestions => Set<Suggestion>();
+        public DbSet<Ban> Bans => Set<Ban>();
 
     }
 }

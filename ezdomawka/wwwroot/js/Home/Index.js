@@ -136,6 +136,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('.Content').empty();
+                $('.Content').css('min-height', '10px');
                 $('.Content').append(`<div style='width: 300px;' class="modalSubjects"></div>`);
                 data = JSON.parse(data);
                 data.forEach(function (x) {
@@ -163,6 +164,44 @@ $(document).ready(function () {
         event.stopPropagation();
         $('.Modal').removeClass('Active');
         $('.Content').empty();
+    })
+
+    $(document).on('click', '.dislike', function (event) {
+        event.stopPropagation();
+        let favorId = event.currentTarget.value;
+        $('.Content').css('min-height', '10px');
+        $('.Content').append(`<div class='text-center'>Вы уверены, что хотите пожаловаться?</div>
+                <div class='text-center pt-2'><button value='${favorId}' id='addReport' class='btn btn-outline-dark'>Пожаловаться</button>
+                <button class='btn btn-outline-secondary'>Отмена</button></div>`);
+        $('.Modal').addClass('Active');
+    });
+    $(document).on('click', '#addReport', function (event) {
+        let favorId = event.currentTarget.value;
+        $('.Content').css('min-height', '200px');
+        $('.Content').empty();
+        $('.Content').append("<div><div class='loader'></div></div>");
+        $.ajax({
+            url: '/FavorSolution/AddReport/',
+            method: 'post',
+            dataType: 'json',
+            data: {
+                favorId: favorId
+            },
+            success: function () {
+                $('.Content').empty();
+                $('.Content').css('min-height', '10px');
+                $('.Content').append(
+                    `<div style='width: 300px;'>Жалоба успешно отправлена <i class="fa-regular fa-circle-check"></i></div>`);
+            },
+            statusCode: {
+                400: function () {
+                    alert("Неправильный запрос");
+                },
+                404: function () {
+                    alert("Страница не найдена");
+                }
+            }
+        });
     })
 });
 

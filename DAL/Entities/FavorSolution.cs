@@ -13,6 +13,7 @@ namespace DAL.Entities
         public int Price { get; set; }
         public string Text { get; set; } = null!;
         public string Connection { get; set; } = null!;
+        public int CountReports { get; set; }
         public virtual User Author { get; set; } = null!;
         public Guid AuthorId { get; set; }
         public virtual ICollection<FavorSubject> FavorSubjects { get; set; } = null!;

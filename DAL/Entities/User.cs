@@ -12,7 +12,9 @@ namespace DAL.Entities
         public string Email { get; set; } = null!;
         public string Nick { get; set; } = null!;
         public string PasswordHash { get; set; } = null!;
-        public virtual ICollection<FavorSolution>? FavorSolutions { get; set; } = null!;
+        public bool IsBanned { get; set; }
+        public virtual ICollection<Ban>? Bans { get; set; }
+        public virtual ICollection<FavorSolution>? FavorSolutions { get; set; }
         public Guid RoleId { get; set; }
         public virtual Role Role { get; set; } = null!;
     }

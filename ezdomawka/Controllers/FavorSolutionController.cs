@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using BLL.Models.Admin;
+﻿using AutoMapper;
 using BLL.Models.FavorSolution;
 using BLL.Models.ViewModels;
 using BLL.Services;
 using Common.Consts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace ezdomawka.Controllers
 {
@@ -94,9 +85,24 @@ namespace ezdomawka.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> GetFavorSubjects(Guid favorId)
         {
-            Thread.Sleep(5000);
             var subjects = await _favorSolutionService.GetFavorSubjects(favorId);
             return Ok(subjects);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> AddReport(Guid favorId)
+        {
+            try
+            {
+                await _favorSolutionService.AddReport(favorId);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
         }
     }
 }

@@ -3,12 +3,13 @@
 <div>
     <div class="col-12 border bg-light">
         <div class="">
-            <div class="col-12 row text-center">
-                <div class="col-6">
+            <div class="col-12 row m-0 position-relative">
+                <div class="col-6 text-center">
                     <b class="">@Model.Nick</b>
                 </div>
-                <div class="col-6">
+                <div  class="col-6 text-center">
                     <b class=""> Цена: @Model.Price руб </b>
+                    <button value="@Model.Id" class="position-absolute end-0 dislike"><i class="fa-regular fa-thumbs-down"></i></button>
                 </div>
             </div>
             <div class="col-12 pt-2 d-flex justify-content-center">
@@ -31,11 +32,11 @@
                 <div class="col-12 col-md-6 pt-2">
                     @if (Model.Connection.Substring(0, 5) == "https")
                     {
-                        <a class="btn btn-outline-dark" href="@Model.Connection">Связаться <i class="fa-solid fa-phone"></i></a>
+                        <a class="btn btn-outline-dark" href="@Model.Connection">Связаться <i class="fa-regular fa-comments"></i></a>
                     }
                     else
                     {
-                        <a class="btn btn-outline-dark" href="https://@Model.Connection">Связаться <i class="fa-solid fa-phone"></i></a>
+                        <a class="btn btn-outline-dark" href="https://@Model.Connection">Связаться <i class="fa-regular fa-comments"></i></a>
                     }
                 </div>
             </div>

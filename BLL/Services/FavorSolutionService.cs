@@ -111,5 +111,14 @@ namespace BLL.Services
             return subjects;
         }
 
+        public async Task AddReport(Guid favorId)
+        {
+            var favor = await _db.FavorSolutions.FirstOrDefaultAsync(x => x.Id == favorId);
+            if (favor != null)
+            {
+                favor.CountReports++;
+                await _db.SaveChangesAsync();
+            }
+        }
     }
 }

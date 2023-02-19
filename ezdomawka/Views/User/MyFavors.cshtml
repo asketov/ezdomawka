@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BLL.Models.ViewModels.FavorSolutionVm>
 
 <div class="d-flex justify-content-center">
-    <div style="width: 1000px;">
+    <div class="indexMain">
         @foreach (var el in Model)
         {
             <div class="pb-4">
@@ -28,4 +28,7 @@
 
 @section Scripts{
     <script src="~/js/Home/Index.js" asp-append-version="true"></script>
+    <script>
+       $('.dislike').remove();
+    </script>
 }

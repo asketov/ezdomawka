@@ -21,8 +21,9 @@ namespace BLL
             services.AddScoped<AdminService>();
             services.AddScoped<FavorSolutionService>();
             services.AddScoped<EmailService>();
+            services.AddScoped<HomeService>();
             services.AddAutoMapper(typeof(UserProfile).Assembly, typeof(AuthProfile).Assembly,
-                typeof(AdminProfile).Assembly, typeof(FavorSolutionProfile).Assembly);
+                typeof(AdminProfile).Assembly, typeof(FavorSolutionProfile).Assembly, typeof(HomeService).Assembly);
             services.AddMemoryCache();
             return services;
         }
