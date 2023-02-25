@@ -2,12 +2,17 @@ using BLL;
 using Common.Configs;
 using DAL;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 var emailSection = builder.Configuration.GetSection(EmailConfig.Position);
 builder.Services.Configure<EmailConfig>(emailSection);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddMvc(options =>
+{
+    options.MaxModelBindingCollectionSize = int.MaxValue;
+});
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => 
     {

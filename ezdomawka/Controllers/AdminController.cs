@@ -12,6 +12,7 @@ using Common.Exceptions.Admin;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace ezdomawka.Controllers
 {
@@ -49,7 +50,32 @@ namespace ezdomawka.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditSubject(Guid id)
+        {
+            var model = await _adminService.GetSubjectModel(id);
+            if(model == null) return RedirectToAction(nameof(SubjectManager));
+            return View(_mapper.Map<SubjectVm>(model));
+        }
+
         [HttpPost]
+        public async Task<IActionResult> EditSubject(SubjectVm vm)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _adminService.AddOrUpdateSubject(_mapper.Map<SubjectModel>(vm));
+                    return RedirectToAction(nameof(SubjectManager));
+                }
+                catch (SubjectAlreadyExistException)
+                {
+                    return View(vm);
+                }
+            }
+            return BadRequest();
+        }
         public async Task<IActionResult> AddTheme(ThemeRequest request)
         {
             if (ModelState.IsValid)
@@ -73,7 +99,7 @@ namespace ezdomawka.Controllers
             {
                 try
                 {
-                    await _adminService.AddSubject(_mapper.Map<SubjectModel>(request));
+                    await _adminService.AddOrUpdateSubject(_mapper.Map<SubjectModel>(request));
                     return RedirectToAction(nameof(SubjectManager));
                 }
                 catch (SubjectAlreadyExistException)

@@ -135,12 +135,16 @@ namespace ezdomawka.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult> DeleteFavor(Guid id)
+        public async Task<ActionResult> DeleteFavor(Guid favorId, string? returnUrl = null)
         {
             var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
-            if (!await _userService.CheckUserHasFavor(userId, id)) return BadRequest();
-            await _favorSolutionService.DeleteFavor(id);
-            return RedirectToAction(nameof(FavorSolutions));
+            if (await _userService.CheckUserHasFavor(userId, favorId) || User.IsInRole(Roles.SuperAdminId))
+            {
+                await _favorSolutionService.DeleteFavor(favorId);
+                if(returnUrl == null) return RedirectToAction(nameof(FavorSolutions));
+                return Redirect(returnUrl);
+            }
+            return BadRequest();
         }
     }
 }

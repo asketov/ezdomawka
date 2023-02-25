@@ -28,7 +28,8 @@ namespace ezdomawka.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddSolution(AddSolutionRequest request)
+        [RequestFormLimits(ValueCountLimit = int.MaxValue)]
+        public async Task<IActionResult> AddSolution([FromForm] AddSolutionRequest request)
         {
             if (ModelState.IsValid)
             {
@@ -83,20 +84,27 @@ namespace ezdomawka.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult> GetFavorSubjects(Guid favorId)
+        public async Task<ActionResult> GetFavorSubjects(Guid favorId, int skip, int take)
         {
-            var subjects = await _favorSolutionService.GetFavorSubjects(favorId);
-            return Ok(subjects);
+            var subjects = await _favorSolutionService.GetFavorSubjects(favorId, skip, take);
+            var count = await _favorSolutionService.GetCountSubjects(favorId);
+            return StatusCode(StatusCodes.Status200OK, new { Subjects = subjects, Count = count });
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> AddReport(Guid favorId)
+        public async Task<ActionResult> AddReport(ReportRequest request)
         {
+            var request2 = HttpContext.Request;
+            var m = Request.Headers["REMOTE_ADDR"];
             try
             {
-                await _favorSolutionService.AddReport(favorId);
-                return Ok();
+                if (ModelState.IsValid && await _favorSolutionService.CheckFavorExist(request.FavorSolutionId))
+                {
+                    await _favorSolutionService.AddReport(request);
+                    return StatusCode(StatusCodes.Status200OK, new {redirect = "/home/index"});
+                }
+                return BadRequest();
             }
             catch
             {

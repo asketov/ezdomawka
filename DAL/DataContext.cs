@@ -55,6 +55,8 @@ namespace DAL
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<Suggestion> Suggestions => Set<Suggestion>();
         public DbSet<Ban> Bans => Set<Ban>();
+        public DbSet<Report> Reports => Set<Report>();
+        public DbSet<FavorSubject> FavorSubject => Set<FavorSubject>();
 
     }
 }

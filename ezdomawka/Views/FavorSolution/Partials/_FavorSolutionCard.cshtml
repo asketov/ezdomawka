@@ -1,9 +1,11 @@
-﻿@model BLL.Models.ViewModels.FavorSolutionVm
+﻿@using Common.Consts
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BLL.Models.ViewModels.FavorSolutionVm
 
 <div>
     <div class="col-12 border bg-light">
         <div class="">
-            <div class="col-12 row m-0 position-relative">
+            @* <div class="col-12 row m-0 position-relative">
                 <div class="col-6 text-center">
                     <b class="">@Model.Nick</b>
                 </div>
@@ -11,15 +13,15 @@
                     <b class=""> Цена: @Model.Price руб </b>
                     <button value="@Model.Id" class="position-absolute end-0 dislike"><i class="fa-regular fa-thumbs-down"></i></button>
                 </div>
+            </div>*@
+            <div style="background-color: lavenderblush; min-height: 30px;" class="col-12 position-relative text-center">
+                <span class="">@Model.Theme.Name</span>
+                <button value="@Model.Id" class="position-absolute end-0 dislike"><i class="fa-regular fa-thumbs-down"></i></button>
             </div>
-            <div class="col-12 pt-2 d-flex justify-content-center">
-                <span class="p-2 border w-100 text-center" style="background-color: lavenderblush">@Model.Theme.Name</span>
-            </div>
-            <div class="col-12">
-                <div style="background-color: #f5f5f5; border-color: #000000;" class="col-12 text-center border border-3">
+            <div class="col-12 text-center">
+                <div @*style="background-color: #f5f5f5; border-color: #000000;"*@ class="col-12 border border-1">
                     <div class="p-3">
-                        <p>Об Услуге:</p>
-                        <span>@Model.Text</span>
+                        <span>Об Услуге: @Model.Text</span>
                     </div>
                 </div>
             </div>
@@ -41,13 +43,21 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-12 col-md-6">
-                    <span> Дата создания: @Model.Created.ToLocalTime().ToString().Split()[0] </span>
+                <div style="font-size: 11px;" class="col-12">
+                    <span> Имя: @Model.Nick, дата создания: @Model.Created.ToLocalTime().ToString().Split()[0] </span>
                 </div>
-                <div style="font-size: 20px;" class="col-12 col-md-6">
-                    <div>@Model.Connection</div>
-                </div>
+                @*<div style="font-size: 20px;" class="col-12 col-md-6">
+                   <div>@Model.Connection</div>
+               </div>*@
             </div>
+            @if (User.IsInRole(Roles.SuperAdminId))
+            {
+                <div class="row text-center">
+                    <div class="col-12">
+                        <a asp-route-returnUrl="@Url.Action("Index", "Home")" asp-route-favorId="@Model.Id" asp-controller="User" asp-action="DeleteFavor">Удалить услугу</a>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>

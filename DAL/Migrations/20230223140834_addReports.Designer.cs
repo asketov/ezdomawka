@@ -3,6 +3,7 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230223140834_addReports")]
+    partial class addReports
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bans", (string)null);
+                    b.ToTable("Bans");
                 });
 
             modelBuilder.Entity("DAL.Entities.FavorSolution", b =>
@@ -80,7 +83,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ThemeId");
 
-                    b.ToTable("FavorSolutions", (string)null);
+                    b.ToTable("FavorSolutions");
                 });
 
             modelBuilder.Entity("DAL.Entities.FavorSubject", b =>
@@ -95,7 +98,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("FavorSubject", (string)null);
+                    b.ToTable("FavorSubject");
                 });
 
             modelBuilder.Entity("DAL.Entities.Report", b =>
@@ -115,7 +118,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("FavorSolutionId");
 
-                    b.ToTable("Reports", (string)null);
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("DAL.Entities.Role", b =>
@@ -130,7 +133,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("DAL.Entities.Subject", b =>
@@ -145,7 +148,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects", (string)null);
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("DAL.Entities.Suggestion", b =>
@@ -166,7 +169,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Suggestions", (string)null);
+                    b.ToTable("Suggestions");
                 });
 
             modelBuilder.Entity("DAL.Entities.Theme", b =>
@@ -181,7 +184,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Themes", (string)null);
+                    b.ToTable("Themes");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
@@ -212,7 +215,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("DAL.Entities.Ban", b =>

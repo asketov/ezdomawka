@@ -31,12 +31,29 @@ namespace BLL.Services
             _db.Themes.Add(theme);
             await _db.SaveChangesAsync();
         }
-        public async Task AddSubject(SubjectModel model)
+        public async Task AddOrUpdateSubject(SubjectModel model)
         {
             if (await CheckSubjectExistByName(model.Name)) throw new SubjectAlreadyExistException();
             var subject = _mapper.Map<Subject>(model);
-            _db.Subjects.Add(subject);
-            await _db.SaveChangesAsync();
+            if (!await CheckSubjectExist(model.Id))
+            {
+                _db.Subjects.Add(subject);
+                await _db.SaveChangesAsync();
+            }
+            else
+            {
+                var subj = await _db.Subjects.FirstOrDefaultAsync(x => x.Id == model.Id);
+                if (subj != null)
+                {
+                    _db.Entry(subj).CurrentValues.SetValues(subject);
+                    await _db.SaveChangesAsync();
+                }
+            }
+        }
+
+        public async Task<bool> CheckSubjectExist(Guid subjectId)
+        {
+            return await _db.Subjects.AnyAsync(x => x.Id == subjectId);
         }
         public async Task<bool> CheckThemeExistByName(string name)
         {
@@ -75,6 +92,17 @@ namespace BLL.Services
                 _db.Themes.Remove(theme);
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task<SubjectModel?> GetSubjectModel(Guid id)
+        {
+            var dbModel = await _db.Subjects.FirstOrDefaultAsync(x => x.Id == id);
+            if (dbModel != null)
+            {
+                var model = _mapper.Map<SubjectModel>(dbModel);
+                return model;
+            }
+            return null;
         }
     }
 }
