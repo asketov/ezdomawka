@@ -112,8 +112,8 @@ namespace ezdomawka.Controllers
             var solutionModel = await _favorSolutionService.GetSolutionModelById(id);
             var themes = (await _adminService.GetThemeModels()).Select(x => _mapper.Map<ThemeVm>(x)).ToList();
             var editVm = _mapper.Map<EditSolutionVm>(solutionModel);
-            editVm.Themes = themes.Where(x => x.Id != solutionModel.Theme.Id).Prepend(_mapper.Map<ThemeVm>(solutionModel.Theme)).ToList();
-            editVm.Subjects = (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x)).ToList();
+            editVm.Themes = themes.Where(x => x.Id != solutionModel.Theme.Id).Prepend(_mapper.Map<ThemeVm>(solutionModel.Theme));
+            editVm.Subjects = (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x)).OrderBy(x => x.Name);
             return View(editVm);
         }
 

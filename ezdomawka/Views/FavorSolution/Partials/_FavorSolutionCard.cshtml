@@ -1,5 +1,6 @@
 ﻿@using Common.Consts
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Security.Claims
 @model BLL.Models.ViewModels.FavorSolutionVm
 
 <div>
@@ -16,10 +17,13 @@
             </div>*@
             <div style="background-color: lavenderblush; min-height: 30px;" class="col-12 position-relative text-center">
                 <span class="">@Model.Theme.Name</span>
-                <button value="@Model.Id" class="position-absolute end-0 dislike"><i class="fa-regular fa-thumbs-down"></i></button>
+                @if (!User.Identity!.IsAuthenticated || User.Identity.Name != Model.Nick)
+                {
+                    <button value="@Model.Id" class="position-absolute end-0 dislike"><i class="fa-regular fa-thumbs-down"></i></button>
+                }
             </div>
             <div class="col-12 text-center">
-                <div @*style="background-color: #f5f5f5; border-color: #000000;"*@ class="col-12 border border-1">
+                <div class="col-12 border border-1">
                     <div class="p-3">
                         <span>Об Услуге: @Model.Text</span>
                     </div>
@@ -46,9 +50,6 @@
                 <div style="font-size: 11px;" class="col-12">
                     <span> Имя: @Model.Nick, дата создания: @Model.Created.ToLocalTime().ToString().Split()[0] </span>
                 </div>
-                @*<div style="font-size: 20px;" class="col-12 col-md-6">
-                   <div>@Model.Connection</div>
-               </div>*@
             </div>
             @if (User.IsInRole(Roles.SuperAdminId))
             {

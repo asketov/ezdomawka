@@ -95,8 +95,6 @@ namespace ezdomawka.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> AddReport(ReportRequest request)
         {
-            var request2 = HttpContext.Request;
-            var m = Request.Headers["REMOTE_ADDR"];
             try
             {
                 if (ModelState.IsValid && await _favorSolutionService.CheckFavorExist(request.FavorSolutionId))

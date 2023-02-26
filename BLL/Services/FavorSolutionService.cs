@@ -39,8 +39,7 @@ namespace BLL.Services
         public async Task<AddSolutionModel> GetAddSolutionModel()
         {
             var model = new AddSolutionModel();
-            var Subjects = (await _adminService.GetSubjectModels()).ToList();
-            Subjects.Sort();
+            var Subjects = (await _adminService.GetSubjectModels()).OrderBy(x => x.Name);
             model.Subjects = Subjects;
             model.Themes = await _adminService.GetThemeModels();
             return model;

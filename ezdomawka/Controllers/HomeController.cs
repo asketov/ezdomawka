@@ -40,8 +40,7 @@ namespace ezdomawka.Controllers
         {
             var favorSolutions = (await _favorSolutionService.GetSolutionModels(skip : 0, take : 10, token)).Select(x => _mapper.Map<FavorSolutionVm>(x));
             var themes = (await _adminService.GetThemeModels()).Select(x => _mapper.Map<ThemeVm>(x));
-            var subjects = (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x)).ToList();
-            subjects.Sort();
+            var subjects = (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x)).OrderBy(x => x.Name);
             var countFavor = await _favorSolutionService.GetCountSolutions();
             IndexVm vm = new IndexVm()
             {
