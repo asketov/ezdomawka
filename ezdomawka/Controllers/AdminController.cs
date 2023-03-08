@@ -60,6 +60,19 @@ namespace ezdomawka.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> BanUser(BanRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!await _adminService.UserNotAdmin(request.UserId)) return BadRequest();
+                await _adminService.BanUser(request);
+                return Ok();
+
+            }
+            return BadRequest();
+        }
+
+        [HttpPost]
         public async Task<IActionResult> EditSubject(SubjectVm vm)
         {
             if (ModelState.IsValid)

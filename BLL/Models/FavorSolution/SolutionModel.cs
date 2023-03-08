@@ -9,6 +9,7 @@ namespace BLL.Models.FavorSolution
         public string Text { get; set; } = null!;
         public string Price { get; set; } = null!;
         public string Connection { get; set; } = null!;
+        public Guid AuthorId { get; set; }
         public User Author { get; set; } = null!;
         public DateTimeOffset Created { get; set; }
         public IEnumerable<SubjectModel> Subjects { get; set; } = null!;

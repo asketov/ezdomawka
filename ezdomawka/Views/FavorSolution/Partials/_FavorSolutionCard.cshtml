@@ -1,6 +1,7 @@
 ﻿@using Common.Consts
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using System.Security.Claims
+@using Common.Generics
 @model BLL.Models.ViewModels.FavorSolutionVm
 
 <div>
@@ -19,8 +20,9 @@
                 <span class="">@Model.Theme.Name</span>
                 @if (!User.Identity!.IsAuthenticated || User.Identity.Name != Model.Nick)
                 {
-                    <button value="@Model.Id" class="position-absolute end-0 dislike"><i class="fa-regular fa-thumbs-down"></i></button>
+                    <button value="@Model.Id" class="position-absolute end-0 dislike"><i class="fa-solid fa-triangle-exclamation"></i></button>
                 }
+                <div style="color: goldenrod;">Стоимость: @Model.Price руб</div>
             </div>
             <div class="col-12 text-center">
                 <div class="col-12 border border-1">
@@ -46,16 +48,21 @@
                     }
                 </div>
             </div>
-            <div class="row text-center">
-                <div style="font-size: 11px;" class="col-12">
-                    <span> Имя: @Model.Nick, дата создания: @Model.Created.ToLocalTime().ToString().Split()[0] </span>
+            <div class="pt-2 text-center">
+                <div style="font-size: 9px;" class="col-12">
+                    <span> Имя: @Model.Nick, дата обновления: @Model.Created.ToLocalTime().ToString().Split()[0] </span>
                 </div>
             </div>
             @if (User.IsInRole(Roles.SuperAdminId))
             {
                 <div class="row text-center">
-                    <div class="col-12">
-                        <a asp-route-returnUrl="@Url.Action("Index", "Home")" asp-route-favorId="@Model.Id" asp-controller="User" asp-action="DeleteFavor">Удалить услугу</a>
+                    <div class="col-12 col-md-6 pt-2">
+                        <a class="btn btn-outline-dark" asp-route-returnUrl="@Url.Action("Index", "Home")" 
+                           asp-route-favorId="@Model.Id" asp-controller="User" asp-action="DeleteFavor">Удалить услугу</a>
+                    </div>
+                    <div class="col-12 col-md-6 pt-2">
+                        <button value="@Model.AuthorId" 
+                                class="btn btn-outline-dark" id="BanUser">Забанить</button>
                     </div>
                 </div>
             }

@@ -17,6 +17,7 @@ namespace DAL.Entities
         public Guid AuthorId { get; set; }
         public virtual ICollection<FavorSubject> FavorSubjects { get; set; } = null!;
         public virtual ICollection<Report>? Reports { get; set; }
+        public virtual ICollection<UpdateFavorHistory> UpdateFavorHistory { get; set; } = null!;
         public Guid ThemeId { get; set; }
         public virtual Theme Theme { get; set; } = null!;
     }

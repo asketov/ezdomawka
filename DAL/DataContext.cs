@@ -57,6 +57,6 @@ namespace DAL
         public DbSet<Ban> Bans => Set<Ban>();
         public DbSet<Report> Reports => Set<Report>();
         public DbSet<FavorSubject> FavorSubject => Set<FavorSubject>();
-
+        public DbSet<UpdateFavorHistory> UpdateFavorHistory => Set<UpdateFavorHistory>();
     }
 }

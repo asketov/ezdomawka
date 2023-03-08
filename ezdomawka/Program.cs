@@ -1,6 +1,7 @@
 using BLL;
 using Common.Configs;
 using DAL;
+using ezdomawka.Middlewares.BanMiddleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
 
@@ -34,10 +35,13 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();    
-app.UseAuthorization();     
+app.UseAuthorization();
+
+app.UseBanMiddleware();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();

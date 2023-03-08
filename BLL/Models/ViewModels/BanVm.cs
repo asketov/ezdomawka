@@ -4,16 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities
+namespace BLL.Models.ViewModels
 {
-    public class Ban
+    public class BanVm
     {
-        public Guid Id { get; set; }
-        public DateTime BanFrom { get; set; }
         public DateTime BanTo { get; set; }
         public string Reason { get; set; } = null!;
-        public Guid UserId { get; set; }
-        public virtual User User { get; set; } = null!;
-
     }
 }

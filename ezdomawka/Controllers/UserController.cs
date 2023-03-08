@@ -119,6 +119,7 @@ namespace ezdomawka.Controllers
 
         [HttpPost]
         [Authorize]
+        [RequestFormLimits(ValueCountLimit = int.MaxValue)]
         public async Task<IActionResult> EditFavor(EditSolutionRequest request)
         {
             if (ModelState.IsValid)
@@ -146,5 +147,23 @@ namespace ezdomawka.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> IntroduceBan()
+        {
+            var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
+            if (await _userService.UserIsBanned(userId))
+            {
+                var ban = await _userService.GetCurrentBanOrDefault(userId);
+                if (ban != null)
+                {
+                    return View(_mapper.Map<BanVm>(ban));
+                }
+                await _userService.UnbanUser(userId);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }

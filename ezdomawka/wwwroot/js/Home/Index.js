@@ -327,5 +327,51 @@ $(document).ready(function () {
                 });
         }
     })
-});
+    $(document).on('click', '#BanUser', function (event) {
+        let userId = event.currentTarget.value;
+        $('.Content').css('min-height', '10px');
+        $('.Content').append(`<form id='form'><div class='text-center'>
+                <textarea class='form-control' placeholder='Причина бана' 
+                         rows='3' cols='50' required maxlength='200' id='reasonBan'></textarea>
+                <input class='form-control mt-2' id='durationBan' value='0' required placeholder='Длительность' type='number'></input>
+                <div class='text-center pt-2'><button value='${userId}' id='addBan' class='btn btn-outline-dark'>Забанить</button>
+                <button id='CloseModal' class='btn btn-outline-secondary'>Отмена</button></div></form>`);
+        $('.Modal').addClass('Active');
+    });
+    $(document).on('click', '#addBan', function (event) {
+        event.preventDefault();
+        let reasonBan = $('#reasonBan').val();
+        let durationBan = $('#durationBan').val();
+        if ($("#form").valid() && reasonBan != '' && durationBan != '') {
+            let userId = event.currentTarget.value;
+            $('.Content').css('min-height', '200px');
+            $('.Content').empty();
+            $('.Content').append("<div><div class='loader'></div></div>");
+            $.ajax({
+                url: '/Admin/BanUser/',
+                method: 'post',
+                dataType: 'json',
+                data: {
+                    UserId: userId, Reason: reasonBan, Duration: durationBan
+                },
+                success: function () {
+                    $('.Content').empty();
+                    $('.Content').css('min-height', '10px');
+                    $('.Content').append(
+                        `<div class='text-center' style='width: 300px;'><div class='pb-2'>
+                            Пользователь забанен <i class="fa-regular fa-circle-check"></i></div>
+                            <button id='CloseModal' class='btn btn-outline-secondary'>Закрыть</button></div>`);
+                },
+                statusCode: {
+                    400: function () {
+                        alert("Неправильный запрос");
+                    },
+                    404: function () {
+                        alert("Страница не найдена");
+                    }
+                }
+            });
+        }
+    });
 
+});

@@ -16,5 +16,6 @@ namespace BLL.Models.ViewModels
         public IEnumerable<SubjectVm> Subjects { get; set; } = null!;
         public ThemeVm Theme { get; set; } = null!; 
         public DateTimeOffset Created { get; set; }
+        public Guid AuthorId { get; set; }
     }
 }

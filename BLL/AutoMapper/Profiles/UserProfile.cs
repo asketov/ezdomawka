@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Models.Auth;
 using BLL.Models.UserModels;
+using BLL.Models.ViewModels;
+using DAL.Entities;
 
 namespace BLL.AutoMapper.Profiles
 {
@@ -14,6 +16,7 @@ namespace BLL.AutoMapper.Profiles
         public UserProfile()
         {
             CreateMap<LoginRequest, CredentialModel>();
+            CreateMap<Ban, BanVm>();
         }
     }
 }

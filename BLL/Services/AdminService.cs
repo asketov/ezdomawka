@@ -7,6 +7,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BLL.Models.Admin;
 using BLL.Models.ViewModels;
+using Common.Consts;
 using Common.Exceptions.Admin;
 using DAL;
 using DAL.Entities;
@@ -103,6 +104,26 @@ namespace BLL.Services
                 return model;
             }
             return null;
+        }
+
+        public async Task<bool> UserNotAdmin(Guid userId)
+        {
+            return await _db.Users.AnyAsync(x => x.Id == userId && x.RoleId != Guid.Parse(Roles.SuperAdminId));
+        }
+
+        public async Task BanUser(BanRequest request)
+        {
+            var ban = new Ban()
+            {
+                BanFrom = DateTime.Now, BanTo = DateTime.Now.AddDays(request.Duration), UserId = request.UserId,
+                Reason = request.Reason
+            };
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == request.UserId);
+            if (user != null)
+            {
+                user.IsBanned = true; user.Bans?.Add(ban);
+                await _db.SaveChangesAsync();
+            }
         }
     }
 }

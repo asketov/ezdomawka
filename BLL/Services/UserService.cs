@@ -79,5 +79,25 @@ namespace BLL.Services
         {
             return await _db.FavorSolutions.AnyAsync(x => x.AuthorId == userId && x.Id == favorId);
         }
+
+        public async Task<bool> UserIsBanned(Guid userId)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user == null) return false;
+            return user.IsBanned;
+        }
+
+        public async Task<Ban?> GetCurrentBanOrDefault(Guid userId)
+        {
+            var ban = await _db.Bans.FirstOrDefaultAsync(f => f.BanTo < DateTime.UtcNow && f.UserId == userId);
+            return ban;
+        }
+
+        public async Task UnbanUser(Guid userId)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user == null) user.IsBanned = false;
+            await _db.SaveChangesAsync();
+        }
     }
 }
