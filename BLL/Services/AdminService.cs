@@ -11,6 +11,7 @@ using Common.Consts;
 using Common.Exceptions.Admin;
 using DAL;
 using DAL.Entities;
+using DAL.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
@@ -115,15 +116,24 @@ namespace BLL.Services
         {
             var ban = new Ban()
             {
-                BanFrom = DateTime.Now, BanTo = DateTime.Now.AddDays(request.Duration), UserId = request.UserId,
+                BanFrom = DateTime.UtcNow, BanTo = DateTime.UtcNow.AddDays(request.Duration), UserId = request.UserId,
                 Reason = request.Reason
             };
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == request.UserId);
             if (user != null)
             {
-                user.IsBanned = true; user.Bans?.Add(ban);
+                user.IsBanned = true;
+                if (user.Bans != null) user.Bans?.Add(ban);
+                else user.Bans = new List<Ban>() { ban };
                 await _db.SaveChangesAsync();
             }
+        }
+
+        public async Task GetUsersByRequest(UserPanelRequest request, CancellationToken token)
+        {
+            var users = await _db.Users.WithEmailFilter(request.Email).WithNickFilter(request.Nick)
+                .Skip(request.Skip).Take(request.Take).AsNoTracking().ToListAsync(token);
+
         }
     }
 }

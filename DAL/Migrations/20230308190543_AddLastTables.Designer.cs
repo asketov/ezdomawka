@@ -3,6 +3,7 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230308190543_AddLastTables")]
+    partial class AddLastTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,8 +84,6 @@ namespace DAL.Migrations
                     b.HasIndex("ThemeId");
 
                     b.ToTable("FavorSolutions");
-
-                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("DAL.Entities.FavorSubject", b =>
@@ -281,18 +282,6 @@ namespace DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DAL.Entities.FavoriteFavor", b =>
-                {
-                    b.HasBaseType("DAL.Entities.FavorSolution");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FavoriteFavor", (string)null);
-                });
-
             modelBuilder.Entity("DAL.Entities.Ban", b =>
                 {
                     b.HasOne("DAL.Entities.User", "User")
@@ -405,23 +394,6 @@ namespace DAL.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("DAL.Entities.FavoriteFavor", b =>
-                {
-                    b.HasOne("DAL.Entities.FavorSolution", null)
-                        .WithOne()
-                        .HasForeignKey("DAL.Entities.FavoriteFavor", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("FavoriteFavors")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("DAL.Entities.FavorSolution", b =>
                 {
                     b.Navigation("FavorSubjects");
@@ -453,8 +425,6 @@ namespace DAL.Migrations
                     b.Navigation("Bans");
 
                     b.Navigation("FavorSolutions");
-
-                    b.Navigation("FavoriteFavors");
 
                     b.Navigation("Notifications");
 

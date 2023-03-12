@@ -18,6 +18,7 @@ namespace DAL.Entities
         public virtual ICollection<FavorSubject> FavorSubjects { get; set; } = null!;
         public virtual ICollection<Report>? Reports { get; set; }
         public virtual ICollection<UpdateFavorHistory> UpdateFavorHistory { get; set; } = null!;
+        public virtual ICollection<Review>? Reviews { get; set; }
         public Guid ThemeId { get; set; }
         public virtual Theme Theme { get; set; } = null!;
     }

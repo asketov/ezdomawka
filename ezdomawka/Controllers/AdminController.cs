@@ -66,7 +66,7 @@ namespace ezdomawka.Controllers
             {
                 if (!await _adminService.UserNotAdmin(request.UserId)) return BadRequest();
                 await _adminService.BanUser(request);
-                return Ok();
+                return StatusCode(StatusCodes.Status200OK, new { redirect = "/home/index" });
 
             }
             return BadRequest();
@@ -147,6 +147,13 @@ namespace ezdomawka.Controllers
             {
                 return RedirectToAction("ThemeManager");
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UserPanel(UserPanelRequest request, CancellationToken token)
+        {
+           await _adminService.GetUsersByRequest(request, token);
+           return Ok();
         }
     }
 

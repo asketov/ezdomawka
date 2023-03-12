@@ -15,6 +15,9 @@ namespace DAL.Entities
         public bool IsBanned { get; set; }
         public virtual ICollection<Ban>? Bans { get; set; }
         public virtual ICollection<FavorSolution>? FavorSolutions { get; set; }
+        public virtual ICollection<FavoriteFavor>? FavoriteFavors { get; set; }
+        public virtual ICollection<Review>? Reviews { get; set; }
+        public virtual ICollection<Notification>? Notifications { get; set; }
         public Guid RoleId { get; set; }
         public virtual Role Role { get; set; } = null!;
     }

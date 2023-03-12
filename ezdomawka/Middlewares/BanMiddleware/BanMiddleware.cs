@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace ezdomawka.Middlewares.BanMiddleware
 {
@@ -28,12 +29,13 @@ namespace ezdomawka.Middlewares.BanMiddleware
                 var userId = context.User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
                 if (await userService.UserIsBanned(userId))
                 {
-                    //var routeData = context.GetRouteData();
-                    //routeData.Values["controller"] = "User";
-                    //routeData.Values["action"] = "IntroduceBan";
-                    context.Response.Redirect("/user/introduceban", true);
+                    if (!context.Request.Path.StartsWithSegments("/user/introduceban", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        context.Response.Redirect("/user/introduceban", false);
+                        return;
+                    }
                 }
-                //await _next(context);
+                await _next(context);
             }
         }
     }

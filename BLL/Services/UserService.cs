@@ -89,14 +89,14 @@ namespace BLL.Services
 
         public async Task<Ban?> GetCurrentBanOrDefault(Guid userId)
         {
-            var ban = await _db.Bans.FirstOrDefaultAsync(f => f.BanTo < DateTime.UtcNow && f.UserId == userId);
+            var ban = await _db.Bans.FirstOrDefaultAsync(f => f.BanTo > DateTime.UtcNow && f.UserId == userId);
             return ban;
         }
 
         public async Task UnbanUser(Guid userId)
         {
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);
-            if (user == null) user.IsBanned = false;
+            if (user != null) user.IsBanned = false;
             await _db.SaveChangesAsync();
         }
     }

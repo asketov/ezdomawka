@@ -150,6 +150,7 @@ namespace ezdomawka.Controllers
 
         [HttpGet]
         [Authorize]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> IntroduceBan()
         {
             var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);

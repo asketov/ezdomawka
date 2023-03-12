@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace DAL
 {
@@ -47,6 +48,7 @@ namespace DAL
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
+            modelBuilder.Entity<FavoriteFavor>().ToTable("FavoriteFavor");
         }
         public DbSet<User> Users => Set<User>();
         public DbSet<Subject> Subjects => Set<Subject>();
@@ -58,5 +60,8 @@ namespace DAL
         public DbSet<Report> Reports => Set<Report>();
         public DbSet<FavorSubject> FavorSubject => Set<FavorSubject>();
         public DbSet<UpdateFavorHistory> UpdateFavorHistory => Set<UpdateFavorHistory>();
+        public DbSet<Review> Reviews => Set<Review>();
+        public DbSet<Notification> Notifications => Set<Notification>();
+        public DbSet<FavoriteFavor> FavoriteFavors => Set<FavoriteFavor>();
     }
 }

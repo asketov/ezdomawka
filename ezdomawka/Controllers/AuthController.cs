@@ -20,6 +20,7 @@ namespace ezdomawka.Controllers
         private readonly UserService _userService;
         private readonly AuthService _authService;
         private readonly EmailService _emailService;
+        private readonly AdminService _adminService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
 
