@@ -1,0 +1,27 @@
+﻿@model BLL.Models.ViewModels.UserPanelVm
+
+<div class="d-flex justify-content-center">
+    <div style="min-width: 1000px; max-width: 1000px;">
+        <div id="sortOptions" class="pt-2 row">
+            <div class="col-12 col-md-5 pt-1">
+                <input id="InputNick" class="form-control" placeholder="Ник"/>
+            </div>
+            <div class="col-12 col-md-5 pt-1">
+                <input id="InputEmail" class="form-control" placeholder="Почта" />
+            </div>
+            <div class="col-12 col-md-2 pt-1">
+                <button  id="findUsers" class="btn btn-outline-secondary d-block w-100">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-12" id="UsersWithPagination">
+            <partial name="Partials/_UserTableWithPagination" model="@Model"/>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Admin/UserPanel.js" asp-append-version="true"></script>
+}
+

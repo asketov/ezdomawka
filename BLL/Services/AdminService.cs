@@ -129,11 +129,16 @@ namespace BLL.Services
             }
         }
 
-        public async Task GetUsersByRequest(UserPanelRequest request, CancellationToken token)
+        public async Task<List<UserVm>> GetUsersByRequest(UserPanelRequest request, CancellationToken token)
         {
             var users = await _db.Users.WithEmailFilter(request.Email).WithNickFilter(request.Nick)
-                .Skip(request.Skip).Take(request.Take).AsNoTracking().ToListAsync(token);
+                .Skip(request.Skip).Take(request.Take).AsNoTracking().ProjectTo<UserVm>(_mapper.ConfigurationProvider).ToListAsync(token);
+            return users;
+        }
 
+        public async Task<int> GetCountUsersByFilters(UserPanelRequest request, CancellationToken token)
+        {
+            return await _db.Users.WithEmailFilter(request.Email).WithNickFilter(request.Nick).CountAsync(token);
         }
     }
 }

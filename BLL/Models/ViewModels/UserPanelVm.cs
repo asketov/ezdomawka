@@ -9,6 +9,6 @@ namespace BLL.Models.ViewModels
     public class UserPanelVm
     {
         public IEnumerable<UserVm> UserVms { get; set; } = null!;
-        public int CountAllUsers { get; set; }
+        public int CountUsersByFilters { get; set; }
     }
 }

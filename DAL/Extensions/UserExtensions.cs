@@ -11,12 +11,12 @@ namespace DAL.Extensions
     {
         public static IQueryable<User> WithEmailFilter(this IQueryable<User> query, string? email)
         {
-            if (email != null) return query.Where(x => x.Email.Contains(email));
+            if (email != null) return query.Where(x => x.Email.ToUpper().Contains(email.ToUpper()));
             return query;
         }
         public static IQueryable<User> WithNickFilter(this IQueryable<User> query, string? nick)
         {
-            if (nick != null) return query.Where(x => x.Nick.Contains(nick));
+            if (nick != null) return query.Where(x => x.Nick.ToUpper().Contains(nick.ToUpper()));
             return query;
         }
     }

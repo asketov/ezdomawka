@@ -26,4 +26,16 @@
     <Folder Include="wwwroot\js\Home\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Admin\UserPanel.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Admin\UserPanel.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Admin\UserPanel.cshtml" />
+  </ItemGroup>
+
 </Project>
