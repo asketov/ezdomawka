@@ -15,26 +15,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ezdomawka.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly FavorSolutionService _favorSolutionService;
-        private readonly IMapper _mapper;
         private readonly AdminService _adminService;
         private readonly HomeService _homeService;
-        private readonly DataContext _db;
+        private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
         public HomeController(FavorSolutionService favorSolutionService, 
             IMapper mapper, 
             AdminService adminService, 
             IWebHostEnvironment webHostEnvironment,
-            HomeService homeService, DataContext db)
+            HomeService homeService)
         {
             _favorSolutionService = favorSolutionService;
             _mapper = mapper;
             _adminService = adminService;
             _webHostEnvironment = webHostEnvironment;
             _homeService = homeService;
-            _db = db;
         }
         public async Task<IActionResult> Index(CancellationToken token)
         {
@@ -55,63 +53,19 @@ namespace ezdomawka.Controllers
         }
 
         [HttpGet]
-        public ActionResult Rools()
+        public IActionResult Rools()
         {
-            //HashSet<string> predmetu = new HashSet<string>();
-            //List<XmlNode> list = new List<XmlNode>();
-            //XmlDocument xDoc = new XmlDocument();
-            //xDoc.Load("https://www.voenmeh.ru/templates/jd_atlanta/js/TimetableGroup31.xml");
-            //// получим корневой элемент
-            //XmlElement? xRoot = xDoc.DocumentElement;
-            //if (xRoot != null)
-            //{
-            //    // обход всех узлов в корневом элементе
-            //    foreach (XmlElement xnode in xRoot.ChildNodes)
-            //    {
-            //        // получаем атрибут name
-            //        if (xnode.Name != "Group") continue;
-            //        if (xnode.LastChild == null) continue;
-            //        foreach (var el1 in xnode.ChildNodes!)
-            //        {
-            //            foreach (var el2 in ((XmlNode)el1).ChildNodes)
-            //            {
-            //                foreach (var el3 in ((XmlNode)el2).ChildNodes)
-            //                {
-            //                    foreach (var el4 in ((XmlNode)el3).ChildNodes)
-            //                    {
-            //                        foreach (var el in ((XmlNode)el4).ChildNodes)
-            //                        {
-            //                            list.Add((XmlNode)el);
-            //                        }
-            //                        var m = list[3].InnerText.IndexOf(' ');
-            //                        var l = list[3].InnerText.Substring(m + 1);
-            //                        predmetu.Add(l);
-            //                        list.Clear();
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-            // var sh = predmetu.ToList();
-            // sh.Sort();
-            // foreach (var k in sh)
-            // {
-            //     _db.Subjects.Add(new Subject() {Name = k});
-            // }
-            ////_db.Subjects.AddRange(sh.Select(x => new Subject() { Name = x }));
-            //_db.SaveChanges();
             return View();
         }
 
         [HttpGet]
-        public ActionResult AddSuggestion()
+        public IActionResult AddSuggestion()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddSuggestion(SuggestionVm request)
+        public async Task<IActionResult> AddSuggestion(SuggestionVm request)
         {
             try
             {
@@ -121,7 +75,7 @@ namespace ezdomawka.Controllers
             }
             catch
             {
-                return View("../Home/Information", "Что-то пошло не так");
+                return SingeElementInformation( "Что-то пошло не так");
             }
         }
     }

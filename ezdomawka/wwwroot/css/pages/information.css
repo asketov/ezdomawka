@@ -1,0 +1,16 @@
+.info_text{
+    color: #ffffff !important;
+    text-align: center !important;
+}
+
+.info_text .head{
+    font-size: 32px !important;
+    padding-bottom: 45px !important;
+    color: #fff !important;
+}
+
+.info_text .body{
+    font-size: 16px !important;
+    padding-bottom: 20px !important;
+    color: #fff !important;
+}

@@ -2,87 +2,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ezdomawka</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/fontawesome/css/all.min.css" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Scholar - Online School HTML5 Template</title>
+
+    <link href="~/lib/new/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/base/fontawesome.css">
+    <link rel="stylesheet" href="~/css/base/app.css">
+    <link rel="stylesheet" href="~/css/base/owl.css">
+    <link rel="stylesheet" href="~/css/base/animate.css">
+    <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+
+    @await RenderSectionAsync("Styles", required: false);
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex leftBlock">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Услуги</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="FavorSolution" asp-action="AddSolution">Добавить услугу</a>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Просмотреть услуги</a>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Rools">О сайте</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddSuggestion">Предложить идею</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav flex-grow-1 justify-content-end rightBlock">
-                        @if ( User.IsInRole(Roles.SuperAdminId) || User.IsInRole(Roles.AdminId) )
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Админ</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ThemeManager">Работа с темами</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="SubjectManager">Работа с предметами</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="UserPanel">Работа с пользователями</a>
-                                </ul>
-                            </li>
-                        }
-                        @if (!User.Identity!.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Войти</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Register">Регистрация</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">@User.Identity.Name</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="FavorSolutions">Мои услуги</a>
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="ChangePassword">Сменить пароль</a>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Logout">Выйти</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+
+
+<!--Header Area Start-->
+<header class="header-area header-sticky background-header only-background">
     <div class="container">
-        <main id="main" role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!--Logo-->
+                    <a href="index.html" class="logo">
+                        <h1>EzDomawka</h1>
+                    </a>
+                    <!--Logo End-->
+
+                    <!--Menu Start-->
+                    <ul class="nav nav--main_menu">
+                        <li class="go-to-section">
+                            <a asp-area="" asp-controller="Home" asp-action="Index">Посмотреть Услуги</a>
+                        </li>
+                        <li class="go-to-section">
+                            <a asp-area="" asp-controller="FavorSolution" asp-action="AddSolution">Добавить Услугу</a>
+                        </li>
+                        <li class="go-to-section">
+                            <a asp-area="" asp-controller="Home" asp-action="Rools">О сайте</a>
+                        </li>
+                        <li class="go-to-section">
+                            <a asp-area="" asp-controller="Home" asp-action="AddSuggestion">Предложить идею</a>
+                        </li>
+                        <li class="go-to-section">
+                            @if (@User.Identity!.IsAuthenticated)
+                            {
+                                <a asp-area="" asp-controller="User" asp-action="MainMenu">@User.Identity.Name</a>
+                            }
+                            else
+                            {
+                                <a asp-area="" asp-controller="Auth" asp-action="Login">Войти</a>
+                            }
+                        </li>
+                        <li class="go-to-section">
+                            @if (@User.Identity!.IsAuthenticated)
+                            {
+                                <a asp-area="" asp-controller="Auth" asp-action="Logout">Выйти</a>
+                            }
+                            else
+                            {
+                                <a asp-area="" asp-controller="Auth" asp-action="Register">Регестрация</a>
+                            }
+                        </li>
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Меню</span>
+                    </a>
+                    <!--Menu End-->
+                </nav>
+            </div>
+        </div>
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/lib/fontawesome/js/all.min.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+</header>
+<!--Header Area End-->
+
+@RenderBody()
+
+<script src="~/lib/new/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/new/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/js/default/isotope.min.js"></script>
+<script src="~/js/default/owl-carousel.js"></script>
+<script src="~/js/default/counter.js"></script>
+<script src="~/js/default/custom.js"></script>
+<script src="~/lib/new/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/new/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/new/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

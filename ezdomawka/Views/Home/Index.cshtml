@@ -1,70 +1,64 @@
-﻿@model BLL.Models.ViewModels.IndexVm
-<div class="d-flex justify-content-center">
-    <div class="indexMain">
-        <div id="sortOptions">
-            <div class="col-12">
-                <div class="wrapper">
-                    <div class="price-input">
-                        <div class="field">
-                            <input id="minPrice" type="text" class="input-min" value="0 Р">
+﻿@using Common.Configs
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ModelsConfiguration
+@model BLL.Models.ViewModels.IndexVm
+
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/pages/viewServices.css">
+    <link rel="stylesheet" href="~/css/pages/main.css">
+}
+
+<div class="servicesList">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-lg-12--flex">
+                <fieldset class="button button--contact">
+                    <a asp-area="" asp-controller="FavorSolution" asp-action="AddSolution">
+                        <button class="orange-button">Добавить Свою Услугу</button>
+                    </a>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="serviceListSearch">
+            <div class="price_range">
+                <div class="price_range_content">
+                    <div class="price_range_numeric">
+                        <div class="price price-min_price">
+                            <div class="field">
+                                <input id="minPrice" type="text" class="input-min" value="0 Р">
+                            </div>
                         </div>
-                        <div class="separator">-</div>
-                        <div class="field">
-                            <input id="maxPrice" type="text" class="input-max" value="20000 Р">
+
+                        <div class="mini_line"></div>
+
+                        <div class="price price-max_price">
+                            <div class="field">
+                                <input id="maxPrice" type="text" class="input-max" value="20000 Р">
+                            </div>
                         </div>
                     </div>
-                      <div class="slider">
+
+                    <div class="slider">
                         <div class="progress"></div>
-                      </div>
-                      <div class="range-input">
-                        <input type="range" class="range-min" min="0" max="20000" value="0" step="100">
-                        <input type="range" class="range-max" min="0" max="20000" value="20000" step="100">
-                      </div>
+                    </div>
+
+                    <div class="range-input">
+                        <input type="range" class="range-min" min="@SolutionConfiguration.MinPrice" max="@SolutionConfiguration.MaxPrice" value="0" step="100">
+                        <input type="range" class="range-max" min="@SolutionConfiguration.MinPrice" max="@SolutionConfiguration.MaxPrice" value="@SolutionConfiguration.MaxPrice" step="100">
+                    </div>
                 </div>
             </div>
-            <div class="pt-2 row">
-                <div class="col-12 col-md-5 pt-1">
-                    <select id="subjects" required class="form-select">
-                        <option value="" selected>Любой предмет</option>
-                        @foreach (var subject in Model.SubjectVms)
-                        {
-                            <option value="@subject.Id">@subject.Name</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-12 col-md-5 pt-1">
-                    <select id="themes" required class="form-select">
-                        <option value="" selected>Любая тема</option>
-                        @foreach (var theme in Model.ThemeVms)
-                        {
-                            <option value="@theme.Id">@theme.Name</option>
-                        }
-                    </select>
-                </div>
-                <div class="col-12 col-md-2 pt-1">
-                    <button  id="findFavors" class="btn btn-outline-secondary d-block w-100">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div id="FavorsWithPagination">
-            <partial name="Partials/_FavorsWithPagination" model="Model.FavorsWithPaginationVm"/>
         </div>
     </div>
 </div>
 
-<div class="Modal">
-    <div class="Content">
-
-    </div>
-</div>
+<partial name="Partials/_FavorsWithPagination" model="Model.FavorsWithPaginationVm"/>
 
 
-
-<link href="~/css/Home/IndexHome.css" rel="stylesheet" type="text/css" asp-append-version="true" />
-<link href="~/css/Home/Modal.css" rel="stylesheet" type="text/css" asp-append-version="true" />
-
-@section Scripts{
-    <script src="~/js/Home/Index.js" asp-append-version="true"></script>
+@section Scripts
+{
+    <script src="~/js/Home/Index.js"></script>
 }

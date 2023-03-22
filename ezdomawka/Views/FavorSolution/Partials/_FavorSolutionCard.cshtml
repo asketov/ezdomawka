@@ -1,71 +1,62 @@
 ﻿@using Common.Consts
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@using System.Security.Claims
-@using Common.Generics
 @model BLL.Models.ViewModels.FavorSolutionVm
 
-<div>
-    <div class="col-12 border bg-light">
-        <div class="">
-            @* <div class="col-12 row m-0 position-relative">
-                <div class="col-6 text-center">
-                    <b class="">@Model.Nick</b>
-                </div>
-                <div  class="col-6 text-center">
-                    <b class=""> Цена: @Model.Price руб </b>
-                    <button value="@Model.Id" class="position-absolute end-0 dislike"><i class="fa-regular fa-thumbs-down"></i></button>
-                </div>
-            </div>*@
-            <div style="background-color: lavenderblush; min-height: 30px;" class="col-12 position-relative text-center">
-                <span class="">@Model.Theme.Name</span>
-                @if (!User.Identity!.IsAuthenticated || User.Identity.Name != Model.Nick)
-                {
-                    <button value="@Model.Id" class="position-absolute end-0 dislike"><i class="fa-solid fa-triangle-exclamation"></i></button>
-                }
-                <div style="color: goldenrod;">Стоимость: @Model.Price руб</div>
-            </div>
-            <div class="col-12 text-center">
-                <div class="col-12 border border-1">
-                    <div class="p-3">
-                        <span>Об Услуге: @Model.Text</span>
-                    </div>
-                </div>
-            </div>
-            <div class="subjects col-12 pt-1 text-center">
-            </div>
-            <div class="row pb-1 text-center">
-                <div class="col-12 col-md-6 pt-2">
-                    <button value="@Model.Id" class="checkSubjects btn btn-outline-dark"> Просмотреть предметы <i class="fa-solid fa-circle-info align-middle"></i></button>
-                </div>
-                <div class="col-12 col-md-6 pt-2">
-                    @if (Model.Connection.Substring(0, 5) == "https")
-                    {
-                        <a class="btn btn-outline-dark" href="@Model.Connection">Связаться <i class="fa-regular fa-comments"></i></a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-outline-dark" href="https://@Model.Connection">Связаться <i class="fa-regular fa-comments"></i></a>
-                    }
-                </div>
-            </div>
-            <div class="pt-2 text-center">
-                <div style="font-size: 9px;" class="col-12">
-                    <span> Имя: @Model.Nick, дата обновления: @Model.Created.ToLocalTime().ToString().Split()[0] </span>
-                </div>
-            </div>
-            @if (User.IsInRole(Roles.SuperAdminId))
-            {
-                <div class="row text-center">
-                    <div class="col-12 col-md-6 pt-2">
-                        <a class="btn btn-outline-dark" asp-route-returnUrl="@Url.Action("Index", "Home")" 
-                           asp-route-favorId="@Model.Id" asp-controller="User" asp-action="DeleteFavor">Удалить услугу</a>
-                    </div>
-                    <div class="col-12 col-md-6 pt-2">
-                        <button value="@Model.AuthorId" 
-                                class="btn btn-outline-dark" id="BanUser">Забанить</button>
-                    </div>
-                </div>
-            }
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<div class="item">
+    <div class="col-lg-9 text-center">
+        <ul>
+            <li>
+                <span class="category category--homework">Матеша</span>
+                <span class="category category--homework">Анг Мова</span>
+                <span class="category category--homework">Биология</span>
+                <span class="category category--homework">Укр Мова</span>
+                <span class="category category--homework">Физика</span>
+                <h3>Дипломая Работа</h3>
+                <span>Об Услуге: @Model.Text</span>
+            </li>
+            <li>
+                <span>
+                    <b>Добавлена:</b>
+                </span>
+                <h6>@Model.Created.ToLocalTime().ToString().Split()[0]</h6>
+            </li>
+            <li>
+                <span>
+                    <b>Автор:</b>
+                </span>
+                <h6>@Model.Nick</h6>
+            </li>
+            <li>
+                <span>
+                    <b>Стоимость:</b>
+                </span>
+                <h6>@Model.Price rub</h6>
+            </li>
+        </ul>
+
+
+        <div class="col-lg-12 col-lg-12--flex">
+            <fieldset class="button button--contact">
+                <button class="orange-button">Контакты</button>
+            </fieldset>
+
+              @if (User.IsInRole(Roles.SuperAdminId))
+              {
+                  <fieldset class="button button--ban">
+                      <input type="button" class="orange-button" value="Create" 
+                                               onclick="location.href='@Url.Action("BanUser", "Admin")'" 
+                                               asp-route-favorId="@Model.Id" value="Заблокировать">
+                  </fieldset>
+
+                  <fieldset class="button button--remove">
+                  <input type="button" class="orange-button" value="Create" 
+                         onclick="location.href='@Url.Action("DeleteFavor", "User")'" 
+                         asp-route-favorId="@Model.Id" value="Удалить услугу">
+                  </fieldset>
+              }
         </div>
     </div>
 </div>

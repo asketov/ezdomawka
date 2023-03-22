@@ -1,0 +1,244 @@
+.servicesList{
+    margin-top: 165px;
+}
+.price_range{
+    background-color: #6A8FD9;
+    border-radius: 30px;
+
+    position: relative;
+    overflow: hidden;
+
+    z-index: 1;
+}
+
+.price_range::before {
+    background: url(../images/contact-dec-01.png);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-149px);
+    opacity: 0.5;
+    top: 0;
+    width: 318px;
+    height: 119px;
+    content: '';
+    z-index: 2;
+}
+  
+.price_range::after {
+    background: url(../images/contact-dec-02.png);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 183px;
+    height: 149px;
+    content: '';
+    z-index: 2;
+}
+
+.price_range_content{
+    padding: 50px 35px;
+}
+.price_range_numeric{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+
+    margin-bottom: 35px;
+}
+.price{
+    width: 42%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.price input{
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    background-color: rgba(212, 212, 212, 0.15);
+    border: none;
+    outline: none;
+    font-weight: 300;
+    padding: 0px 20px;
+    font-size: 14px;
+    color: #fff;
+    position: relative;
+    z-index: 3;
+}
+.price input::placeholder{
+color: #ddd;
+}
+.mini_line{
+    width: 4%;
+    height: 3px;
+
+    background-color: #fff;
+
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+
+.slider{
+    height: 5px;
+    position: relative;
+    max-width: 1600px;
+    background: #ddd;
+    border-radius: 5px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    z-index: 4;
+}
+.slider .progress{
+    height: 100%;
+    left: 0%;
+    right: 0%;
+    position: absolute;
+    border-radius: 5px;
+    background: #3b82f6;
+
+    z-index: 4;
+}
+.range-input{
+    position: relative;
+    
+    z-index: 4;
+}
+.range-input input{
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    top: -5px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    z-index: 4;
+}
+input[type="range"]::-webkit-slider-thumb {
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    background: #82acff;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
+
+    z-index: 10;
+
+    transition: all 0.2s linear;
+
+    z-index: 4;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover{
+    height: 32px;
+    width: 32px;
+    background: #fff; 
+    border-radius: 35%;
+
+    z-index: 4;
+}
+
+input[type="range"]::-moz-range-thumb {
+    height: 17px;
+    width: 17px;
+    border: none;
+    border-radius: 50%;
+    background: #4281ff;
+    pointer-events: auto;
+    -moz-appearance: none;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    
+    z-index: 4;
+}
+
+.col-lg-9{
+    width: 95%;
+}
+
+.category--homework{
+    margin: 5px 7px;
+    font-size: 8px;
+}
+
+.col-lg-12--flex{
+    margin-top: 20px;
+    width: 100% !important;
+}
+
+.col-lg-12--flex .button{
+    width: 45%;
+
+    min-width: 120px;
+    max-width: 300px;
+
+    margin-left: 2%;
+    margin-right: 2%;
+
+    margin-bottom: 15px;
+}
+.col-lg-12--flex .button button{
+    width: 100%;
+    text-align: center;
+    border: none;
+    height: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #fff;
+    padding: 0px 25px;
+    border-radius: 25px;
+    color: #6A8FD9;
+    transition: all .4s;
+    position: relative;
+    z-index: 5;
+}
+
+.col-lg-12--flex .button--contact button{
+    background-color: #4281ff;
+    color: #fff;
+}
+
+
+.col-lg-12--flex .button--remove button{
+    background-color: #222;
+    color: #fff;
+}
+
+.col-lg-12--flex .button--ban button{
+    background-color: #ff5252;
+    color: #fff;
+}
+
+.events .item{
+    margin-left: 5px;
+    margin-right: 5px;
+
+    padding-bottom: 15px;
+}
+
+@media  (max-width: 992px) {
+    .item{
+        padding-top: 50px !important;
+    }
+}
+
+@media (max-width:600px) {
+    .col-lg-12--flex .button {
+        margin-bottom: 10px;
+    }    
+
+    .events .item{
+        margin-bottom: 35px;
+    }
+
+    .category--homework{
+        margin: 3px 4px;
+        padding: 12px;
+        font-size: 8px !important;
+    }
+}

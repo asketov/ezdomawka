@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
+using DAL.Entities.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 
@@ -11,45 +12,6 @@ namespace DAL
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options){}
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<FavorSubject>()
-                .HasKey(bc => new { bc.FavorSolutionId, bc.SubjectId });
-            modelBuilder.Entity<FavorSubject>()
-                .HasOne(bc => bc.FavorSolution)
-                .WithMany(b => b.FavorSubjects)
-                .HasForeignKey(bc => bc.FavorSolutionId)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<FavorSubject>()
-                .HasOne(bc => bc.Subject)
-                .WithMany(c => c.FavorSubjects)
-                .HasForeignKey(bc => bc.SubjectId)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Theme>()
-                .HasMany(x => x.FavorSolutions)
-                .WithOne(x => x.Theme)
-                .HasForeignKey(x => x.ThemeId)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Subject>()
-                .HasMany(x => x.FavorSubjects)
-                .WithOne(x => x.Subject)
-                .HasForeignKey(x => x.SubjectId)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity("DAL.Entities.FavorSolution", b =>
-            {
-                b.HasOne("DAL.Entities.User", "Author")
-                    .WithMany("FavorSolutions")
-                    .HasForeignKey("AuthorId")
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .IsRequired();
-                b.HasMany("DAL.Entities.FavorSubject", "FavorSubjects")
-                    .WithOne("FavorSolution")
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .IsRequired();
-            });
-            modelBuilder.Entity<FavoriteFavor>().ToTable("FavoriteFavor");
-        }
         public DbSet<User> Users => Set<User>();
         public DbSet<Subject> Subjects => Set<Subject>();
         public DbSet<FavorSolution> FavorSolutions => Set<FavorSolution>();
@@ -63,5 +25,26 @@ namespace DAL
         public DbSet<Review> Reviews => Set<Review>();
         public DbSet<Notification> Notifications => Set<Notification>();
         public DbSet<FavoriteFavor> FavoriteFavors => Set<FavoriteFavor>();
+        
+        public DataContext(DbContextOptions<DataContext> options) : base(options){}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new SubjectDataContextConfiguration());
+            modelBuilder.ApplyConfiguration(new FavorSubjectDataContextConfiguration());
+            modelBuilder.ApplyConfiguration(new ThemeDataContextConfiguration());
+
+            modelBuilder.Entity<FavorSolution>(b =>
+            {
+                b.HasOne(ff => ff.Author)
+                    .WithMany(ff => ff.FavorSolutions)
+                    .HasForeignKey(ff => ff.AuthorId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
+                b.HasMany(ff => ff.FavorSubjects)
+                    .WithOne(ff => ff.FavorSolution)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+        }
     }
 }

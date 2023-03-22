@@ -1,6 +1,24 @@
-﻿@model string
-<div class="d-flex justify-content-center">
-    <div>
-        @Model
+﻿@using Common.Configs
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ModelsConfiguration
+@model string
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/pages/information.css">
+    <link rel="stylesheet" href="~/css/pages/main.css">
+}
+
+<div class="contact-us section" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="contact-us-content">
+                    <div class="info_text">
+                        @Html.Raw(@Model)
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

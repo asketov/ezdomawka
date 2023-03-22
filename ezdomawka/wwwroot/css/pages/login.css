@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
+
+.login_message{
+    padding-bottom: 25px;
+}
+
+.col-lg-12--flex .login_button{
+    width: 45%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.col-lg-12--flex .login_button button{
+    width: 100%;
+    text-align: center;
+}
+
+.header-area .main-nav .nav li{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.extra_login_options{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.extra_login_options_option{
+    width: 30%;
+    
+    margin: 25px 10% 25px 10%;
+
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.extra_login_options_option extra_login_options_option--fullsize{
+    width: 80%;
+}
+
+.extra_login_options_option a{
+    transition: color .4s linear;
+}
+
+.extra_login_options_option:hover a{
+    color: #666;
+}
+
+.goto_login_panel{
+    margin: 20px 15px 20px 0;
+}
+
+@media (max-width: 450px) {
+    .extra_login_options_option{
+        width: 80%;
+    }
+}

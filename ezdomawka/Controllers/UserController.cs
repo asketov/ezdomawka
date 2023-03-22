@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ezdomawka.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly EmailService _emailService;
         private readonly IWebHostEnvironment _webHostBuilder;
@@ -38,25 +38,48 @@ namespace ezdomawka.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+        public IActionResult MainMenu()
+        {
+            return View();
+        }
+        
+        [HttpGet]
         public IActionResult ChangePassword()
         {
-            if (User.Identity!.IsAuthenticated) return RedirectToAction("SendChangePasswordLinkToEmail");
+            if (User.Identity!.IsAuthenticated) return RedirectToAction("SendChangePasswordLinkToUserMail");
             return View("InputEmail");
         }
 
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> SendChangePasswordLinkToUserMail()
+        {
+            if (User.Identity!.IsAuthenticated == false)
+                return SomeSingWrongMessage();
+
+            try
+            {
+                var email = User.Claims.GetClaimValueOrDefault<string>(Claims.EmailClaim)!;
+
+                await SendChangePasswordLinkToMail(email);
+            }
+            catch
+            {
+                return SomeSingWrongMessage();
+            }
+            
+            return ChangePasswordInformation();
+        }
 
         [HttpGet]
-        public async Task<IActionResult> SendChangePasswordLinkToEmail(string email)
+        [AllowAnonymous]
+        public async Task<IActionResult> SendChangePasswordLinkToCustomMail(string email)
         {
             try
             {
-                if (User.Identity!.IsAuthenticated)
-                    email = User.Claims.GetClaimValueOrDefault<string>(Claims.EmailClaim)!;
-                await _userService.GetUserByEmail(email);
-                var myUrl = Url.ActionLink("ChangePasswordByLink", "User");
-                await _emailService.SendChangePasswordLinkToEmail(email, myUrl!, _webHostBuilder.WebRootPath);
-                return View("../Home/Information", "Сообщение с информацией было отправлено на вашу почту");
+                await SendChangePasswordLinkToMail(email);
             }
             catch (UserNotFoundException)
             {
@@ -65,9 +88,12 @@ namespace ezdomawka.Controllers
             }
             catch
             {
-                return View("../Home/Information", "Что-то пошло не так, попробуйте позже");
+                return SomeSingWrongMessage();
             }
+
+            return ChangePasswordInformation(email);
         }
+
         [HttpGet]
         public IActionResult ChangePasswordByLink(Guid code)
         {
@@ -79,8 +105,9 @@ namespace ezdomawka.Controllers
                 };
                 return View("ChangePassword", vm);
             }
-            return View("../Home/Information", "Ссылка является недействительной, попробуйте еще раз");
+            return SingeElementInformation("Ссылка является недействительной, попробуйте еще раз");
         }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordVm request)
@@ -90,9 +117,9 @@ namespace ezdomawka.Controllers
                 var model = _mapper.Map<ChangePasswordModel>(request);
                 model.Email = email!;
                 await _userService.ChangePassword(model);
-                return View("../Home/Information", "Пароль успешно изменён");
+                return SingeElementInformation("Пароль успешно изменён");
             }
-            return View("../Home/Information", "Ссылка истекла, попробуйте еще раз");
+            return SingeElementInformation( "Ссылка истекла, попробуйте еще раз");
         }
 
         [HttpGet]
@@ -166,5 +193,25 @@ namespace ezdomawka.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        private async Task SendChangePasswordLinkToMail(string email)
+        {
+            await _userService.GetUserByEmail(email);
+            var myUrl = Url.ActionLink("ChangePasswordByLink", "User");
+            await _emailService.SendChangePasswordLinkToEmail(email, myUrl!, _webHostBuilder.WebRootPath);
+        }
+        
+        private IActionResult SomeSingWrongMessage()
+        {
+            return SingeElementInformation( "Что-то пошло не так, попробуйте позже");
+        }
+        
+        private IActionResult ChangePasswordInformation(string? email = null)
+        {
+            if (email == null)
+                return SingeElementInformation("Сообщение с информацией было отправлено на вашу почту");
+
+            return MultiElementInformation("Сообщение с информацией было отправлено на вашу почту",
+            email,$"Если код не пришел проверте точно ли указана ваша почта.");
+        }
     }
 }

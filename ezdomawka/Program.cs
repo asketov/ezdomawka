@@ -1,6 +1,7 @@
 using BLL;
 using Common.Configs;
 using DAL;
+using DAL.Extensions;
 using ezdomawka.Middlewares.BanMiddleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
@@ -23,6 +24,23 @@ builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices();
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetService<DataContext>();
+
+        if (!await dbContext.BaseUserRolesAdded())
+            await dbContext.AddBaseUserRoles();
+
+        if (!await dbContext.AnySubjectAdded())
+            await dbContext.AddSubjectFromFile(@"D:\lesons\DotnetMicrosoftGuidLearningProjects\MAIN\Tasks\ezdomawka\ezdomawka\предметы.txt");
+        
+        if(!await dbContext.AnyThemeAdded())
+            await dbContext.AddThemeFromFile(@"D:\lesons\DotnetMicrosoftGuidLearningProjects\MAIN\Tasks\ezdomawka\ezdomawka\темы.txt");
+    }
+}
+    
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

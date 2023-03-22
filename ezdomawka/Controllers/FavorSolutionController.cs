@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ezdomawka.Controllers
 {
     [Authorize]
-    public class FavorSolutionController : Controller
+    public class FavorSolutionController : BaseController
     {
         private readonly FavorSolutionService _favorSolutionService;
         private readonly IMapper _mapper;

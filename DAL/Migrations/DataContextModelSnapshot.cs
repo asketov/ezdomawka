@@ -36,7 +36,8 @@ namespace DAL.Migrations
 
                     b.Property<string>("Reason")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(1500)
+                        .HasColumnType("character varying(1500)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -59,7 +60,8 @@ namespace DAL.Migrations
 
                     b.Property<string>("Connection")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
@@ -69,7 +71,8 @@ namespace DAL.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<Guid>("ThemeId")
                         .HasColumnType("uuid");
@@ -80,7 +83,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ThemeId");
 
-                    b.ToTable("FavorSolutions");
+                    b.ToTable("FavoriteSolutions");
 
                     b.UseTptMappingStrategy();
                 });
@@ -97,7 +100,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("FavorSubject");
+                    b.ToTable("FavoriteSubjects");
                 });
 
             modelBuilder.Entity("DAL.Entities.Notification", b =>
@@ -108,7 +111,8 @@ namespace DAL.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -117,7 +121,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("DAL.Entities.Report", b =>
@@ -131,7 +135,8 @@ namespace DAL.Migrations
 
                     b.Property<string>("Reason")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
@@ -154,7 +159,8 @@ namespace DAL.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.HasKey("Id");
 
@@ -173,7 +179,8 @@ namespace DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -188,7 +195,8 @@ namespace DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -202,14 +210,16 @@ namespace DAL.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Connection")
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<bool>("IsActual")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.HasKey("Id");
 
@@ -224,7 +234,8 @@ namespace DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(160)
+                        .HasColumnType("character varying(160)");
 
                     b.HasKey("Id");
 
@@ -258,14 +269,16 @@ namespace DAL.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
                     b.Property<bool>("IsBanned")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Nick")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -290,7 +303,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FavoriteFavor", (string)null);
+                    b.ToTable("FavoriteFavors");
                 });
 
             modelBuilder.Entity("DAL.Entities.Ban", b =>
@@ -334,7 +347,7 @@ namespace DAL.Migrations
                     b.HasOne("DAL.Entities.Subject", "Subject")
                         .WithMany("FavorSubjects")
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("FavorSolution");
