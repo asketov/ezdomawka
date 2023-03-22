@@ -16,8 +16,8 @@ using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace ezdomawka.Controllers
 {
-    [Authorize(Roles =  $"{Roles.SuperAdminId},{Roles.AdminId}")]
-    public class AdminController : Controller
+    //[Authorize(Roles =  $"{Roles.SuperAdminId},{Roles.AdminId}")]
+    public class AdminController : BaseController
     {
         private readonly IMapper _mapper;
         private readonly AdminService _adminService;

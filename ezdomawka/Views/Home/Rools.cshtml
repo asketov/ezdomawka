@@ -1,37 +1,77 @@
-﻿<div class="d-flex justify-content-center">
-    <div style="width: 1000px;">
-        <div>
-            <h3>О сайте</h3>
-            <div>Этот сайт является фриланс-биржой для студентов военмеха.</div>
-            <div>Никто, кроме студентов военмеха, размещать услуги не может.</div>
-            <div>Каждый пользователь может разместить до 20 любых услуг.</div>
-            <div>Чем чаще вы обновляете свои услуги, тем больше вы будете попадаться в начале поиска.
-                Обновлять услугу можно двумя способами: редактировать или обновлять услугу в разделе "Мои услуги".
-                Обновлять услугу можно не более 10 раз в сутки. </div>
-            <div>
-                Внутри и снаружи сайта все личные данные скрыты. Используйте ссылки на анонимные
-                страницы для предотвращения деанона.
+﻿@section Styles
+{
+    <link rel="stylesheet" href="~/css/pages/login.css">
+    <link rel="stylesheet" href="~/css/pages/main.css">
+}
+
+<div class="section about-us">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-1">
+                <div class="accordion" id="accordionExample">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                О отвености создателей сайта
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <p>Создатель сайта <strong>не несёт</strong> отвественность за размещенную информацию другим участником.</p>
+                                <p>Создатель сайта <strong>не</strong> пропагандирует невежество.</p>
+                                <p>Создатель сайта <strong>не несёт</strong> отвественность за персональные данные.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Правила сайта
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <p>
+                                    <code> Оскорбление - бан на неделю. </code>
+                                </p>
+                                <p>
+                                    <code>Расизм и Нацизм - бан навсегда. </code>
+                                </p>
+                                <p>
+                                    <code>Политика - бан навсегда. </code>
+                                </p>
+                                <p>
+                                    <code>Религия - бан навсегда. </code>
+                                </p>
+                                <p>
+                                    <code>Реклама - бан навсегда. </code>
+                                </p>
+                                <p>
+                                    <code>Попытки обмана(фишинг, денежный развод и т.д.) - бан навсегда. </code>
+                                </p>
+                                <p>
+                                    <code>Троллинг - бан навсегда. </code>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 align-self-center">
+                <div class="section-heading">
+                    <h6>О сайте</h6>
+                    <h2 class="no_extra_text_effects">Полезная информация о сайте, и тому как им пользоваться</h2>
+
+                    <p>Этот сайт является фриланс-биржой для студентов военмеха.</p>
+                    <p>Никто, кроме студентов военмеха, размещать услуги не может.</p>
+                    <p>Каждый пользователь может разместить до 20 любых услуг.</p>
+                    <p>Чем чаще вы обновляете свои услуги, тем больше вы будете попадаться в начале поиска. Обновлять услугу можно двумя способами: редактировать или обновлять услугу в разделе "Мои услуги". Обновлять услугу можно не более 10 раз в сутки.</p>
+                    <p>Внутри и снаружи сайта все личные данные скрыты. Используйте ссылки на анонимные страницы для предотвращения деанона.</p>
+                </div>
             </div>
         </div>
-        <h3>О создателе сайта</h3>
-        <div>Создатель сайта не несёт отвественность за размещенную информацию другим участником.</div>
-        <div>Создатель сайта не пропагандирует невежество.</div>
-        <div>Создатель сайта не несёт отвественность за персональные данные.</div>
-        <div></div>
-        <div>Почему я этим занимаюсь? Хочу получить практические навыки управления сайтом,
-            а также сделать что-то полезное для окружающих.</div>
-        <div>Я открыт для сотрудничества, если у вас есть какие-то предложения или вы хотите
-            помочь в развитие сайта, то оставьте об этом информацию в разделе "Предложить идею"
-        </div>
-        <h3>Правила сайта</h3>
-        <div style="color: red;">
-            <div>Оскорбление - бан на неделю.</div>
-            <div>Политика - бан навсегда.</div>
-            <div>Религия - бан навсегда.</div>
-            <div>Реклама - бан навсегда.</div>
-            <div>Попытки обмана(фишинг, денежный развод и т.д.) - бан навсегда.</div>
-            <div>Троллинг - бан навсегда.</div>
-        </div>
-        <b>Разбан возможен только в исключительных или ошибочных случаях.</b>
     </div>
 </div>

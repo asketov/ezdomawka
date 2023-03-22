@@ -1,38 +1,69 @@
-﻿@model BLL.Models.Auth.LoginRequest
+﻿@using Common.Configs
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ModelsConfiguration
+@model BLL.Models.Auth.LoginRequest
 
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/pages/login.css">
+    <link rel="stylesheet" href="~/css/pages/main.css">
+}
 
-<div class="d-flex justify-content-center">
-    <div class="col-12 block">
-        <div>
-            <form id="form" asp-action="Login" method="post">
-                <input name="returnUrl" value="@ViewBag.returnUrl" hidden/>
-                <div class="pt-2">
-                    <input asp-for="Email" maxlength="60" type="email" required class="form-control" placeholder="Введите почту *"/>
-                    <span class="text-danger" asp-validation-for="Email"></span>
+<div class="contact-us section" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6  align-self-center">
+                <div class="section-heading">
+                    <h6>Войти в аккаунт</h6>
+                    <h2 class="no_extra_text_effects">На этой странице вы можете зайти в созданный Вами Аккаунт.</h2>
+
+                    <div class="extra_login_options">
+                        <div class="extra_login_options_option">
+                            <h6>Нету Аккаунта? </h6>
+                            <a class="extra_login_link" asp-controller="Auth" asp-action="Register">Регестрация</a>
+                        </div>
+
+                        <div class="extra_login_options_option">
+                            <h6>Забыли Пароль? </h6>
+                            <a class="extra_login_link" asp-controller="User" asp-action="ChangePassword">Востановить Пароль</a>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="pt-2">
-                    <input asp-for="Password" maxlength="60" type="password" required class="form-control" placeholder="Введите пароль *"/>
-                    <span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+            <div class="col-lg-6">
+                <div class="contact-us-content">
+                    <form class="input_form" asp-action="Login" method="post">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="email" asp-for="Email" type="text" required placeholder="Введите почту *"/>
+                                    <span asp-validation-for="Email" class="text-danger text-danger--blue_style"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="password" asp-for="Password" type="password" required placeholder="Введите пароль *"/>
+                                    <span asp-validation-for="Password" class="text-danger  text-danger--blue_style"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12 col-lg-12--flex">
+                                <fieldset class="login_button">
+                                    <button type="submit" id="form-submit" class="orange-button">Войти</button>
+                                </fieldset>
+
+                                <fieldset class="login_button">
+                                    <button id="clearFormButton" type="button" class="orange-button">Очистить</button>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="pt-2 text-center">
-                    <a asp-controller="Auth" asp-action="Register">Регистрация</a>
-                </div>
-                <div class="pt-2 text-center">
-                    <a asp-controller="User" asp-action="ChangePassword">Забыли пароль?</a>
-                </div>
-                <div class="pt-2 text-center">
-                    <button type="submit" class="btn btn-dark">Войти</button>
-                    <button id="clearFormButton" type="button" class="btn btn-danger">Очистить</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
-<link rel="stylesheet" type="text/css" href="~/css/Auth/Login.css" asp-append-version="true" />
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+ 

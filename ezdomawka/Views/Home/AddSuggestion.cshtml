@@ -1,24 +1,51 @@
 ﻿@model BLL.Models.ViewModels.SuggestionVm
 
-<div class="d-flex justify-content-center">
-    <div class="col-12 addSolutionCard">
-        <form asp-action="AddSuggestion" method="post" id="form">
-            <div>
-                <div class="pt-2">
-                    <textarea id="text" asp-for="Text" data="elastic" class="form-control" placeholder="Введите ваше предложение*"></textarea>
-                    <span class="text-danger" asp-validation-for="Text"></span>
-                </div>
-                <div class="pt-2">
-                    <input id="connect" asp-for="Connection" type="text" class="form-control" placeholder="Как с вами связаться? (не обязательно)" />
-                    <span class="text-danger" asp-validation-for="Connection"></span>
-                </div>
-                <div class="pt-2 text-center">
-                    <button type="submit" class="btn btn-dark">Отправить</button>
-                    <button id="clearFormButton" type="button" class="btn btn-danger">Очистить</button>
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/pages/login.css">
+    <link rel="stylesheet" href="~/css/pages/main.css">
+}
+
+<div class="contact-us section" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6  align-self-center">
+                <div class="section-heading">
+                    <h6>Создать услугу</h6>
+                    <h2 class="no_extra_text_effects">На этой странице вы можете добавить новую услугу.</h2>
                 </div>
             </div>
-        </form>
+            <div class="col-lg-6">
+                <div class="contact-us-content">
+                    <form class="input_form" asp-action="AddSuggestion" method="post">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <textarea id="text" asp-for="Text" data="elastic" class="form-control" placeholder="Введите ваше предложение*"></textarea>
+                                    <span class="text-danger text-danger--blue_style" asp-validation-for="Text"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="connect" asp-for="Connection" type="text" class="form-control" placeholder="Как с вами связаться? (не обязательно)" />
+                                    <span class="text-danger text-danger--blue_style" asp-validation-for="Connection"></span> 
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12 col-lg-12--flex">
+                                <fieldset class="login_button">
+                                    <button type="submit" id="form-submit" class="orange-button">Войти</button>
+                                </fieldset>
+
+                                <fieldset class="login_button">
+                                    <button id="clearFormButton" type="button" class="orange-button">Очистить</button>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-<link href="~/css/Favor/addSolution.css" rel="stylesheet" type="text/css" asp-append-version="true" />

@@ -17,7 +17,7 @@ namespace BLL.Services
         private readonly UserService _userService;
         private readonly IMapper _mapper;
 
-        public AuthService(DataContext db, UserService userService, IMapper mapper)
+        public AuthService(DataContext db, UserService userService, IMapper mapper, EmailService service)
         {
             _db = db;
             _userService = userService;
@@ -34,6 +34,5 @@ namespace BLL.Services
             await _db.SaveChangesAsync();
             return user;
         }
-        
     }
 }

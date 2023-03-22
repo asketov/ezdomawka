@@ -18,6 +18,7 @@ namespace DAL
             {
                 options.UseNpgsql(configuration.GetConnectionString("PostgreSql"));
             });
+
             return services;
         }
     }

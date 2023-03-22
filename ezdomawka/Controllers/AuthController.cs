@@ -12,10 +12,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace ezdomawka.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : BaseController, EmailService.IMailConfirmRegistrationUriGenerator
     {
         private readonly UserService _userService;
         private readonly AuthService _authService;
@@ -24,13 +25,14 @@ namespace ezdomawka.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
 
-        public AuthController(UserService userService, IMapper mapper, AuthService authService, EmailService emailService, IWebHostEnvironment webHostEnvironment)
+        public AuthController(UserService userService, AuthService authService, EmailService emailService, AdminService adminService, IWebHostEnvironment webHostEnvironment, IMapper mapper)
         {
             _userService = userService;
-            _mapper = mapper;
             _authService = authService;
             _emailService = emailService;
+            _adminService = adminService;
             _webHostEnvironment = webHostEnvironment;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -57,30 +59,69 @@ namespace ezdomawka.Controllers
             }
             catch (NotFoundException)
             {
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                await GenerateLoginModelStateErrors();
                 return View(request);
             }
         }
+
 
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterExtensionRequest request)
+        public async Task<IActionResult> SendRegisterCode(RegisterRequest request)
         {
-            if (await _userService.CheckUserExistByEmail(request.Email)) ModelState.AddModelError(nameof(DAL.Entities.User.Email), "Пользователь с такой почтой уже существует");
-            if (await _userService.CheckUserExistByNick(request.Nick)) ModelState.AddModelError(nameof(DAL.Entities.User.Nick), "Пользователь с таким ником уже существует");
-            if (!_emailService.CheckCorrectConfirmCode(request.Email, request.ConfirmCode.ToString())) ModelState.AddModelError(nameof(RegisterExtensionRequest.ConfirmCode), "Неправильный код");
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var model = _mapper.Map<RegisterModel>(request);
+
+            if (await RegisterModelIsValid(model) == false)
             {
-                User user = await _authService.RegisterUser(_mapper.Map<RegisterModel>(request));
-                await Authenticate(user); 
-                return Ok();
+                await GenerateRegisterModelStateErrors(model);
+                return View("Register", request);
             }
-            return BadRequest();
+
+            await _emailService.SendRegisterFinishCodeToEmailAsync(model, _webHostEnvironment.WebRootPath, this);
+            
+            return View("../Home/Information",
+                $"<div class=\"head\">Сообщение с кодом для регестрации было отправлено вам на почту</div>" +
+                $"<div class=\"head\">{model.Email}</div>" +
+                $"<div class=\"body\">Если код не пришел проверте точно ли указана ваша почта.</div>");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmRegister(Guid registerCode)
+        {
+            var model = await _emailService.TryGetRegisterFinishModelAsync(registerCode);
+
+            if (model == null)
+                return BadRequest();
+
+            User user = await _authService.RegisterUser(model);
+            await Authenticate(user);
+            
+            return SingeElementInformation("Аккаунт был создан.");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index","Home");
+        }
+        
+        
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            await _userService.DeleteUser(User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim));
+            return await Logout();
+        }
+
 
         private async Task Authenticate(User user)
         {
@@ -96,30 +137,28 @@ namespace ezdomawka.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
         }
 
-        public async Task<IActionResult> Logout()
+        public Uri GenerateUri(Guid confirmCode)
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index","Home");
+            return new Uri(Url.Action("ConfirmRegister", "Auth", new { registerCode = confirmCode }, Request.Scheme));
         }
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> DeleteAccount()
+        
+        private async Task<bool> RegisterModelIsValid(RegisterModel model)
         {
-            await _userService.DeleteUser(User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim));
-            return await Logout();
+            return await _userService.CheckUserExistByEmail(model.Email) == false &&
+                await _userService.CheckUserExistByNick(model.Nick) == false;
         }
-
-        [HttpPost]
-        public async Task<IActionResult> ConfirmEmail(RegisterRequest request)
+        
+        private async Task GenerateRegisterModelStateErrors(RegisterModel model)
         {
-            if(await _userService.CheckUserExistByEmail(request.Email)) ModelState.AddModelError(nameof(DAL.Entities.User.Email), "Пользователь с такой почтой уже существует");
-            if(await _userService.CheckUserExistByNick(request.Nick)) ModelState.AddModelError(nameof(DAL.Entities.User.Nick), "Пользователь с таким ником уже существует");
-            if (ModelState.IsValid)
-            {
-                await _emailService.SendConfirmCodeToEmailAsync(request.Email, _webHostEnvironment.WebRootPath);
-                return Ok();
-            }
-            return BadRequest();
+            if (await _userService.CheckUserExistByEmail(model.Email))
+                ModelState.AddModelError(nameof(DAL.Entities.User.Email), "Пользователь с такой почтой уже существует");
+            if (await _userService.CheckUserExistByNick(model.Nick))
+                ModelState.AddModelError(nameof(DAL.Entities.User.Nick), "Пользователь с таким ником уже существует");
+        }
+        
+        private async Task GenerateLoginModelStateErrors()
+        {
+            ModelState.AddModelError(nameof(DAL.Entities.User.Email), "Некорректные логин и(или) пароль");
         }
     }
 }

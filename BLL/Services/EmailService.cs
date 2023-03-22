@@ -1,6 +1,8 @@
-﻿using Common.Configs;
+﻿using BLL.Models.Auth;
+using Common.Configs;
 using MimeKit;
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
@@ -15,12 +17,63 @@ namespace BLL.Services
             _memoryCache = memoryCache;
             _emailConfig = config.Value;
         }
-        public async Task SendEmailAsync(string email, string subject, string text)
+
+        public async Task SendRegisterFinishCodeToEmailAsync(RegisterModel registerModel, string webRootPath, IMailConfirmRegistrationUriGenerator registrationUriGenerator)
+        {
+            var codeToRegisterEmail = Guid.NewGuid();
+            var PathToTemplate = Path.Combine(webRootPath,"templates","confirmMail.html");
+            var subject = "Подтверждение почты на сайте ezdomawka.com";
+
+            var redirectToRegisterLink = registrationUriGenerator.GenerateUri(codeToRegisterEmail);
+            
+            using (StreamReader sr = File.OpenText(PathToTemplate))
+            {
+               string HtmlBody = sr.ReadToEnd();
+               string messageBody = string.Format(HtmlBody, redirectToRegisterLink);
+               await SendEmailAsync(registerModel.Email, subject, messageBody);
+            }
+            
+            CacheData(codeToRegisterEmail.ToString(),  registerModel, 5);
+        }
+
+        public async Task<RegisterModel?> TryGetRegisterFinishModelAsync(Guid confirmCode)
+        {
+            if (TryUnCacheData(confirmCode.ToString(), out RegisterModel registerModel) == false)
+                return null;
+
+            return registerModel;
+        }
+
+        public async Task SendChangePasswordLinkToEmail(string email, string urlToMethod, string webRootPath)
+        {
+            var PathToTemplate = Path.Combine(webRootPath, "templates", "changePassword.html");
+            var subject = "Смена пароля на сайте ezdomawka.com";
+            var code = Guid.NewGuid();
+            
+            using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
+            {
+                string HtmlBody = sr.ReadToEnd();
+                string messageBody = string.Format(HtmlBody, urlToMethod + "?code=" + code);
+                await SendEmailAsync(email, subject, messageBody);
+            }
+
+            CacheData(code.ToString(), email, 30);
+        }
+        public bool CheckCorrectLink(string code, out string? email)
+        {
+            var exist = _memoryCache.TryGetValue(code, out object? value);
+            if (exist) email = value!.ToString();
+            else email = null;
+            return exist;
+        }
+        
+        
+        private async Task SendEmailAsync(string email, string subject, string text)
         {
             var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(new MailboxAddress("ezdomawka", _emailConfig.Name));
-            emailMessage.To.Add(new MailboxAddress("", email));
+            emailMessage.To.Add(new MailboxAddress(email, email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
@@ -35,50 +88,24 @@ namespace BLL.Services
                 await client.DisconnectAsync(true);
             }
         }
-
-        public async Task SendConfirmCodeToEmailAsync(string email, string webRootPath)
+        
+        private void CacheData<T>(string key, T value, int minutesToAutoClean)
         {
-            Random rnd = new Random();
-            int codeToConfirmEmail = rnd.Next(100000, 999999);
-            var PathToTemplate = Path.Combine(webRootPath,"templates","confirmMail.html");
-            var subject = "Подтверждение почты на сайте ezdomawka.com";
-            using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
-            {
-               string HtmlBody = sr.ReadToEnd();
-               string messageBody = string.Format(HtmlBody, codeToConfirmEmail);
-               await SendEmailAsync(email, subject, messageBody);
-            }
-            _memoryCache.Set(email, codeToConfirmEmail,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(5)));
+            if (minutesToAutoClean <= 0)
+                throw new ArgumentException();
+            
+            _memoryCache.Set(key, value,
+                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(minutesToAutoClean)));
         }
 
-        public bool CheckCorrectConfirmCode(string email, string code)
+        private bool TryUnCacheData<T>(string key, out T value)
         {
-           if( _memoryCache.TryGetValue(email, out object? value)) return code == value!.ToString();
-           return false;
+            return _memoryCache.TryGetValue(key, out value);
         }
-
-        public bool CheckCorrectLink(string code, out string? email)
+        
+        public interface IMailConfirmRegistrationUriGenerator
         {
-            var exist = _memoryCache.TryGetValue(code, out object? value);
-            if (exist) email = value!.ToString();
-            else email = null;
-            return exist;
-        }
-
-        public async Task SendChangePasswordLinkToEmail(string email, string urlToMethod, string webRootPath)
-        {
-            var PathToTemplate = Path.Combine(webRootPath, "templates", "changePassword.html");
-            var subject = "Смена пароля на сайте ezdomawka.com";
-            var code = Guid.NewGuid();
-            using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
-            {
-                string HtmlBody = sr.ReadToEnd();
-                string messageBody = string.Format(HtmlBody, urlToMethod + "?code=" + code);
-                await SendEmailAsync(email, subject, messageBody);
-            }
-            _memoryCache.Set(code.ToString(), email,
-                new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30)));
+            Uri GenerateUri(Guid confirmCode);
         }
     }
 }

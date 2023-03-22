@@ -11,13 +11,15 @@
                     ConfirmPassword: $("#confirmPassword").val()
                 },
                 success: function () {
-                    $("#email").prop('disabled', true);
-                    $("#nick").prop('disabled', true);
-                    $("#password").prop('disabled', true);
-                    $("#confirmPassword").prop('disabled', true);
-                    $(".code").attr("hidden", false);
+                    document.getElementById('<%=Email%>').prop('disabled', true);
+                    document.getElementById('<%=Nick%>').prop('disabled', true);
+                    document.getElementById('<%=Password%>').prop('disabled', true);
+                    document.getElementById('<%=ConfirmPassword%>').prop('disabled', true);
+                    document.getElementById('<%=ConfirmCode%>').attr("hidden", false);
                     $('#buttons').empty();
-                    $('#buttons').append("<button id='send' type='button' class='btn btn-dark'>Зарегистрироваться</button >");
+                    $('#buttons').append("<fieldset class=\"login_button\">\n" +
+                        "                      <button type=\"submit\" id=\"form-submit\" class=\"orange-button\">Создать</button>\n" +
+                        "                 </fieldset>");
                 },
                 error: function (data) {
                     if (data.modelState) {

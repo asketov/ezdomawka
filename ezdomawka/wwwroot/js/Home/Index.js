@@ -77,7 +77,7 @@ $(document).ready(function () {
     })
 
     const rangeInput = document.querySelectorAll(".range-input input"), 
-    priceInput = document.querySelectorAll(".price-input input"),
+    priceInput = document.querySelectorAll(".price_range_numeric input"),
     range = document.querySelector(".slider .progress");
     let priceGap = 1;
     priceInput.forEach(input =>{

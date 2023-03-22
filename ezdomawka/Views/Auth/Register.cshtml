@@ -1,43 +1,73 @@
-﻿@model BLL.Models.Auth.RegisterExtensionRequest
+﻿@using Common.Configs
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ModelsConfiguration
+@model BLL.Models.Auth.RegisterRequest
 
-<div class="d-flex justify-content-center">
-    <div class="col-12 block">
-        <div>
-            <form id="form" method="post" asp-action="Register">
-                <div class="pt-2">
-                    <input id="email" asp-for="Email" maxlength="60" type="text" required class="form-control" placeholder="Введите почту *"/>
-                    <span asp-validation-for="Email" class="text-danger"></span>
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/pages/login.css">
+    <link rel="stylesheet" href="~/css/pages/main.css">
+}
+
+<div class="contact-us section" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6  align-self-center">
+                <div class="section-heading">
+                    <h6>Зарегестрируйтесь</h6>
+                    <h2 class="no_extra_text_effects">На этой странице вы можете создать аккаунт.</h2>
+
+                    <div class="goto_login_panel">
+                        <h6>У вас уже есть Аккаунт? </h6>
+                        <a class="extra_login_link" asp-controller="Auth" asp-action="Login">Войти</a>
+                    </div>
                 </div>
-                <div class="pt-2">
-                    <input id="nick" asp-for="Nick" maxlength="60" type="text" required class="form-control" placeholder="Введите никнейм *"/>
-                    <span asp-validation-for="Nick" class="text-danger"></span>
+            </div>
+            <div class="col-lg-6">
+                <div class="contact-us-content">
+                    <form class="input_form" method="post" asp-action="SendRegisterCode">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="email" asp-for="Email" type="text" required placeholder="Введите почту *"/>
+                                    <span asp-validation-for="Email" class="text-danger text-danger--blue_style"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="nick" asp-for="Nick" type="text" required placeholder="Введите никнейм *"/>
+                                    <span asp-validation-for="Nick" class="text-danger  text-danger--blue_style"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="password" asp-for="Password" type="password" required placeholder="Введите пароль *"/>
+                                    <span asp-validation-for="Password" class="text-danger  text-danger--blue_style"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="confirmPassword" asp-for="ConfirmPassword" type="password" placeholder="Повторите пароль *"/>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger  text-danger--blue_style"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12 col-lg-12--flex" id="buttons">
+                                <div class="login_button">
+                                    <button type="submit" id="form-submit" class="orange-button">Создать</button>
+                                </div>
+
+                                <div class="login_button">
+                                    <button id="clearFormButton" type="button" class="orange-button">Очистить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="pt-2">
-                    <input id="password" asp-for="Password" maxlength="60" type="password" required class="form-control" placeholder="Введите пароль *"/>
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="pt-2">
-                    <input id="confirmPassword" asp-for="ConfirmPassword" maxlength="60" type="password" required class="form-control" placeholder="Повторите пароль *"/>
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-                <div class="code pt-2" hidden>
-                    <input id="code" asp-for="ConfirmCode" maxlength="60" required class="form-control" placeholder="Введите код из письма"/>
-                    <span asp-validation-for="ConfirmCode" class="text-danger"></span>
-                </div>
-                <div id="buttons" class="pt-2 text-center">
-                    <button id="continue" type="button" class="btn btn-dark">Далее</button>
-                    <button id="clearFormButton" type="button" class="btn btn-danger">Очистить</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
-
-<link rel="stylesheet" type="text/css" href="~/css/Auth/Register.css" asp-append-version="true" />
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    <script src="~/js/Auth/Register.js" asp-append-version="true"></script>
-}
