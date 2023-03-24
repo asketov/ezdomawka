@@ -6,7 +6,6 @@
     border-radius: 30px;
 
     position: relative;
-    overflow: hidden;
 
     z-index: 1;
 }
@@ -36,7 +35,8 @@
 }
 
 .price_range_content{
-    padding: 50px 35px;
+    padding: 30px 35px;
+    padding-bottom: 15px;
 }
 .price_range_numeric{
     display: flex;

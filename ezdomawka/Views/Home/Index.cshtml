@@ -6,7 +6,14 @@
 
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/pages/viewServices.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/main.css">
+    <link rel="stylesheet" href="~/css/pages/viewServices.css">
+
+    <!-- Choices includes -->
+    <link rel="stylesheet" href="~/lib/new/sellector/assets/styles/choices.css"/>
+    <!-- End Choices includes -->
+
+    <link rel="stylesheet" href="~/css/pages/addsolution.css">
 }
 
 <div class="servicesList">
@@ -49,6 +56,40 @@
                         <input type="range" class="range-max" min="@SolutionConfiguration.MinPrice" max="@SolutionConfiguration.MaxPrice" value="@SolutionConfiguration.MaxPrice" step="100">
                     </div>
                 </div>
+
+                <div class="col-lg-12 col-lg-12--flex">
+                    <fieldset class="input_field half-width">
+                        <select class="form-control"
+                                data-trigger
+                                name="themes"
+                                id="themes"
+                                placeholder="Тема">
+                            @foreach (var theme in Model.ThemeVms)
+                            {
+                                <option value="@theme.Id">@theme.Name</option>
+                            }
+                        </select>
+                    </fieldset>
+
+                    <fieldset class="input_field half-width">
+                        <select class="form-control"
+                                data-trigger
+                                name="subjects"
+                                id="subjects"
+                                placeholder="Тема">
+                            @foreach (var subject in Model.SubjectVms)
+                            {
+                                <option value="@subject.Id">@subject.Name</option>
+                            }
+                        </select>
+                    </fieldset>
+
+                    <fieldset class="input_field half-width">
+                        <button id="findFavors" class="orange-button--white">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </fieldset>
+                </div>
             </div>
         </div>
     </div>
@@ -59,5 +100,11 @@
 
 @section Scripts
 {
+        <!-- Optional includes -->
+        <script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=Array.from%2Ces5%2Ces6%2CSymbol%2CSymbol.iterator%2CDOMTokenList%2CObject.assign%2CCustomEvent%2CElement.prototype.classList%2CElement.prototype.closest%2CElement.prototype.dataset%2CArray.prototype.find%2CArray.prototype.includes%2Cfetch"></script>
+        <!-- End optional includes -->
+        <script src="~/lib/new/sellector/assets/scripts/choices.js"></script>
+        <script src="~/lib/new/sellector/app.js"></script>
+    
     <script src="~/js/Home/Index.js"></script>
 }
