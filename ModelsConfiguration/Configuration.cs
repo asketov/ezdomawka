@@ -57,8 +57,8 @@
             public const int MaxSkip = 20000;
             public const int MinSkip = 0;
 
-            public const int MaxTake = 10;
-            public const int MinTake = 10;
+            public const int MaxTake = 11;
+            public const int MinTake = 9;
         }
     }
 
