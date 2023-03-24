@@ -10,7 +10,7 @@ using ModelsConfiguration;
 
 namespace DAL.Entities
 {
-    [Table("FavoriteSolutions")]
+    [Table("FavorSolutions")]
     public class FavorSolution
     {
         [Key]

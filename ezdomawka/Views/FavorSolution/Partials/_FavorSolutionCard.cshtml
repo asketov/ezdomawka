@@ -9,11 +9,10 @@
     <div class="col-lg-9 text-center">
         <ul>
             <li>
-                <span class="category category--homework">Матеша</span>
-                <span class="category category--homework">Анг Мова</span>
-                <span class="category category--homework">Биология</span>
-                <span class="category category--homework">Укр Мова</span>
-                <span class="category category--homework">Физика</span>
+                @foreach (var title in Model.Subjects.Select(subject => subject.Name))
+                {
+                    <span class="category category--homework">@title</span>
+                }
                 <h3>Дипломая Работа</h3>
                 <span>Об Услуге: @Model.Text</span>
             </li>
@@ -40,21 +39,21 @@
 
         <div class="col-lg-12 col-lg-12--flex">
             <fieldset class="button button--contact">
-                <button class="orange-button">Контакты</button>
+                <button class="orange-button"  onclick="location.href='@Url.Action(@Model.Connection)'" >Контакты</button>
             </fieldset>
 
               @if (User.IsInRole(Roles.SuperAdminId))
               {
                   <fieldset class="button button--ban">
-                      <input type="button" class="orange-button" value="Create" 
-                                               onclick="location.href='@Url.Action("BanUser", "Admin")'" 
-                                               asp-route-favorId="@Model.Id" value="Заблокировать">
+                      <button class="orange-button"
+                              onclick="location.href='@Url.Action("BanUser", "Admin")'" 
+                              asp-route-favorId="@Model.Id">Заблокировать</button>
                   </fieldset>
 
                   <fieldset class="button button--remove">
-                  <input type="button" class="orange-button" value="Create" 
-                         onclick="location.href='@Url.Action("DeleteFavor", "User")'" 
-                         asp-route-favorId="@Model.Id" value="Удалить услугу">
+                      <button class="orange-button"
+                              onclick="location.href='@Url.Action("DeleteFavor", "User")'" 
+                              asp-route-favorId="@Model.Id">Удалить услугу</button>
                   </fieldset>
               }
         </div>

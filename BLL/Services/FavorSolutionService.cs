@@ -32,6 +32,11 @@ namespace BLL.Services
         public async Task AddFavor(SolutionModel model)
         {
             var favor = _mapper.Map<FavorSolution>(model);
+            
+            if (favor.FavorSubjects == null ||
+                favor.FavorSubjects.Any() == false)
+                favor.FavorSubjects = _db.FavorSubject.ToList();
+            
             _db.FavorSolutions.Add(favor);
             await _db.SaveChangesAsync();
         }

@@ -12,10 +12,10 @@ public class BaseController : Controller
     }
     
     
-    public IActionResult MultiElementInformation(string head, string subHead, string body)
+    public IActionResult MultiElementInformation(string head, string prebody, string body)
     {
         return GenerateInformation(new HomeInformationExtensions.InfoElement(true, head),
-            new HomeInformationExtensions.InfoElement(true, subHead),
+            new HomeInformationExtensions.InfoElement(false, prebody),
             new HomeInformationExtensions.InfoElement(false, body));
     }
     

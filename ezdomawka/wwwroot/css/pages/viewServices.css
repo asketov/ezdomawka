@@ -205,13 +205,13 @@ input[type="range"]::-moz-range-thumb {
 
 
 .col-lg-12--flex .button--remove button{
-    background-color: #222;
-    color: #fff;
+    background-color: #222 !important;
+    color: #fff !important;
 }
 
 .col-lg-12--flex .button--ban button{
-    background-color: #ff5252;
-    color: #fff;
+    background-color: #ff5252 !important;
+    color: #fff !important;
 }
 
 .events .item{

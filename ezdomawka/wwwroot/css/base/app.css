@@ -1527,11 +1527,12 @@ Contact Style
     z-index: 2;
 }
 
-.input_form input {
+.input_form input,
+.input_form_input{
     width: 100%;
     height: 50px;
     border-radius: 25px;
-    background-color: rgba(249, 235, 255, 0.15);
+    background-color: rgba(249, 235, 255, 0.15) !important;
     border: none;
     outline: none;
     font-weight: 300;
@@ -1543,7 +1544,8 @@ Contact Style
     z-index: 3;
 }
 
-.input_form input::placeholder {
+.input_form input::placeholder,
+.input_form_input::placeholder{
     color: #fff;
 }
 
@@ -1567,7 +1569,8 @@ Contact Style
     color: #fff;
 }
 
-.input_form button {
+.input_form button,
+.input_form_button{
     border: none;
     height: 50px;
     font-size: 14px;
@@ -1581,7 +1584,8 @@ Contact Style
     z-index: 3;
 }
 
-.input_form button:hover {
+.input_form button:hover,
+.input_form_button:hover{
     opacity: 0.8;
 }
 

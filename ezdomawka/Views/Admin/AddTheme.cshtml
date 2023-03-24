@@ -1,18 +1,46 @@
 ﻿@model BLL.Models.Admin.ThemeRequest
 
-<div class="d-flex justify-content-center">
-    <div class="col-6">
-        <form id="form" method="post" asp-controller="Admin" asp-action="AddTheme">
-            <div>
-                <div class="pt-2">
-                    <textarea asp-for="Name" required maxlength="50" data="elastic" class="form-control" placeholder="Введите тему*(50)"></textarea>
-                    <span class="text-danger" asp-validation-for="Name"></span>
-                </div>
-                <div class="pt-2 text-center">
-                    <button type="submit" class="btn btn-dark">Добавить</button>
-                    <button id="clearFormButton" type="button" class="btn btn-danger">Очистить</button>
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/pages/login.css">
+    <link rel="stylesheet" href="~/css/pages/main.css">
+}
+
+<div class="contact-us section" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6  align-self-center">
+                <div class="section-heading">
+                    <h6>Cоздать Тему</h6>
+                    <h2 class="no_extra_text_effects">На этой странице вы можете создать новую тему для всех пользователей.</h2>
                 </div>
             </div>
-        </form>
+            <div class="col-lg-6">
+                <div class="contact-us-content">
+                    <form class="input_form" amethod="post" asp-controller="Admin" asp-action="AddTheme">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="email"  asp-for="Name" type="text" required placeholder="Введите название *"/>
+                                    <span asp-validation-for="Name" class="text-danger text-danger--blue_style"></span>
+                                </fieldset>
+                            </div>
+                            
+                            <div class="col-lg-12 col-lg-12--flex">
+                                <fieldset class="login_button">
+                                    <button type="submit" id="form-submit" class="orange-button">Добавить</button>
+                                </fieldset>
+
+                                <fieldset class="login_button">
+                                    <button id="clearFormButton" type="button" class="orange-button">Очистить</button>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+ 

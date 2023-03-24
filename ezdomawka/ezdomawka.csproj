@@ -2190,6 +2190,8 @@
     <_ContentIncludedByDefault Remove="wwwroot\lib\new\sellector\assets\images\manifest.json" />
     <_ContentIncludedByDefault Remove="wwwroot\lib\new\sellector\assets\images\mstile-150x150.png" />
     <_ContentIncludedByDefault Remove="wwwroot\lib\new\sellector\assets\images\safari-pinned-tab.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\Auth\Login.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\Auth\Register.css" />
   </ItemGroup>
 
   <ItemGroup>

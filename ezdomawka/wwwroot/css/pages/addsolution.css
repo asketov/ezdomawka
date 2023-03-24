@@ -1,0 +1,103 @@
+.choices__inner{
+    width: 100%;
+    border-radius: 25px;
+    background-color: rgba(249, 235, 255, 0.15);
+    border: none;
+    outline: none;
+    padding: 20px;
+    font-weight: 300;
+    font-size: 14px;
+    color: #fff;
+    position: relative;
+    z-index: 3;
+}
+.choices[data-type*=select-one] .choices__inner{
+    padding: 10px;
+}
+
+.is-open .choices__inner {
+    border-radius: 25px !important; 
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+.is-flipped.is-open .choices__inner {
+    border-radius: 25px !important;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+.choices__list{
+    z-index: 50 !important;
+}
+.choices__list--dropdown{
+    z-index: 50 !important;
+}
+
+
+.choices__input{
+    margin-top: 15px;
+    width: 100% !important;
+}
+
+
+.choices__list--multiple .choices__item {
+    background-color: #297eff !important;
+    border: none;
+}
+
+.choices[data-type*=select-one] .choices__input {
+    background-color: rgba(229, 229, 229, 0.25);
+    color: #838383;
+    border: none;
+}
+
+.choices__list--dropdown, .choices__list[aria-expanded],
+.choices__list--dropdown .choices__item--selectable.is-highlighted,
+.choices__list[aria-expanded] .choices__item--selectable {
+    background-color: #fff;
+    color: #4890fd !important;
+    border: none;
+    padding: 8px;
+}
+.choices__list[aria-expanded] .choices__item--selectable.is-highlighted{
+    background-color: #fff;
+    color: #0968ff !important;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.choices__item{
+    border: none;
+}
+.choices__item--selectable{
+    background: none;
+}
+
+
+.choices__list--dropdown{
+    border-bottom-left-radius: 25px !important;
+    border-bottom-right-radius: 25px !important;
+}
+.is-flipped .choices__list--dropdown{
+    border-top-right-radius: 25px !important;
+    border-top-left-radius: 25px !important;
+
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.input_form textarea{
+    margin-bottom: 0;
+}
+
+@media (max-width: 1450px) {
+    .contact-us:before{
+        display: none;
+    }
+    
+    .add_menu_element{
+        width: 96%;
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+}
