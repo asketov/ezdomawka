@@ -53,6 +53,17 @@
 .orange-button--white{
     background-color: #fff !important;
     color: #0c63e4 !important;
+
+    width: 100%;
+    text-align: center;
+    border: none;
+    height: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 25px;
+    border-radius: 25px;
+    position: relative;
+    z-index: 5;
     
     transition: background-color 0.2s linear !important;
 }
