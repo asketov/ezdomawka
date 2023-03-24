@@ -51,24 +51,6 @@
 
                             <div class="col-lg-12">
                                 <div class="mar-bottom-mini">
-                                    <h4 class="text-center text-white text-uppercase">Выберите тему своей услуги</h4>
-                                </div>
-                                <fieldset class="input_field">
-                                    <select class="form-control"
-                                            data-trigger
-                                            name="themes"
-                                            id="themes"
-                                            placeholder="This is a search placeholder">
-                                        @foreach (var theme in Model.Themes)
-                                        {
-                                            <option value="@theme.Id">@theme.Name</option>
-                                        }
-                                    </select>
-                                </fieldset>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <div class="mar-bottom-mini">
                                     <h5 class="text-center text-white text-uppercase mar-bottom-mini">Выберите предметы для которых вы делаете эту услугу</h5>
                                     <h6 class="text-center text-white text-uppercase mar-bottom-mini">(можете пропустить ето поле если делаете услугу для всех предметов)</h6>
                                 </div>
@@ -81,6 +63,24 @@
                                         @foreach (var subject in Model.Subjects)
                                         {
                                             <option value="@subject.Id">@subject.Name</option>
+                                        }
+                                    </select>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="mar-bottom-mini">
+                                    <h4 class="text-center text-white text-uppercase">Выберите тему своей услуги</h4>
+                                </div>
+                                <fieldset class="input_field">
+                                    <select class="form-control"
+                                            data-trigger
+                                            name="themes"
+                                            id="themes"
+                                            placeholder="Тема">
+                                        @foreach (var theme in Model.Themes)
+                                        {
+                                            <option value="@theme.Id">@theme.Name</option>
                                         }
                                     </select>
                                 </fieldset>
