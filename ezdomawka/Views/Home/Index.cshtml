@@ -6,14 +6,14 @@
 
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/pages/main.css">
-    <link rel="stylesheet" href="~/css/pages/viewServices.css">
+    <link rel="stylesheet" href="~/css/pages/main.css"  asp-append-version="true"> 
+    <link rel="stylesheet" href="~/css/pages/viewServices.css"  asp-append-version="true">
 
     <!-- Choices includes -->
-    <link rel="stylesheet" href="~/lib/new/sellector/assets/styles/choices.css"/>
+    <link rel="stylesheet" href="~/lib/new/sellector/assets/styles/choices.css"  asp-append-version="true"/>
     <!-- End Choices includes -->
 
-    <link rel="stylesheet" href="~/css/pages/addsolution.css">
+    <link rel="stylesheet" href="~/css/pages/addsolution.css"  asp-append-version="true">
 }
 
 <div class="servicesList">
@@ -117,10 +117,11 @@
 @section Scripts
 {
     <!-- Optional includes -->
-    <script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=Array.from%2Ces5%2Ces6%2CSymbol%2CSymbol.iterator%2CDOMTokenList%2CObject.assign%2CCustomEvent%2CElement.prototype.classList%2CElement.prototype.closest%2CElement.prototype.dataset%2CArray.prototype.find%2CArray.prototype.includes%2Cfetch"></script>
+    <script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=Array.from%2Ces5%2Ces6%2CSymbol%2CSymbol.iterator%2CDOMTokenList%2CObject.assign%2CCustomEvent%2CElement.prototype.classList%2CElement.prototype.closest%2CElement.prototype.dataset%2CArray.prototype.find%2CArray.prototype.includes%2Cfetch"
+             asp-append-version="true"></script>
     <!-- End optional includes -->
-    <script src="~/lib/new/sellector/assets/scripts/choices.js"></script>
-    <script src="~/lib/new/sellector/app.js"></script>
+    <script src="~/lib/new/sellector/assets/scripts/choices.js"  asp-append-version="true"></script>
+    <script src="~/lib/new/sellector/app.js"  asp-append-version="true"></script>
 
-    <script src="~/js/Home/Index.js"></script>
+    <script src="~/js/Home/Index.js"  asp-append-version="true"></script>
 }
