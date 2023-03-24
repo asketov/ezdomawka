@@ -1,1 +1,36 @@
-﻿
+﻿@model BLL.Models.ViewModels.UserPanelVm
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/pages/main.css">
+    <link rel="stylesheet" href="~/css/pages/admin.css">
+    <link rel="stylesheet" href="~/css/pages/login.css">
+}
+
+<div class="margin_top_mini"></div>
+
+<div class="servicesList">
+    <div class="container">
+        <div class="row">
+            <div class="menu">
+                <div class="menu_content">
+                    <div class="col-lg-12 col-lg-12--flex">
+
+                        <input class="input_form_input half-width" id="InputNick" required placeholder="Ник"/>
+                        <input class="input_form_input half-width" id="InputEmail" required placeholder="Почта"/>
+                        
+                        <button  id="findUsers" class="input_form_input input_form_input--search-button half-width">Найти</button>
+                    </div>
+
+                    <div class="col-12" id="UsersWithPagination">
+                        <partial name="Partials/_UserTableWithPagination" model="@Model"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Admin/UserPanel.js" asp-append-version="true"></script>
+}

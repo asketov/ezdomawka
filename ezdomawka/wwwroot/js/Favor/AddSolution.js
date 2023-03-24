@@ -1,104 +1,56 @@
 ﻿let selectedSubjects = [];
 $(document).ready(function () {
-    $("#addSubject").click(function () {
-        let selectedOption = $("#subjects :selected");
-        if (selectedOption.val() == 'select_all') {
-            selectedSubjects = [];
-            $("#subjects option").each(function () { selectedSubjects.push({ id: $(this).val(), name: $(this).html() }) });
-            selectedSubjects = selectedSubjects.filter(el => el.id != "select_all");
-            $(".SelectedSubjects").empty();
-        }
-        else if (!selectedSubjects.some(x => x.id == selectedOption.val())) {
-            selectedSubjects.push({ id: selectedOption.val(), name: selectedOption.html() });
-        }
-        else return;
-        $(".SelectedSubjects")
-            .append(`<div class='${selectedOption.val()} d-flex justify-content-center pt-2 box'><div class='selectedSubject p-3'>
-                <i class='item'>${selectedOption.html()}</i>
-                <button value='${selectedOption.val()}' id='deleteSubjectButton' 
-                type='button' class='item btn btn-dark'><i class='fa-solid fa-trash'></i>
-                </button></div></div>`);
+    var choicesSelect = new Choices('#subjects', {
+        allowHTML: true,
+        removeItemButton: true,
     });
 
-    $(document).on('click', '#deleteSubjectButton', function (event) {
-        let id = event.currentTarget.value;
-        if (id == "select_all") {
-            selectedSubjects = [];
+    choicesSelect.passedElement.element.addEventListener(
+        'addItem',
+        function(event) {
+            selectedSubjects.push({ id: event.detail.value, name: event.detail.label });
         }
-        else {
-            selectedSubjects = selectedSubjects.filter(el => el.id != id);
+    );
+
+    choicesSelect.passedElement.element.addEventListener(
+        'removeItem',
+        function(event) {
+            selectedSubjects.filter(el => el.id != event.detail.value);
         }
-        $(`.${id}`).remove();
-    });
-
-    $('#clearFormButton').click(function () {
-        selectedSubjects = [];
-        $(".SelectedSubjects").empty();
-        document.getElementById("form").reset();
-        $('#price').val("");
-        $('#connect').val("");
-        $("#text").val("");
-    });
-
-    $("#editFavor").click(function () {
-        if ($("#form").valid() && selectedSubjects.length > 0) { 
-            $.ajax({
-                url: '/User/EditFavor',
-                method: 'post',
-                dataType: 'json',
-                data: {
-                    Subjects: selectedSubjects, 
-                    Theme: { id: $("#themes option:selected").val(), name: $("#themes option:selected").html() }, Text: $("#text").val(),
-                    Price: $('#price').val(),  Connection: $('#connect').val(), Id: $('#id').val() },
-                success: function (data) {
-                    if(data.redirect) {
-                        window.location = '/home/index'
-                    }
-                    else {
-                        window.location = data.redirect
-                    }
-                },
-                statusCode: {
-                    400: function () { // выполнить функцию если код ответа HTTP 400
-                        alert("Неправильный запрос");
-                    },
-                    404: function () { // выполнить функцию если код ответа HTTP 404
-                        alert("Страница не найдена");
-                    }
-                }
-
-            });
-        }
-    });
+    );
+    
     $("#addFavor").click(function () {
-        if ($("#form").valid() && selectedSubjects.length > 0) {
-            $.ajax({
-                url: '/FavorSolution/AddSolution',
-                method: 'post',
-                dataType: 'json',
-                data: {
-                    Subjects: selectedSubjects,
-                    Theme: { id: $("#themes option:selected").val(), name: $("#themes option:selected").html() }, Text: $("#text").val(),
-                    Price: $('#price').val(), Connection: $('#connect').val()
-                },
-                success: function (data) {
-                    if (data.redirect) {
-                        window.location = '/home/index'
-                    }
-                    else {
-                        window.location = data.redirect
-                    }
-                },
-                statusCode: {
-                    400: function () { // выполнить функцию если код ответа HTTP 400
-                        alert("Неправильный запрос");
-                    },
-                    404: function () { // выполнить функцию если код ответа HTTP 404
-                        alert("Страница не найдена");
-                    }
+        selectedSubjects.forEach(function(item, i) {
+            console.warn( i + ": " + item.id + "   " + item.name);
+        });
+        
+        console.warn($("#themes option").html() );
+        
+        $.ajax({
+            url: '/FavorSolution/AddSolution',
+            method: 'post',
+            dataType: 'json',
+            data: {
+                Subjects: selectedSubjects,
+                Theme: { id: $("#themes option").val(), name: $("#themes option").html() }, Text: $("#text").val(),
+                Price: $('#price').val(), Connection: $('#connect').val()
+            },
+            success: function (data) {
+                if (data.redirect) {
+                    window.location = '/home/index'
                 }
-
-            });
-        }
+                else {
+                    window.location = data.redirect
+                }
+            },
+            statusCode: {
+                400: function () { // выполнить функцию если код ответа HTTP 400
+                    alert("Неправильный запрос");
+                },
+                404: function () { // выполнить функцию если код ответа HTTP 404
+                    alert("Страница не найдена");
+                }
+            }
+        });
     });
 });

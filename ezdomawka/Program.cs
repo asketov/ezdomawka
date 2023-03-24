@@ -1,4 +1,6 @@
 using BLL;
+using BLL.Implementations;
+using BLL.Interfaces;
 using Common.Configs;
 using DAL;
 using DAL.Extensions;
@@ -7,8 +9,22 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
+
 var emailSection = builder.Configuration.GetSection(EmailConfig.Position);
 builder.Services.Configure<EmailConfig>(emailSection);
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddSingleton<IEmailSender, LocalEmailSender>(provider =>
+    {
+        return new LocalEmailSender((message) => Console.WriteLine(message));
+    });
+}
+else
+{
+    builder.Services.AddSingleton<IEmailSender, EmailSender>();
+}
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc(options =>

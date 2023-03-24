@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="~/css/base/animate.css">
     <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 
+    <script src="https://kit.fontawesome.com/2043842d05.js" crossorigin="anonymous"></script>
+    
     @await RenderSectionAsync("Styles", required: false);
 </head>
 
@@ -29,7 +31,7 @@
             <div class="col-12">
                 <nav class="main-nav">
                     <!--Logo-->
-                    <a href="index.html" class="logo">
+                    <a asp-controller="Home" asp-action="Index" class="logo">
                         <h1>EzDomawka</h1>
                     </a>
                     <!--Logo End-->
@@ -91,7 +93,7 @@
 <script src="~/lib/new/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/new/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/new/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
+<script src="https://kit.fontawesome.com/2043842d05.js" crossorigin="anonymous"></script>
 
 @await RenderSectionAsync("Scripts", required: false)
 </body>

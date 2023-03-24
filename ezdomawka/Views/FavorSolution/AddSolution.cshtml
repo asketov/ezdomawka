@@ -5,52 +5,60 @@
 {
     <link rel="stylesheet" href="~/css/pages/login.css">
     <link rel="stylesheet" href="~/css/pages/main.css">
-    <link rel="stylesheet" href="~/css/pages/addsolution.css">
-    
+
     <!-- Choices includes -->
     <link rel="stylesheet" href="~/lib/new/sellector/assets/styles/choices.css" />
     <!-- End Choices includes -->
+    
+    <link rel="stylesheet" href="~/css/pages/addsolution.css">
 }
 
 <div class="contact-us section" id="contact">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6  align-self-center">
+            <div class="col-lg-6  align-self-center add_menu_element">
                 <div class="section-heading">
                     <h6>Создать услугу</h6>
                     <h2 class="no_extra_text_effects">На этой странице вы можете добавить новую услугу.</h2>
                 </div>
             </div>
 
-            <div class="col-lg-6">
+            <div class="col-lg-6 add_menu_element">
                 <div class="contact-us-content">
                     <form class="input_form" id="form">
                         <div class="row">
 
                             <div class="col-lg-12">
                                 <fieldset class="input_field">
-                                    <textarea id="text" asp-for="Text" data="elastic" class="form-control" placeholder="Введите текст* (опишите вашу услугу)"></textarea>
+                                    <textarea id="text" asp-for="Text" data="elastic" placeholder="Введите текст* (опишите вашу услугу)"></textarea>
                                     <span class="text-danger text-danger--blue_style" asp-validation-for="Text"></span>
                                 </fieldset>
                             </div>
 
                             <div class="col-lg-12">
                                 <fieldset class="input_field">
-                                    <input id="price" asp-for="Price" min="@SolutionConfiguration.MinPrice" max="@SolutionConfiguration.MaxPrice" type="number" class="form-control" placeholder="Сколько вы хотите за услугу?* (цена)"/>
+                                    <input id="price" asp-for="Price" min="@SolutionConfiguration.MinPrice" max="@SolutionConfiguration.MaxPrice" type="number" placeholder="Сколько вы хотите за услугу?* (цена)"/>
                                     <span class="text-danger text-danger--blue_style" asp-validation-for="Price"></span>
                                 </fieldset>
                             </div>
 
                             <div class="col-lg-12">
                                 <fieldset class="input_field">
-                                    <input id="connect" asp-for="Connection" type="text" class="form-control" placeholder="Как с вами связаться?* (пример: https://t.me/name)"/>
+                                    <input id="connect" asp-for="Connection" type="text" placeholder="Как с вами связаться?* (пример: https://t.me/name)"/>
                                     <span class="text-danger text-danger--blue_style" asp-validation-for="Connection"></span>
                                 </fieldset>
                             </div>
 
                             <div class="col-lg-12">
+                                <div class="mar-bottom-mini">
+                                    <h4 class="text-center text-white text-uppercase">Выберите тему своей услуги</h4>
+                                </div>
                                 <fieldset class="input_field">
-                                    <select id="themes" class="item form-select">
+                                    <select class="form-control"
+                                            data-trigger
+                                            name="themes"
+                                            id="themes"
+                                            placeholder="This is a search placeholder">
                                         @foreach (var theme in Model.Themes)
                                         {
                                             <option value="@theme.Id">@theme.Name</option>
@@ -60,12 +68,15 @@
                             </div>
 
                             <div class="col-lg-12">
+                                <div class="mar-bottom-mini">
+                                    <h5 class="text-center text-white text-uppercase mar-bottom-mini">Выберите предметы для которых вы делаете эту услугу</h5>
+                                    <h6 class="text-center text-white text-uppercase mar-bottom-mini">(можете пропустить ето поле если делаете услугу для всех предметов)</h6>
+                                </div>
                                 <fieldset class="input_field">
                                     <select class="form-control"
                                             data-trigger
-                                            name="choices-multiple-default"
-                                            id="choices-multiple-default"
-                                            placeholder="This is a placeholder"
+                                            id="subjects"
+                                            placeholder="Вашы предметы...."
                                             multiple>
                                         @foreach (var subject in Model.Subjects)
                                         {
@@ -81,7 +92,7 @@
                                 </fieldset>
 
                                 <fieldset class="login_button">
-                                    <button id="clearFormButton" type="button" class="orange-button">Очистить</button>
+                                    <button type="button" class="orange-button">Очистить</button>
                                 </fieldset>
                             </div>
                         </div>
@@ -99,4 +110,6 @@
     <!-- End optional includes -->
     <script src="~/lib/new/sellector/assets/scripts/choices.js"></script>
     <script src="~/lib/new/sellector/app.js"></script>
+    
+    <script src="~/js/Favor/AddSolution.js"></script>
 }

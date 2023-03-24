@@ -29,6 +29,7 @@ namespace BLL.Services
         {
             if (await _userService.CheckUserExistByNick(model.Nick)) throw new NickAlreadyExistException();
             if (await _userService.CheckUserExistByEmail(model.Email)) throw new EmailAlreadyExistException();
+
             var user = _mapper.Map<User>(model);
             _db.Users.Add(user);
             await _db.SaveChangesAsync();

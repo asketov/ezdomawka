@@ -1,4 +1,5 @@
-﻿using BLL.Models.Auth;
+﻿using BLL.Interfaces;
+using BLL.Models.Auth;
 using Common.Configs;
 using MimeKit;
 using MailKit.Net.Smtp;
@@ -11,11 +12,13 @@ namespace BLL.Services
     public class EmailService
     {
         private readonly IMemoryCache _memoryCache;
-        private readonly EmailConfig _emailConfig;
-        public EmailService(IMemoryCache memoryCache, IOptions<EmailConfig> config)
+
+        private readonly IEmailSender _emailSender;
+
+        public EmailService(IMemoryCache memoryCache, IEmailSender emailSender)
         {
             _memoryCache = memoryCache;
-            _emailConfig = config.Value;
+            _emailSender = emailSender;
         }
 
         public async Task SendRegisterFinishCodeToEmailAsync(RegisterModel registerModel, string webRootPath, IMailConfirmRegistrationUriGenerator registrationUriGenerator)
@@ -70,23 +73,7 @@ namespace BLL.Services
         
         private async Task SendEmailAsync(string email, string subject, string text)
         {
-            var emailMessage = new MimeMessage();
-
-            emailMessage.From.Add(new MailboxAddress("ezdomawka", _emailConfig.Name));
-            emailMessage.To.Add(new MailboxAddress(email, email));
-            emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
-            {
-                Text = text
-            };
-
-            using (var client = new SmtpClient())
-            {
-                await client.ConnectAsync("smtp.gmail.com", 465, true);
-                await client.AuthenticateAsync(_emailConfig.Name, _emailConfig.Password);
-                await client.SendAsync(emailMessage);
-                await client.DisconnectAsync(true);
-            }
+            await _emailSender.SendEmailAsync(email, subject, text);
         }
         
         private void CacheData<T>(string key, T value, int minutesToAutoClean)
