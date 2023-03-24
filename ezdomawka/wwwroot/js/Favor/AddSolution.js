@@ -20,37 +20,33 @@ $(document).ready(function () {
     );
     
     $("#addFavor").click(function () {
-        selectedSubjects.forEach(function(item, i) {
-            console.warn( i + ": " + item.id + "   " + item.name);
-        });
-        
-        console.warn($("#themes option").html() );
-        
-        $.ajax({
-            url: '/FavorSolution/AddSolution',
-            method: 'post',
-            dataType: 'json',
-            data: {
-                Subjects: selectedSubjects,
-                Theme: { id: $("#themes option").val(), name: $("#themes option").html() }, Text: $("#text").val(),
-                Price: $('#price').val(), Connection: $('#connect').val()
-            },
-            success: function (data) {
-                if (data.redirect) {
-                    window.location = '/home/index'
-                }
-                else {
-                    window.location = data.redirect
-                }
-            },
-            statusCode: {
-                400: function () { // выполнить функцию если код ответа HTTP 400
-                    alert("Неправильный запрос");
+        if ($("#form").valid())
+        {
+            $.ajax({
+                url: '/FavorSolution/AddSolution',
+                method: 'post',
+                dataType: 'json',
+                data: {
+                    Subjects: selectedSubjects,
+                    Theme: {id: $("#themes option").val(), name: $("#themes option").html()}, Text: $("#text").val(),
+                    Price: $('#price').val(), Connection: $('#connect').val()
                 },
-                404: function () { // выполнить функцию если код ответа HTTP 404
-                    alert("Страница не найдена");
+                success: function (data) {
+                    if (data.redirect) {
+                        window.location = '/home/index'
+                    } else {
+                        window.location = data.redirect
+                    }
+                },
+                statusCode: {
+                    400: function () { // выполнить функцию если код ответа HTTP 400
+                        alert("Неправильный запрос");
+                    },
+                    404: function () { // выполнить функцию если код ответа HTTP 404
+                        alert("Страница не найдена");
+                    }
                 }
-            }
-        });
+            });
+        }
     });
 });

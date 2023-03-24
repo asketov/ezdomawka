@@ -33,7 +33,8 @@ namespace BLL.Services
         {
             var favor = _mapper.Map<FavorSolution>(model);
             
-            if (favor.FavorSubjects.Any() == false)
+            if (favor.FavorSubjects == null ||
+                favor.FavorSubjects.Any() == false)
                 favor.FavorSubjects = _db.FavorSubject.ToList();
             
             _db.FavorSolutions.Add(favor);
