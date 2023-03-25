@@ -1,16 +1,16 @@
 ﻿
 $(document).ready(function () {
-    let ThemeId = null;
-    let SubjectId = null;
-    let MinPrice = null;
-    let MaxPrice = null;
+    let ThemeId = $("#themes option").val();
+    let SubjectId =  $("#subjects option").val();
+    let MinPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
+    let MaxPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
     let PageSubjects = 0;
     let CountSubjects;
     let NowFavorId;
 
     $("#findFavors").click(function () {
-        let selectedThemeId = $("#themes option:selected").val();
-        let selectedSubjectId = $("#subjects option:selected").val();
+        let selectedThemeId = $("#themes option").val();
+        let selectedSubjectId = $("#subjects option").val();
         let minPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
         let maxPrice = Number.parseInt($("#maxPrice").val().split(' ')[0]);
         $('#FavorsWithPagination').empty();

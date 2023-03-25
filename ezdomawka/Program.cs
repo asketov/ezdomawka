@@ -7,6 +7,7 @@ using DAL.Extensions;
 using ezdomawka.Middlewares.BanMiddleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

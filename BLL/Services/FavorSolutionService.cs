@@ -60,6 +60,8 @@ namespace BLL.Services
 
         public async Task<List<SolutionModel>> GetSolutionModels(GetSolutionsModel model, CancellationToken token)
         {
+            Console.WriteLine($"{model.Take} tk -- {model.Skip} sk");
+            
             var favorSolutions = await _db.FavorSolutions
                 .WithSubjectIdFilter(model.SubjectId).WithThemeIdFilter(model.ThemeId)
                 .WithPriceFilter(model.MinPrice, model.MaxPrice)
