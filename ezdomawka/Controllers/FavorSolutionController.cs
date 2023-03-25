@@ -76,7 +76,7 @@ namespace ezdomawka.Controllers
                     (await _favorSolutionService.GetSolutionModels(model, token)).Select(x => _mapper.Map<FavorSolutionVm>(x));
                 var vm = new FavorsWithPaginationVm()
                 {
-                    CountFavorSolutions = count, FavorSolutionVms = favors
+                    CountFavorSolutions = (uint)count, FavorSolutionVms = favors
                 };
                 return PartialView("../Home/Partials/_FavorsWithPagination", vm);
             }

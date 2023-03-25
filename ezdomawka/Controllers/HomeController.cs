@@ -46,7 +46,7 @@ namespace ezdomawka.Controllers
                 SubjectVms = subjects,
                 FavorsWithPaginationVm = new FavorsWithPaginationVm()
                 {
-                    FavorSolutionVms = favorSolutions, CountFavorSolutions = countFavor
+                    FavorSolutionVms = favorSolutions, CountFavorSolutions = (uint)countFavor, FavorSolutionsOffset = 0
                 }
             };
             return View(vm);

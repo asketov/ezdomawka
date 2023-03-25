@@ -3,10 +3,9 @@
 
 @section Styles
 {
-    @*<link rel="stylesheet" href="~/css/pages/login.css">*@
+    <link rel="stylesheet" href="~/css/pages/login.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/addsolution.css" asp-append-version="true">
 }
-
-<link rel="stylesheet" href="~/css/pages/addsolution.css" asp-append-version="true">
 
 <div class="contact-us section" id="contact">
     <div class="container">
@@ -50,33 +49,6 @@
                                     <h6 class="text-center text-white text-uppercase mar-bottom-mini">(можете пропустить ето поле если делаете услугу для всех предметов)</h6>
                                 </div>
                                 <fieldset class="input_field">
-                                    <select class="form-control"
-                                            name="themes"
-                                            id="themes"
-                                            >
-                                        @foreach (var theme in Model.Themes)
-                                        {
-                                            <option value="@subject.Id">@subject.Name</option>
-                                        }
-                                    </select>
-                                </fieldset>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <div class="mar-bottom-mini">
-                                    <h4 class="text-center text-white text-uppercase">Выберите тему своей услуги</h4>
-                                </div>
-                                <fieldset class="input_field">
-                                   @* <select class="form-control"
-                                            data-trigger
-                                            id="subjects"
-                                            placeholder="Ваши предметы...."
-                                            multiple>
-                                        @foreach (var subject in Model.Subjects)
-                                        {
-                                            <option value="@theme.Id">@theme.Name</option>
-                                        }
-                                    </select>*@
                                     <div class="ms form-control">
                                         <ul class="ms__chose">
                                             <li>
@@ -84,8 +56,7 @@
                                                     id="name"
                                                     type="text"
                                                     class="ms__input"
-                                                    placeholder="Поиск..."
-                                                />
+                                                    placeholder="Поиск..."/>
                                             </li>
                                         </ul>
                                         <ul class="ms__dropdown ms__dropdown_hidden">
@@ -97,6 +68,22 @@
                                             }
                                         </ul>
                                     </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="mar-bottom-mini">
+                                    <h4 class="text-center text-white text-uppercase">Выберите тему своей услуги</h4>
+                                </div>
+                                <fieldset class="input_field">
+                                    <select class="form-control"
+                                            name="themes"
+                                            id="themes">
+                                        @foreach (var theme in Model.Themes)
+                                        {
+                                            <option value="@theme.Id">@theme.Name</option>
+                                        }
+                                    </select>
                                 </fieldset>
                             </div>
 
@@ -116,6 +103,7 @@
         </div>
     </div>
 </div>
+
 @section Scripts
 {
     <script src="~/js/Favor/AddSolution.js" asp-append-version="true"></script>
