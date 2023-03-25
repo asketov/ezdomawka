@@ -1,103 +1,97 @@
-.choices__inner{
-    width: 100%;
-    border-radius: 25px;
-    background-color: rgba(249, 235, 255, 0.15);
-    border: none;
-    outline: none;
-    padding: 20px;
-    font-weight: 300;
-    font-size: 14px;
-    color: #fff;
+
+
+.ms {
     position: relative;
-    z-index: 3;
-}
-.choices[data-type*=select-one] .choices__inner{
-    padding: 10px;
-}
-
-.is-open .choices__inner {
-    border-radius: 25px !important; 
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-}
-.is-flipped.is-open .choices__inner {
-    border-radius: 25px !important;
-    border-top-right-radius: 0 !important;
-    border-top-left-radius: 0 !important;
+    border: 2px solid rgba(9, 9, 121, 1);
+    border-radius: 10px;
+    padding: 10px 20px;
+    background-color: #4169e1;
+    color: black;
+    cursor: pointer;
 }
 
-.choices__list{
-    z-index: 50 !important;
-}
-.choices__list--dropdown{
-    z-index: 50 !important;
-}
-
-
-.choices__input{
-    margin-top: 15px;
-    width: 100% !important;
-}
-
-
-.choices__list--multiple .choices__item {
-    background-color: #297eff !important;
-    border: none;
-}
-
-.choices[data-type*=select-one] .choices__input {
-    background-color: rgba(229, 229, 229, 0.25);
-    color: #838383;
-    border: none;
-}
-
-.choices__list--dropdown, .choices__list[aria-expanded],
-.choices__list--dropdown .choices__item--selectable.is-highlighted,
-.choices__list[aria-expanded] .choices__item--selectable {
-    background-color: #fff;
-    color: #4890fd !important;
-    border: none;
-    padding: 8px;
-}
-.choices__list[aria-expanded] .choices__item--selectable.is-highlighted{
-    background-color: #fff;
-    color: #0968ff !important;
+.ms__input {
+    flex: 1 1 100px;
     font-size: 14px;
-    font-weight: bold;
+    line-height: 1.3;
+    height: 100%;
+    background-color: #fff;
 }
 
-.choices__item{
-    border: none;
-}
-.choices__item--selectable{
-    background: none;
-}
-
-
-.choices__list--dropdown{
-    border-bottom-left-radius: 25px !important;
-    border-bottom-right-radius: 25px !important;
-}
-.is-flipped .choices__list--dropdown{
-    border-top-right-radius: 25px !important;
-    border-top-left-radius: 25px !important;
-
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
+.ms__chose {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.input_form textarea{
-    margin-bottom: 0;
+.ms__chose-item {
+    font-size: 11px;
+    background: linear-gradient(0deg, rgb(14, 99, 184), rgb(5, 6, 120));
+    border-radius: 10px;
+    color: white;
+    padding: 5px 10px;
+    box-sizing: border-box;
 }
 
-@media (max-width: 1450px) {
-    .contact-us:before{
-        display: none;
+.ms__dropdown {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 20;
+    width: 100%;
+    background: rgb(26, 26, 78);
+    border-radius: 10px;
+    height: 200px;
+    overflow: scroll;
+}
+
+    .ms__dropdown > * + * {
+        padding-top: 5px;
+        border-top: 1px solid white;
     }
-    
-    .add_menu_element{
-        width: 96%;
-        margin-left: 2%;
-        margin-right: 2%;
+
+.ms__dropdown_hidden {
+    display: none;
+}
+
+.ms__dropdown-item {
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px 26px;
+    color: white;
+}
+
+    .ms__dropdown-item:not(:last-child) {
+        padding-bottom: 5px;
     }
+
+.ms__dropdown-item_chose {
+    opacity: 0.5;
+    background-color: lightseagreen;
+}
+
+.ms__dropdown-item_hidden {
+    display: none;
+}
+
+.ms__dropdown-item:first-child {
+    padding-top: 10px;
+    border-radius: 10px 10px 0 0;
+}
+
+.ms__dropdown-item:last-child {
+    padding-bottom: 10px;
+    border-radius: 0 0 10px 10px;
+}
+
+.ms__dropdown-item_current,
+.ms__dropdown-item:hover {
+    background: linear-gradient(0deg, rgb(178, 123, 34), rgb(84, 50, 84));
+    border-left: 1px solid white;
+    border-right: 1px solid white;
 }

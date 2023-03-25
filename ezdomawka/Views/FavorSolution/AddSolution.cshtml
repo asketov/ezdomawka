@@ -3,27 +3,22 @@
 
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/pages/login.css"  asp-append-version="true">
-    <link rel="stylesheet" href="~/css/pages/main.css"  asp-append-version="true">
-
-    <!-- Choices includes -->
-    <link rel="stylesheet" href="~/lib/new/sellector/assets/styles/choices.css"  asp-append-version="true"/>
-    <!-- End Choices includes -->
-    
-    <link rel="stylesheet" href="~/css/pages/addsolution.css"  asp-append-version="true">
+    @*<link rel="stylesheet" href="~/css/pages/login.css">*@
 }
+
+<link rel="stylesheet" href="~/css/pages/addsolution.css" asp-append-version="true">
 
 <div class="contact-us section" id="contact">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6  align-self-center add_menu_element">
+            <div class="col-lg-5  align-self-center add_menu_element">
                 <div class="section-heading">
                     <h6>Создать услугу</h6>
                     <h2 class="no_extra_text_effects">На этой странице вы можете добавить новую услугу.</h2>
                 </div>
             </div>
 
-            <div class="col-lg-6 add_menu_element">
+            <div class="col-lg-7 add_menu_element">
                 <div class="contact-us-content">
                     <form class="input_form" id="form">
                         <div class="row">
@@ -56,11 +51,10 @@
                                 </div>
                                 <fieldset class="input_field">
                                     <select class="form-control"
-                                            data-trigger
-                                            id="subjects"
-                                            placeholder="Вашы предметы...."
-                                            multiple>
-                                        @foreach (var subject in Model.Subjects)
+                                            name="themes"
+                                            id="themes"
+                                            >
+                                        @foreach (var theme in Model.Themes)
                                         {
                                             <option value="@subject.Id">@subject.Name</option>
                                         }
@@ -73,16 +67,36 @@
                                     <h4 class="text-center text-white text-uppercase">Выберите тему своей услуги</h4>
                                 </div>
                                 <fieldset class="input_field">
-                                    <select class="form-control"
+                                   @* <select class="form-control"
                                             data-trigger
-                                            name="themes"
-                                            id="themes"
-                                            placeholder="Тема">
-                                        @foreach (var theme in Model.Themes)
+                                            id="subjects"
+                                            placeholder="Ваши предметы...."
+                                            multiple>
+                                        @foreach (var subject in Model.Subjects)
                                         {
                                             <option value="@theme.Id">@theme.Name</option>
                                         }
-                                    </select>
+                                    </select>*@
+                                    <div class="ms form-control">
+                                        <ul class="ms__chose">
+                                            <li>
+                                                <input
+                                                    id="name"
+                                                    type="text"
+                                                    class="ms__input"
+                                                    placeholder="Поиск..."
+                                                />
+                                            </li>
+                                        </ul>
+                                        <ul class="ms__dropdown ms__dropdown_hidden">
+                                            @foreach (var subject in Model.Subjects)
+                                            {
+                                                <li value="@subject.Id" class="ms__dropdown-item ms__dropdown-item_visible">
+                                                    @subject.Name
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
                                 </fieldset>
                             </div>
 
@@ -102,15 +116,7 @@
         </div>
     </div>
 </div>
-
 @section Scripts
 {
-    <!-- Optional includes -->
-    <script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=Array.from%2Ces5%2Ces6%2CSymbol%2CSymbol.iterator%2CDOMTokenList%2CObject.assign%2CCustomEvent%2CElement.prototype.classList%2CElement.prototype.closest%2CElement.prototype.dataset%2CArray.prototype.find%2CArray.prototype.includes%2Cfetch" 
-             asp-append-version="true"></script>
-    <!-- End optional includes -->
-    <script src="~/lib/new/sellector/assets/scripts/choices.js"  asp-append-version="true"></script>
-    <script src="~/lib/new/sellector/app.js"  asp-append-version="true"></script>
-    
-    <script src="~/js/Favor/AddSolution.js"  asp-append-version="true"></script>
+    <script src="~/js/Favor/AddSolution.js" asp-append-version="true"></script>
 }
