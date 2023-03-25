@@ -39,6 +39,8 @@ namespace BLL.AutoMapper.Profiles
                 .ForMember(x => x.Subjects, opt => opt.Ignore())
                 .ForMember(x => x.SelectedSubjects, f=>f.MapFrom(x => x.Subjects));
             CreateMap<ReportRequest, Report>();
+            
+            CreateMap<Report, ReportVm>();
         }
     }
 }

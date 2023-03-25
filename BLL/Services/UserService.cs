@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using BLL.Models.Admin;
 using BLL.Models.Auth;
 using BLL.Models.FavorSolution;
 using BLL.Models.UserModels;
+using BLL.Models.ViewModels;
 using Common.Exceptions.User;
 using Common.Helpers;
 using DAL;
@@ -86,6 +88,13 @@ namespace BLL.Services
             if (user == null) return false;
             return user.IsBanned;
         }
+        
+        public async Task<bool> UserIsNotBanned(Guid userId)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user == null) return false;
+            return !user.IsBanned;
+        }
 
         public async Task<Ban?> GetCurrentBanOrDefault(Guid userId)
         {
@@ -98,6 +107,26 @@ namespace BLL.Services
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);
             if (user != null) user.IsBanned = false;
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<BanVm>> GetBans(Guid userId, DateTime? minCreateDateFilter = null, bool includePassed = true, int skip = 0, int take = 10)
+        {
+            minCreateDateFilter = minCreateDateFilter ?? DateTime.MinValue;
+            
+            var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Id == userId);
+
+            if (user == null)
+                return Array.Empty<BanVm>();
+
+            IEnumerable<Ban> bans = user.Bans;
+
+            if (!includePassed)
+                bans = bans.Where(ban => ban.BanTo >= DateTime.Now);
+
+            return bans.Where(ban => ban.BanFrom > minCreateDateFilter)
+                .Skip(skip)
+                .Take(take)
+                .Select(ban => _mapper.Map<BanVm>(ban)); 
         }
     }
 }
