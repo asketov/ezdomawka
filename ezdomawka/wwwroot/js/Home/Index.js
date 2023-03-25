@@ -3,7 +3,7 @@ $(document).ready(function () {
     let ThemeId = $("#themes option").val();
     let SubjectId =  $("#subjects option").val();
     let MinPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
-    let MaxPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
+    let MaxPrice = Number.parseInt($("#maxPrice").val().split(' ')[0]);
     let PageSubjects = 0;
     let CountSubjects;
     let NowFavorId;
@@ -48,7 +48,7 @@ $(document).ready(function () {
     });
 
 
-    $(document).on('click', '.page', function (event) {
+    $(document).on('click', '#selector', function (event) {
         let skip = (Number.parseInt(event.currentTarget.value) - 1) * 10;
         $('#favorSolutions').append("<div class='pt-4'><div class='loader'></div></div>");
         $.ajax({
@@ -60,6 +60,7 @@ $(document).ready(function () {
                 Skip: skip, MinPrice: MinPrice, MaxPrice: MaxPrice
             },
             success: function (data) {
+                
                 $('#favorSolutions').empty();
                 $('#favorSolutions').replaceWith(data);
                 window.scrollTo(0, 0);
@@ -132,6 +133,7 @@ $(document).ready(function () {
         NowFavorId = favorId;
         $('.Content').append("<div><div class='loader'></div></div>");
         $('.Modal').addClass('Active');
+        
         $.ajax({
             url: '/FavorSolution/GetFavorSubjects/',
             method: 'get',

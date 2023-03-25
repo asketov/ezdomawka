@@ -16,7 +16,7 @@ using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace ezdomawka.Controllers
 {
-    //[Authorize(Roles =  $"{Roles.SuperAdminId},{Roles.AdminId}")]
+    [Authorize(Roles =  $"{Roles.SuperAdminId},{Roles.AdminId}")]
     public class AdminController : BaseController
     {
         private readonly IMapper _mapper;
@@ -33,6 +33,7 @@ namespace ezdomawka.Controllers
             var themes = await _adminService.GetThemeModels();
             return View(themes.Select(x=> _mapper.Map<ThemeVm>(x)));
         }
+        
         [HttpGet]
         public async Task<IActionResult> SubjectManager()
         {
@@ -67,7 +68,6 @@ namespace ezdomawka.Controllers
                 if (!await _adminService.UserNotAdmin(request.UserId)) return BadRequest();
                 await _adminService.BanUser(request);
                 return StatusCode(StatusCodes.Status200OK, new { redirect = "/home/index" });
-
             }
             return BadRequest();
         }
