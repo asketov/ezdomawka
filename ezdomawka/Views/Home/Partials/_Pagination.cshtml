@@ -1,8 +1,8 @@
-﻿@model BLL.Models.ViewModels.FavorsWithPaginationVm.PaginationConfiguration
+﻿@model int
 
 @{
-    var solutionsCount = Model.CountFavorSolutions;
-    uint countPages = solutionsCount % 10 == 0 ? solutionsCount / 10 : solutionsCount / 10 + 1;
+    var solutionsCount = Model;
+    int countPages = solutionsCount % 10 == 0 ? solutionsCount / 10 : solutionsCount / 10 + 1;
     <script>
         var countPages = @countPages;
     </script>
@@ -22,20 +22,16 @@ else if(countPages > 5)
 {
     <div class="d-flex justify-content-center">
         <div class="nav_menu">
-            @if(@Model.FavorSolutionsOffset > 0)
-            {
-            <button class="nav_menu_button" id="previousPages"> &lt;&lt; </button>
-            }
             
-            @for (uint i = @Model.FavorSolutionsOffset + 1; i <= Math.Min(countPages ,@Model.FavorSolutionsOffset + 5); i++)
+            <button class="nav_menu_button" id="previousPages"> &lt;&lt; </button>
+
+            @for (uint i = 1; i <= countPages + 5; i++)
             {
                 <button class="nav_menu_button" id="selector" value="@i">@i</button>
             }
+
+            <button class="nav_menu_button" id="nextPages"> &gt;&gt; </button>
             
-            @if (Model.FavorSolutionsOffset < countPages)
-            {
-                <button class="nav_menu_button" id="nextPages"> &gt;&gt; </button>
-            }
         </div>
     </div>
 }
