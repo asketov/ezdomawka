@@ -6,14 +6,14 @@
         <div class="pt-1 col-12">
             @foreach (var el in Model)
             {
-                <partial model="@el" name="../FavorSolution/Partials/_FavorSolutionCard"/>
+                <partial model="@el" name="Partials/_FavorSolutionCard"/>
             }
         </div>
     }
     else
     {
         <div class="d-flex justify-content-center pt-4">
-            <h2 class="text-center">Таких услуг нет</h2>
+            <h2 class="text-center">У вас нет услуг</h2>
         </div>
     }
 </div>

@@ -2198,4 +2198,9 @@
     <None Include="Views\Admin\UserPanel.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="Views\User\Partials\_FavorSolutionCard.cshtml" />
+    <AdditionalFiles Include="Views\User\Partials\_FavorSolutions.cshtml" />
+  </ItemGroup>
+
 </Project>
