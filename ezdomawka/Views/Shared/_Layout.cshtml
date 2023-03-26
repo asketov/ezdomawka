@@ -11,15 +11,14 @@
     <link href="~/lib/new/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"  asp-append-version="true">
 
     <link rel="stylesheet" href="~/css/base/fontawesome.css">
-    <link rel="stylesheet" href="~/css/base/app.css">
-    <link rel="stylesheet" href="~/css/base/owl.css">
-    <link rel="stylesheet" href="~/css/base/animate.css">
-    <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
-    <link rel="stylesheet" href="~/css/pages/main.css" asp-append-version="true">
-
-    <script src="https://kit.fontawesome.com/2043842d05.js" crossorigin="anonymous"  asp-append-version="true"></script>
-    
+    <link rel="stylesheet" href="~/css/base/app.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/base/owl.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/base/animate.css" asp-append-version="true">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
     @await RenderSectionAsync("Styles", required: false);
+    <link rel="stylesheet" href="~/css/pages/main.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/base/modal.css" asp-append-version="true">
+    <script src="https://kit.fontawesome.com/2043842d05.js" crossorigin="anonymous" asp-append-version="true"></script>
 </head>
 
 <body>
@@ -84,12 +83,12 @@
 <!--Header Area End-->
 
 @RenderBody()
-
+    
 <script src="~/lib/new/jquery/dist/jquery.min.js"  asp-append-version="true"></script>
 <script src="~/lib/new/bootstrap/dist/js/bootstrap.min.js"  asp-append-version="true"></script>
-<script src="~/js/default/isotope.min.js"  asp-append-version="true"></script>
+@*<script src="~/js/default/isotope.min.js"  asp-append-version="true"></script>*@
 <script src="~/js/default/owl-carousel.js"  asp-append-version="true"></script>
-<script src="~/js/default/counter.js"  asp-append-version="true"></script>
+@*<script src="~/js/default/counter.js"  asp-append-version="true"></script>*@
 <script src="~/js/default/custom.js"  asp-append-version="true"></script>
 <script src="~/lib/new/bootstrap/dist/js/bootstrap.bundle.min.js"  asp-append-version="true"></script>
 <script src="~/lib/new/jquery-validation/dist/jquery.validate.min.js"  asp-append-version="true"></script>
