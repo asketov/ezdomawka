@@ -124,12 +124,12 @@ namespace ezdomawka.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> FavorSolutions(CancellationToken token)
+        public async Task<IActionResult> FavorSolutions()
         {
             var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
-            var favorSolutions = await _userService.GetFavorSolutionsByUserId(userId, token);
+            var favorSolutions = await _userService.GetFavorSolutionsByUserId(userId);
             var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x)).ToList();
-            return View("MyFavors", vms);
+            return View("Favors", vms);
         }
 
         [HttpGet]

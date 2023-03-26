@@ -70,10 +70,10 @@ namespace BLL.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task<List<SolutionModel>> GetFavorSolutionsByUserId(Guid userId, CancellationToken token)
+        public async Task<List<SolutionModel>> GetFavorSolutionsByUserId(Guid userId)
         {
             var favorSolutions = await _db.FavorSolutions.Where(x => x.AuthorId == userId)
-                .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
+                .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync();
             return favorSolutions;
         }
 

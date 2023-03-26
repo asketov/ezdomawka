@@ -29,11 +29,14 @@
 
         <div class="col-lg-12 col-lg-12--flex">
             <fieldset class="button button--remove">
-                <button class="orange-button"
-                        onclick="location.href='@Url.Action("EditFavor", "User")'">Редактировать</button>
+                <a asp-controller="Admin" asp-action="FavorReportsPage" asp-route-favorId="@Model.Id">
+                    <button class="orange-button">
+                        Жалобы
+                    </button>
+                </a>
             </fieldset>
             
-            <fieldset class="button--ban">
+            <fieldset class="button button--ban">
                 <button class="orange-button"
                         onclick="location.href='@Url.Action("DeleteFavor", "User")'"
                         asp-route-Id="@Model.Id">Удалить услугу</button>
