@@ -60,14 +60,13 @@
             {
                 <fieldset class="button button--ban">
                     <button class="orange-button"
-                            onclick="location.href='@Url.Action("BanUser", "Admin")'"
-                            asp-route-favorId="@Model.Id">Заблокировать</button>
+                            id="BanUser"  value="@Model.AuthorId">Заблокировать</button>
                 </fieldset>
 
                 <fieldset class="button button--remove">
-                    <button class="orange-button"
-                            onclick="location.href='@Url.Action("DeleteFavor", "User")'"
-                            asp-route-favorId="@Model.Id">Удалить услугу</button>
+                    <button onclick="location.href='/User/DeleteFavor?returnUrl=%2F&favorId=0c9477e6-a218-4366-88fe-9c524aaca3a3'" class="orange-button"
+                            asp-route-returnUrl="@Url.Action("Index", "Home")" 
+                            asp-route-favorId="@Model.Id" asp-controller="User" asp-action="DeleteFavor">Удалить услугу</button>
                 </fieldset>
             }
         </div>
