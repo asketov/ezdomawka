@@ -43,6 +43,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    /*
     using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetService<DataContext>();
@@ -56,9 +57,15 @@ if (app.Environment.IsDevelopment())
         if(!await dbContext.AnyThemeAdded())
             await dbContext.AddThemeFromFile(@"D:\lesons\DotnetMicrosoftGuidLearningProjects\MAIN\Tasks\ezdomawka\ezdomawka\темы.txt");
 
+        var s = dbContext.GetUserFavorSolutions;
+
+        foreach (var ss in s)
+        {
+            ss.Price = new Random().Next(0, 20000);
+        }
         
         dbContext.SaveChanges();
-    }
+    }*/
 }
     
 // Configure the HTTP request pipeline.
