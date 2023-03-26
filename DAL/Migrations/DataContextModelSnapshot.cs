@@ -83,7 +83,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("ThemeId");
 
-                    b.ToTable("FavoriteSolutions");
+                    b.ToTable("FavorSolutions");
 
                     b.UseTptMappingStrategy();
                 });
@@ -100,7 +100,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("FavoriteSubjects");
+                    b.ToTable("FavorSubjects");
                 });
 
             modelBuilder.Entity("DAL.Entities.Notification", b =>
@@ -213,6 +213,9 @@ namespace DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<bool>("IsActual")
                         .HasColumnType("boolean");
 
@@ -222,6 +225,8 @@ namespace DAL.Migrations
                         .HasColumnType("character varying(500)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreationDate");
 
                     b.ToTable("Suggestions");
                 });

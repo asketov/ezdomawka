@@ -20,10 +20,14 @@
     align-items: center;
 }
 
-.edit_model .edit_model_element{
+.edit_model_element{
     color: #fff !important;
     font-size: 16px !important;
     font-weight: bold !important;
+}
+
+.edit_model_element--large{
+    font-size: 36px !important;
 }
 
 .input_form_input--search-button{

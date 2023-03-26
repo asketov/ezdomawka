@@ -111,6 +111,7 @@ namespace ezdomawka.Controllers
             return BadRequest();
         }
         
+        #region Subjects
         [HttpGet]
         public async Task<IActionResult> EditSubject(Guid id)
         {
@@ -136,7 +137,7 @@ namespace ezdomawka.Controllers
             }
             return BadRequest();
         }
-
+        #endregion
 
         #region Views
         [HttpGet]
@@ -177,6 +178,7 @@ namespace ezdomawka.Controllers
             return View("UserFavors", vms);
         }
         
+        [HttpGet]
         public async Task<IActionResult> FavorReportsPage(Guid favorId)
         {
             try
@@ -189,6 +191,13 @@ namespace ezdomawka.Controllers
             {
                 return NotFound();
             }
+        }
+
+        public async Task<IActionResult> SuggestionsPage()
+        {
+            var suggestions = await GetSuggestions(new GetSuggestionsRequest());
+
+            return View("Suggestions" ,suggestions);
         }
         #endregion
 
@@ -279,6 +288,14 @@ namespace ezdomawka.Controllers
             await _favorSolutionService.CleanReports(favorId);
 
             return Ok();
+        }
+        #endregion
+
+        #region Suggection
+        [HttpGet]
+        public async Task<IEnumerable<SuggestionVm>> GetSuggestions(GetSuggestionsRequest request)
+        {
+            return await _adminService.GetSuggestions(request);
         }
         #endregion
     }

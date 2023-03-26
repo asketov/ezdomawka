@@ -1,0 +1,31 @@
+﻿@using BLL.Models.ViewModels
+@model IEnumerable<BLL.Models.ViewModels.SuggestionVm>
+
+<div class="container p-3">
+    <table class="table table-bordered table-striped edit_model" style="width: 100%">
+            <thead>
+            <tr>
+                <th class="edit_model_element">
+                    Текст
+                </th>
+                <th class="edit_model_element">
+                    Контакты
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (SuggestionVm obj in Model)
+            {
+                <tr>
+                    <td width="80%" class="edit_model_element">@obj.Text</td>
+                    
+                    <td width="20%" class="edit_model_element">@(obj.Connection)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+</div>
+
+
+
+
