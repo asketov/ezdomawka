@@ -9,7 +9,7 @@
 }
 
 .go-to-section a{
-    font-size: clamp(10px, 0.8vw, 18px) !important;
+    font-size: clamp(15px, 0.8vw, 18px) !important;
 }
 
 .no_extra_text_effects{

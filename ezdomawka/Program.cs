@@ -56,12 +56,6 @@ if (app.Environment.IsDevelopment())
         if(!await dbContext.AnyThemeAdded())
             await dbContext.AddThemeFromFile(@"D:\lesons\DotnetMicrosoftGuidLearningProjects\MAIN\Tasks\ezdomawka\ezdomawka\темы.txt");
 
-        var s = dbContext.FavorSolutions;
-
-        foreach (var ss in s)
-        {
-            ss.Price = new Random().Next(0, 20000);
-        }
         
         dbContext.SaveChanges();
     }

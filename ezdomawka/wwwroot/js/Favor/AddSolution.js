@@ -1,23 +1,5 @@
 ﻿let selectedSubjects = [];
 $(document).ready(function () {
-	var choicesSelect = new Choices('#subjects', {
-		allowHTML: true,
-		removeItemButton: true,
-	});
-
-	choicesSelect.passedElement.element.addEventListener(
-		'addItem',
-		function(event) {
-			selectedSubjects.push({ id: event.detail.value, name: event.detail.label });
-		}
-	);
-
-	choicesSelect.passedElement.element.addEventListener(
-		'removeItem',
-		function(event) {
-			selectedSubjects.filter(el => el.id != event.detail.value);
-		}
-	);
 
 	$("#addFavor").click(function () {
 		if ($("#form").valid())

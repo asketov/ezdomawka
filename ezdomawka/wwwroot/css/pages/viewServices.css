@@ -214,6 +214,11 @@ input[type="range"]::-moz-range-thumb {
     color: #fff !important;
 }
 
+.col-lg-12--flex .button--subjects button {
+    background-color: #82acff !important;
+    color: #ffffff !important;
+}
+
 .events .item{
     margin-left: 5px;
     margin-right: 5px;
