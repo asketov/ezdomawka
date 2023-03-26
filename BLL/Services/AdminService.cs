@@ -107,10 +107,27 @@ namespace BLL.Services
             return null;
         }
 
-        public async Task<bool> UserNotAdmin(Guid userId)
+        #region UserRoles
+        public async Task<bool> UserIsAdmin(Guid userId)
         {
-            return await _db.Users.AnyAsync(x => x.Id == userId && x.RoleId != Guid.Parse(Roles.SuperAdminId));
+            return await _db.Users.AnyAsync(x => x.Id == userId && 
+                                                 (x.RoleId == Guid.Parse(Roles.SuperAdminId)
+                                                 || x.RoleId == Guid.Parse(Roles.AdminId)));
         }
+        
+        public async Task<bool> UserIsSuperAdmin(Guid userId)
+        {
+            return await _db.Users.AnyAsync(x => x.Id == userId &&  x.RoleId == Guid.Parse(Roles.SuperAdminId));
+        }
+        
+        public async Task<bool> UserIsNotAdmin(Guid userId)
+        {
+            var user = await _db.Users.FirstAsync(x => x.Id == userId);
+            
+            return   user.RoleId != Guid.Parse(Roles.SuperAdminId) &&
+                     user.RoleId != Guid.Parse(Roles.AdminId);
+        }
+        #endregion
 
         public async Task BanUser(BanRequest request)
         {
@@ -119,16 +136,32 @@ namespace BLL.Services
                 BanFrom = DateTime.UtcNow, BanTo = DateTime.UtcNow.AddDays(request.Duration), UserId = request.UserId,
                 Reason = request.Reason
             };
+            
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == request.UserId);
+            
             if (user != null)
             {
                 user.IsBanned = true;
                 if (user.Bans != null) user.Bans?.Add(ban);
                 else user.Bans = new List<Ban>() { ban };
+                
                 await _db.SaveChangesAsync();
             }
         }
 
+        public async Task UnBanUser(Guid userId)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            
+            if (user != null)
+            {
+                user.IsBanned = false;
+                user.Bans = new List<Ban>();
+
+                await _db.SaveChangesAsync();
+            }
+        }
+        
         public async Task<List<UserVm>> GetUsersByRequest(UserPanelRequest request, CancellationToken token)
         {
             var users = await _db.Users.WithEmailFilter(request.Email).WithNickFilter(request.Nick)
@@ -139,6 +172,11 @@ namespace BLL.Services
         public async Task<int> GetCountUsersByFilters(UserPanelRequest request, CancellationToken token)
         {
             return await _db.Users.WithEmailFilter(request.Email).WithNickFilter(request.Nick).CountAsync(token);
+        }
+
+        public async Task<bool> CheckUserExistById(Guid userId)
+        {
+            return await _db.Users.AnyAsync(user => user.Id == userId);
         }
     }
 }

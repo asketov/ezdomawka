@@ -19,7 +19,6 @@ namespace BLL.Models.Admin
         [MaxLength(MailConfiguration.MaxLength, ErrorMessage = "Почта должна быть меньше {1} символов")]
         public string? Email { get; set; }
         
-        
         public int Skip { get; set; } = 0;
         public int Take { get; set; } = 10;
     }
