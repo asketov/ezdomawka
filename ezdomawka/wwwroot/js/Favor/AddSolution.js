@@ -54,7 +54,8 @@ document.addEventListener("click", (event) => {
 	}
 	// Клик по выбранному элементу в поле ввода
 	if (event.target.closest(".ms__chose-item")) {
-		searchChoseElement(event.target.textContent);
+		searchChoseElement(event.target.textContent, event.target.id);
+		console.log(selectedSubjects);
 	}
 });
 
@@ -67,10 +68,12 @@ msInput.addEventListener("focus", (event) => {
 msDropdownList &&
 msDropdownList.addEventListener("click", (event) => {
 	if (event.target.classList.contains("ms__dropdown-item_chose")) {
-		searchChoseElement(event.target.textContent);
+		searchChoseElement(event.target.textContent, event.target.id);
 	} else if (event.target.classList.contains("ms__dropdown-item")) {
 		createNewElement("li", ["ms__chose-item"], event, msChose);
+		selectedSubjects.push({ id: event.target.id, name: '22' });
 	}
+	console.log(selectedSubjects);
 	msInput.value = "";
 	checkInputValue();
 });
@@ -80,26 +83,28 @@ function createNewElement(tag, styles, event, parent) {
 	const newElement = document.createElement(tag);
 	newElement.classList.add(...styles);
 	newElement.textContent = event.target.textContent;
+	newElement.id = event.target.id;
 	parent.prepend(newElement);
 	event.target.classList.add("ms__dropdown-item_chose");
 }
 
 // Поиск выбранного элемента из списка
-function searchChoseElement(text) {
+function searchChoseElement(text, subjectId) {
 	msDropdownItems.forEach((item) => {
 		if (text.toLowerCase() === item.textContent.toLowerCase()) {
 			item.classList.remove("ms__dropdown-item_chose");
-			deleteElement(text);
+			deleteElement(text, subjectId);
 		}
 	});
 }
 
 // Удаление элемента из поля ввода
-function deleteElement(text) {
+function deleteElement(text, subjectId) {
 	const msChoseItems = document.querySelectorAll(".ms__chose-item");
 	msChoseItems.forEach((item) => {
 		if (text.toLowerCase() === item.textContent.toLowerCase()) {
 			item.remove();
+			selectedSubjects = selectedSubjects.filter(el => el.id != subjectId);
 		}
 	});
 }
