@@ -13,10 +13,10 @@ namespace BLL.Models.ViewModels
         public IEnumerable<FavorSolutionVm> FavorSolutionVms { get; set; } = null!;
         
         [Required]
-        public uint CountFavorSolutions { get; set; }
+        public int CountFavorSolutions { get; set; }
         
         [Required]
-        public uint FavorSolutionsOffset { get; set; }
+        public int FavorSolutionsOffset { get; set; }
 
         public PaginationConfiguration PaginationConfig => new PaginationConfiguration()
             { CountFavorSolutions = CountFavorSolutions, FavorSolutionsOffset = FavorSolutionsOffset };
@@ -24,10 +24,10 @@ namespace BLL.Models.ViewModels
         public class PaginationConfiguration
         {
             [Required]
-            public uint CountFavorSolutions { get; set; }
+            public int CountFavorSolutions { get; set; }
         
             [Required]
-            public uint FavorSolutionsOffset { get; set; }
+            public int FavorSolutionsOffset { get; set; }
         }
     }
 }

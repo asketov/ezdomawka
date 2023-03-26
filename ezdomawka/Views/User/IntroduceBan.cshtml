@@ -1,1 +1,22 @@
-﻿
+﻿@model BLL.Models.ViewModels.BanVm
+
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/pages/information.css" asp-append-version="true">
+}
+
+<div class="contact-us section" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="contact-us-content">
+                    <div class="info_text">
+                        <div class="head">Вы забанены до @Model.BanTo</div>
+                        <div class="body">По причине: @Model.Reason</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

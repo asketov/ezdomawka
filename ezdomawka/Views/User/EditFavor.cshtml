@@ -1,1 +1,73 @@
-﻿
+﻿@model BLL.Models.ViewModels.EditSolutionVm
+
+<div class="d-flex justify-content-center">
+    <div class="col-12 addSolutionCard">
+        <form id="form">
+            <input hidden id="id" value="@Model.Id"/>
+            <div>
+                <div class="pt-2">
+                    <textarea id="text" asp-for="Text" data="elastic" class="form-control" placeholder="Введите текст* (опишите вашу услугу)"></textarea>
+                    <span class="text-danger" asp-validation-for="Text"></span>
+                </div>
+                <div class="pt-2">
+                    <input id="price" asp-for="Price" min="0" max="20000" type="number" class="form-control" placeholder="Сколько вы хотите за услугу?* (цена)"/>
+                    <span class="text-danger" asp-validation-for="Price"></span>
+                </div>
+                <div class="pt-2">
+                    <input id="connect" asp-for="Connection" type="text" class="form-control" placeholder="Как с вами связаться?* (пример: https://t.me/name)"/>
+                    <span class="text-danger" asp-validation-for="Connection"></span>
+                </div>
+                <div class="box pt-2 d-flex">
+                    <select id="themes" class="item form-select">
+                        @foreach (var theme in Model.Themes)
+                        {
+                            <option value="@theme.Id">@theme.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="box pt-2 d-flex">
+                    <select class="item form-select" id="subjects">
+                        <option value="select_all">Выбрать все предметы</option>
+                        @foreach (var subject in Model.Subjects)
+                        {
+                            <option value="@subject.Id">@subject.Name</option>
+                        }
+                    </select>
+                    <button id="addSubject" type="button" class="item btn btn-dark">Выбрать</button>
+                </div>
+                <div class="SelectedSubjects pt-2">
+                    @foreach (var el in Model.SelectedSubjects)
+                    {
+                        <div class='${selectedOption.val()} @el.Id d-flex justify-content-center pt-2 box'>
+                            <div class='selectedSubject p-3'>
+                                <i class='item'>@el.Name</i>
+                                <button value='@el.Id' id='deleteSubjectButton'
+                                        type='button' class='item btn btn-dark'><i class='fa-solid fa-trash'></i>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="pt-2 text-center">
+                    <button id="editFavor" type="button" class="btn btn-dark">Сохранить</button>
+                    <button id="clearFormButton" type="button" class="btn btn-danger">Очистить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<link href="~/css/Favor/addSolution.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+           
+@section Scripts{
+    <script src="~/js/Favor/AddSolution.js" asp-append-version="true"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @foreach (var el in Model.SelectedSubjects)
+    {
+         <script>
+            selectedSubjects.push({ id: '@el.Id', name: '@el.Name' });
+         </script>
+    }
+}
