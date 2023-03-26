@@ -140,12 +140,15 @@ namespace ezdomawka.Controllers
 
         
         [HttpGet]
+        ////Pag onclick
         public async Task<IActionResult> GetUserTable(UserPanelRequest request, CancellationToken token)
         {
             var userVms = await _adminService.GetUsersByRequest(request, token);
             return PartialView("Partials/_UserTable", userVms);
         }
+
         [HttpGet]
+        ////View no change
         public async Task<IActionResult> UserPanel(UserPanelRequest request, CancellationToken token)
         {
             var userVms = await _adminService.GetUsersByRequest(request, token);
@@ -153,6 +156,7 @@ namespace ezdomawka.Controllers
             return View(new UserPanelVm() {CountUsersByFilters = count, UserVms = userVms});
         }
 
+        ////Pag View
         [HttpGet]
         public async Task<IActionResult> GetUsersWithPagination(UserPanelRequest request, CancellationToken token)
         {
