@@ -13,6 +13,10 @@
                 <span>Об Услуге: @Model.Text</span>
             </li>
             <li>
+                <span>Уникальный идетификатор:</span>
+                <h6>@Model.Id</h6>
+            </li>
+            <li>
                 <span>
                     <b>Добавлена:</b>
                 </span>
@@ -31,13 +35,13 @@
             <fieldset class="button button--remove">
                 <button class="orange-button"
                         onclick="location.href='@Url.Action("EditFavor", "User")'"
-                        asp-route-id="@Model.Id">Редактировать</button>
+                        asp-route-Id="@Model.Id">Редактировать</button>
             </fieldset>
             
             <fieldset class="button">
                 <button class="orange-button"
                         onclick="location.href='@Url.Action("DeleteFavor", "User")'"
-                        asp-route-id="@Model.Id">Удалить услугу</button>
+                        asp-route-Id="@Model.Id">Удалить услугу</button>
             </fieldset>
         </div>
     </div>
