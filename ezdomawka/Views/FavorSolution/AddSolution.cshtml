@@ -62,7 +62,7 @@
                                         <ul class="ms__dropdown ms__dropdown_hidden">
                                             @foreach (var subject in Model.Subjects)
                                             {
-                                                <li value="@subject.Id" class="ms__dropdown-item ms__dropdown-item_visible">
+                                                <li id="@subject.Id" class="ms__dropdown-item ms__dropdown-item_visible">
                                                     @subject.Name
                                                 </li>
                                             }
