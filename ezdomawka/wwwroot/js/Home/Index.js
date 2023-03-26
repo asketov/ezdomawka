@@ -1,7 +1,7 @@
 ﻿
 $(document).ready(function () {
-    let ThemeId = $("#themes option").val();
-    let SubjectId =  $("#subjects option").val();
+    let ThemeId = $("#themes option:selected").val();
+    let SubjectId = $("#subjects option:selected").val();
     let MinPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
     let MaxPrice = Number.parseInt($("#maxPrice").val().split(' ')[0]);
     let PageSubjects = 0;
@@ -9,8 +9,8 @@ $(document).ready(function () {
     let NowFavorId;
 
     $("#findFavors").click(function () {
-        let selectedThemeId = $("#themes option").val();
-        let selectedSubjectId = $("#subjects option").val();
+        let selectedThemeId = $("#themes option:selected").val();
+        let selectedSubjectId = $("#subjects option:selected").val();
         let minPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
         let maxPrice = Number.parseInt($("#maxPrice").val().split(' ')[0]);
         $('#FavorsWithPagination').empty();
@@ -376,7 +376,7 @@ $(document).ready(function () {
             });
         }
     });
-    $("#sortOptions").on('change', function () {
+    $(".serviceListSearch").on('change', function () {
         let selectedThemeId = $("#themes option:selected").val();
         let selectedSubjectId = $("#subjects option:selected").val();
         let minPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
