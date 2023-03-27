@@ -30,18 +30,28 @@
                     <td width="10%" class="edit_model_element">@(obj.IsBanned ? "да" : "нет")</td>
                     
                     <td width="5%" class="edit_model_element">  
-                        <a class="extra_login_link" asp-controller="Admin" asp-area- 
+                        <a class="extra_login_link" asp-controller="Admin"
                            asp-action="GetFavorSolutions" asp-route-userId="@obj.Id">Услуги</a>
                     </td>
                     
                     <td class="text-center">
                         <div class="w-75 btn-group" role="group">
-                            <a   class="btn btn-primary mx-2">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                            <a  class="btn btn-danger mx-2">
-                                <i class="fa-sharp fa-solid fa-trash"></i>
-                            </a>
+                            @if (obj.IsBanned)
+                            {
+                                <a class="btn btn-primary mx-2"
+                                   asp-controller="Admin"
+                                   asp-action="UnBanUser" asp-route-userId="@obj.Id">
+                                    <i class="fa-sharp fa-solid fa-trash"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-danger mx-2"
+                                   asp-controller="Admin"
+                                   asp-action="BanUser" asp-route-userId="@obj.Id">
+                                    <i class="fa-sharp fa-solid fa-trash"></i>
+                                </a>
+                            }
                         </div>
                     </td>
                 </tr>

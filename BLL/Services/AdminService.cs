@@ -156,7 +156,11 @@ namespace BLL.Services
             if (user != null)
             {
                 user.IsBanned = false;
-                user.Bans = new List<Ban>();
+
+                foreach (Ban userBan in user.Bans)
+                {
+                    userBan.IsActual = false;
+                }
 
                 await _db.SaveChangesAsync();
             }
@@ -186,6 +190,14 @@ namespace BLL.Services
                 .Select(suggestion => _mapper.Map<SuggestionVm>(suggestion));
     
             return suggestions.Skip(request.Skip).Take(request.Take);
+        }
+
+        public async Task<IEnumerable<FavorSolutionVm>> GetTopSolutionsByReports(GetTopSolutionsByReportsRequest request)
+        {
+            var top = _db.FavorSolutions.OrderBy(solution =>
+                _db.Reports.Where(report => report.FavorSolutionId == solution.Id).Count());
+
+            return top.Skip(request.Skip).Take(request.Take).Select(solution => _mapper.Map<FavorSolutionVm>(solution));
         }
     }
 }
