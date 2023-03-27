@@ -178,5 +178,14 @@ namespace BLL.Services
         {
             return await _db.Users.AnyAsync(user => user.Id == userId);
         }
+
+        public async Task<IEnumerable<SuggestionVm>> GetSuggestions(GetSuggestionsRequest request)
+        {
+            var suggestions = _db.Suggestions.AsNoTracking().Where(suggestion => suggestion.IsActual)
+                .OrderByDescending(suggestion => suggestion.CreationDate)
+                .Select(suggestion => _mapper.Map<SuggestionVm>(suggestion));
+    
+            return suggestions.Skip(request.Skip).Take(request.Take);
+        }
     }
 }

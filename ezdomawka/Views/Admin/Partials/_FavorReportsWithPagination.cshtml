@@ -1,0 +1,30 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<BLL.Models.ViewModels.ReportVm>
+
+<div class="container p-3">
+    <table class="table table-bordered table-striped edit_model" style="width: 100%">
+            <thead>
+            <tr>
+                <th  class="edit_model_element">
+                    Причина
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td width="80%" class="edit_model_element">@obj.Reason</td>
+                    <td class="text-center">
+                        <div class="w-75 btn-group" role="group">
+                            <a  class="btn btn-danger mx-2">
+                                <i class="fa-sharp fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+</div>

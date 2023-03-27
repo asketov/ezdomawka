@@ -124,12 +124,12 @@ namespace ezdomawka.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> FavorSolutions(CancellationToken token)
+        public async Task<IActionResult> FavorSolutions()
         {
             var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
-            var favorSolutions = await _userService.GetFavorSolutionsByUserId(userId, token);
+            var favorSolutions = await _userService.GetFavorSolutionsByUserId(userId);
             var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x)).ToList();
-            return View("MyFavors", vms);
+            return View("Favors", vms);
         }
 
         [HttpGet]
@@ -137,10 +137,16 @@ namespace ezdomawka.Controllers
         public async Task<IActionResult> EditFavor(Guid id, CancellationToken token)
         {
             var solutionModel = await _favorSolutionService.GetSolutionModelById(id);
+
+            if (solutionModel == null)
+                return BadRequest();
+            
             var themes = (await _adminService.GetThemeModels()).Select(x => _mapper.Map<ThemeVm>(x)).ToList();
+            
             var editVm = _mapper.Map<EditSolutionVm>(solutionModel);
             editVm.Themes = themes.Where(x => x.Id != solutionModel.Theme.Id).Prepend(_mapper.Map<ThemeVm>(solutionModel.Theme));
             editVm.Subjects = (await _adminService.GetSubjectModels()).Select(x => _mapper.Map<SubjectVm>(x)).OrderBy(x => x.Name);
+            
             return View(editVm);
         }
 

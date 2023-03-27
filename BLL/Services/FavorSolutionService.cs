@@ -138,14 +138,9 @@ namespace BLL.Services
             return await _db.FavorSubject.CountAsync(x => x.FavorSolutionId == favorId);
         }
 
-        public async Task<IEnumerable<ReportVm>> GetReports(Guid userId, Guid favorId, int skip = 0, int take = 10)
+        public async Task<IEnumerable<ReportVm>> GetReports(Guid favorId, int skip = 0, int take = 10)
         {
-            var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Id == userId);
-
-            if (user == null || user.FavorSolutions == null)
-                return Array.Empty<ReportVm>();
-
-            var favor = user.FavorSolutions.FirstOrDefault(favor => favor.Id == favorId);
+            var favor = await _db.FavorSolutions.AsNoTracking().FirstOrDefaultAsync(favor => favor.Id == favorId);
 
             if (favor == null || favor.Reports == null)
                 return Array.Empty<ReportVm>();
@@ -162,14 +157,9 @@ namespace BLL.Services
             return _db.Reports.Any(report => report.Id == favorReportId);
         }
 
-        public async Task CleanReports(Guid userId, Guid favorId, Guid? favorReportId = null)
+        public async Task CleanReports(Guid favorId, Guid? favorReportId = null)
         {
-            var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Id == userId);
-
-            if (user == null || user.FavorSolutions == null)
-                return;
-
-            var favor = user.FavorSolutions.FirstOrDefault(favor => favor.Id == favorId);
+            var favor = _db.FavorSolutions.FirstOrDefault(favor => favor.Id == favorId);
 
             if (favor == null || favor.Reports == null)
                 return;
@@ -190,14 +180,9 @@ namespace BLL.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task<int> GetReportsCount(Guid userId, Guid favorId)
+        public async Task<int> GetReportsCount(Guid favorId)
         {
-            var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Id == userId);
-
-            if (user == null || user.FavorSolutions == null)
-                return 0;
-
-            var favor = user.FavorSolutions.FirstOrDefault(favor => favor.Id == favorId);
+            var favor = await _db.FavorSolutions.FirstOrDefaultAsync(favor => favor.Id == favorId);
 
             if (favor == null || favor.Reports == null)
                 return 0;

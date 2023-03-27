@@ -1,11 +1,5 @@
 ﻿@model List<BLL.Models.ViewModels.UserVm>
 
-@section Styles
-{
-    <link rel="stylesheet" href="~/css/pages/main.css"  asp-append-version="true">
-    <link rel="stylesheet" href="~/css/pages/admin.css"  asp-append-version="true">
-}
-
 <div class="container p-3">
     @if (Model.Count() > 0)
     {
@@ -22,6 +16,7 @@
                     Забанен
                 </th>
                 <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -29,8 +24,16 @@
             {
                 <tr>
                     <td width="30%" class="edit_model_element">@obj.Nick</td>
+                    
                     <td width="20%" class="edit_model_element">@obj.Email</td>
-                    <td width="20%" class="edit_model_element">@(obj.IsBanned ? "да" : "нет")</td>
+                    
+                    <td width="10%" class="edit_model_element">@(obj.IsBanned ? "да" : "нет")</td>
+                    
+                    <td width="5%" class="edit_model_element">  
+                        <a class="extra_login_link" asp-controller="Admin" asp-area- 
+                           asp-action="GetFavorSolutions" asp-route-userId="@obj.Id">Услуги</a>
+                    </td>
+                    
                     <td class="text-center">
                         <div class="w-75 btn-group" role="group">
                             <a   class="btn btn-primary mx-2">

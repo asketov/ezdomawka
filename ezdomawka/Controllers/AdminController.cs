@@ -111,6 +111,7 @@ namespace ezdomawka.Controllers
             return BadRequest();
         }
         
+        #region Subjects
         [HttpGet]
         public async Task<IActionResult> EditSubject(Guid id)
         {
@@ -136,9 +137,9 @@ namespace ezdomawka.Controllers
             }
             return BadRequest();
         }
+        #endregion
 
-
-        
+        #region Views
         [HttpGet]
         ////Pag onclick
         public async Task<IActionResult> GetUserTable(UserPanelRequest request, CancellationToken token)
@@ -164,7 +165,50 @@ namespace ezdomawka.Controllers
             var count = await _adminService.GetCountUsersByFilters(request, token);
             return PartialView("Partials/_UserTableWithPagination", new UserPanelVm() { CountUsersByFilters = count, UserVms = userVms });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetFavorSolutions(Guid userId)
+        {
+            if (!await _adminService.CheckUserExistById(userId))
+                return BadRequest();
+            
+            var favorSolutions = await _userService.GetFavorSolutionsByUserId(userId);
+            var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x)).ToList();
+            
+            return View("UserFavors", vms);
+        }
         
+        [HttpGet]
+        public async Task<IActionResult> FavorReportsPage(Guid favorId)
+        {
+            try
+            {
+                var favorReports = await GetFavorReports(new GetUserFavorReportsRequest(){FavorId = favorId});
+
+                return View(favorReports);
+            }
+            catch(NullReferenceException e)
+            {
+                return NotFound();
+            }
+        }
+
+        public async Task<IActionResult> SuggestionsPage()
+        {
+            var suggestions = await GetSuggestions(new GetSuggestionsRequest());
+
+            return View("Suggestions" ,suggestions);
+        }
+        #endregion
+
+        #region Ban
+        [HttpGet]
+        public async Task<IEnumerable<BanVm>> GetUserBans(GetUserBansRequest request)
+        {
+            if (!await _adminService.CheckUserExistById(request.UserId)) throw new NullReferenceException();
+            
+            return await _userService.GetBans(request.UserId, skip: request.Skip, take: request.Take);
+        }
         [HttpPost]
         public async Task<IActionResult> BanUser(BanRequest request)
         {
@@ -196,68 +240,63 @@ namespace ezdomawka.Controllers
             }
             return BadRequest();
         }
+        #endregion
 
+        #region Report
+        [HttpGet]
+        public async Task<IEnumerable<ReportVm>> GetFavorReports(GetUserFavorReportsRequest request)
+        {
+            if(!await _favorSolutionService.CheckFavorExist(request.FavorId)) throw new NullReferenceException();
+            
+            return await _favorSolutionService.GetReports(request.FavorId,  skip: request.Skip, take: request.Take);
+        }
+        
+        [HttpGet]
+        public async Task<int> GetFavorReportsCount(Guid favorId)
+        {
+            if(!await _favorSolutionService.CheckFavorExist(favorId)) throw new NullReferenceException();
+            
+            return await _favorSolutionService.GetReportsCount(favorId);
+        }
+        
+        [HttpGet]
+        public async Task<IEnumerable<FavorSolutionVm>> GetUserFavorSolutions(Guid userId)
+        {
+            if (!await _adminService.CheckUserExistById(userId)) throw new NullReferenceException();
 
-
+            var favorSolutions = await _userService.GetFavorSolutionsByUserId(userId);
+            
+            return favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x)).ToList();
+        }
+        
+        
+        
         [HttpPost]
         public async Task<ActionResult> CleanReport(CleanReportRequest request)
         {
-            if (!await _adminService.CheckUserExistById(request.UserId)) throw new NullReferenceException();
-            if(!await _favorSolutionService.CheckFavorExist(request.FavorId)) throw new NullReferenceException();
+            if (!await _favorSolutionService.CheckFavorExist(request.FavorId)) throw new NullReferenceException();
             if(!await _favorSolutionService.CheckFavorReportExist(request.FavorReportId)) throw new NullReferenceException();
 
-           await _favorSolutionService.CleanReports(request.UserId, request.FavorId, request.FavorReportId);
+           await _favorSolutionService.CleanReports(request.FavorId, request.FavorReportId);
 
            return Ok();
         }
         
         [HttpPost]
-        public async Task<ActionResult> CleanReports(CleanAllReportsRequest request)
+        public async Task<ActionResult> CleanReports(Guid favorId)
         {
-            if (!await _adminService.CheckUserExistById(request.UserId)) throw new NullReferenceException();
-            if(!await _favorSolutionService.CheckFavorExist(request.FavorId)) throw new NullReferenceException();
-            await _favorSolutionService.CleanReports(request.UserId, request.FavorId);
+            await _favorSolutionService.CleanReports(favorId);
 
             return Ok();
         }
+        #endregion
 
-
+        #region Suggection
         [HttpGet]
-        public async Task<IEnumerable<BanVm>> GetUserBans(GetUserBansRequest request)
+        public async Task<IEnumerable<SuggestionVm>> GetSuggestions(GetSuggestionsRequest request)
         {
-            if (!await _adminService.CheckUserExistById(request.UserId)) throw new NullReferenceException();
-            
-            return await _userService.GetBans(request.UserId, skip: request.Skip, take: request.Take);
+            return await _adminService.GetSuggestions(request);
         }
-
-        
-        
-        [HttpGet]
-        public async Task<IEnumerable<ReportVm>> GetFavorReports(GetUserFavorReportsRequest request)
-        {
-            if (!await _adminService.CheckUserExistById(request.UserId)) throw new NullReferenceException();
-            if(!await _favorSolutionService.CheckFavorExist(request.FavorId)) throw new NullReferenceException();
-            
-            return await _favorSolutionService.GetReports(request.UserId,request.FavorId,  skip: request.Skip, take: request.Take);
-        }
-
-        [HttpGet]
-        public async Task<int> GetFavorReportsCount(GetUserFavorReportsCountRequest request)
-        {
-            if (!await _adminService.CheckUserExistById(request.UserId)) throw new NullReferenceException();
-            if(!await _favorSolutionService.CheckFavorExist(request.FavorId)) throw new NullReferenceException();
-            
-            return await _favorSolutionService.GetReportsCount(request.UserId,request.FavorId);
-        }
-        
-        [HttpGet]
-        public async Task<IEnumerable<FavorSolutionVm>> GetUserFavorSolutions(Guid userId, CancellationToken token)
-        {
-            if (!await _adminService.CheckUserExistById(userId)) throw new NullReferenceException();
-
-            var favorSolutions = await _userService.GetFavorSolutionsByUserId(userId, token);
-            
-            return favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x)).ToList();
-        }
+        #endregion
     }
 }

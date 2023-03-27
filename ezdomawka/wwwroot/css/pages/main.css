@@ -120,6 +120,59 @@
     margin-top: 150px;
 }
 
+.col-lg-12--flex{
+    margin-top: 20px;
+    width: 100% !important;
+}
+
+.col-lg-12--flex .button{
+    width: 45%;
+
+    min-width: 120px;
+    max-width: 300px;
+
+    margin-left: 2%;
+    margin-right: 2%;
+
+    margin-bottom: 15px;
+}
+.col-lg-12--flex .button button{
+    width: 100%;
+    text-align: center;
+    border: none;
+    height: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #fff;
+    padding: 0px 25px;
+    border-radius: 25px;
+    color: #6A8FD9;
+    transition: all .4s;
+    position: relative;
+    z-index: 5;
+}
+
+.col-lg-12--flex .button--contact button{
+    background-color: #4281ff;
+    color: #fff;
+}
+
+
+.col-lg-12--flex .button--remove button{
+    background-color: #222 !important;
+    color: #fff !important;
+}
+
+.col-lg-12--flex .button--ban button{
+    background-color: #ff5252 !important;
+    color: #fff !important;
+}
+
+.col-lg-12--flex .button--subjects button {
+    background-color: #82acff !important;
+    color: #ffffff !important;
+}
+
 @media (max-width: 1100px) {
     .background-header .main-nav .nav,
     .header-area .main-nav .nav {
@@ -226,9 +279,16 @@
     }
 }
 
+@media (max-width:600px) {
+    .col-lg-12--flex .button {
+        margin-bottom: 10px;
+    }
+}
+
 @media (max-width: 450px) {
-    .orange-button{
-        padding: 0 !important;
+    .orange-button,
+    .col-lg-12--flex .button--subjects button {
+        padding: 5px !important;
         border-radius: 8px !important;
     }
 }

@@ -6,11 +6,13 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ModelsConfiguration;
 
 namespace DAL.Entities
 {
     [Table("Suggestions")]
+    [Index("CreationDate", IsUnique = false)]
     public class Suggestion
     {
         [Key]
@@ -26,5 +28,8 @@ namespace DAL.Entities
         
         [Required]
         public bool IsActual { get; set; }
+        
+        [Required] 
+        public DateTime CreationDate { get; set; }
     }
 }

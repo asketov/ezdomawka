@@ -70,6 +70,9 @@ namespace ezdomawka.Controllers
             try
             {
                 var model = _mapper.Map<Suggestion>(request);
+
+                model.CreationDate = DateTime.Now;
+
                 await _homeService.AddSuggestion(model);
                 return RedirectToAction(nameof(Index));
             }
