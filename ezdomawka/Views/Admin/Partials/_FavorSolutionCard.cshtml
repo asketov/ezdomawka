@@ -34,11 +34,21 @@
                 </a>
             </fieldset>
             
-            <fieldset class="button button--ban">
-                <button class="orange-button"
-                        onclick="location.href='@Url.Action("DeleteFavor", "User")'"
-                        asp-route-Id="@Model.Id">Удалить услугу</button>
-            </fieldset>
+            <a asp-action="DeleteFavor"  
+               asp-route-userId="@Model.AuthorId"
+               asp-route-favorId="@Model.Id">
+                <fieldset class="button button--ban">
+                    <button class="orange-button">Удалить услугу</button>
+                </fieldset>
+            </a>
+            
+            <a class="btn btn-danger mx-2"
+               asp-controller="Admin"
+               asp-action="BanUser" asp-route-userId="@Model.AuthorId">
+                <fieldset class="button button--ban">
+                    <button class="orange-button">Заблокировать</button>
+                </fieldset>
+            </a>
         </div>
     </div>
 </div>
