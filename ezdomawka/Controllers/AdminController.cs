@@ -32,7 +32,8 @@ namespace ezdomawka.Controllers
             _userService = userService;
             _favorSolutionService = favorSolutionService;
         }
-        
+
+        #region Theme
         [HttpGet]
         public async Task<IActionResult> ThemeManager()
         {
@@ -77,9 +78,9 @@ namespace ezdomawka.Controllers
                 return RedirectToAction("ThemeManager");
             }
         }
+        #endregion
 
-
-        
+        #region Subject
         [HttpGet]
         public async Task<IActionResult> SubjectManager()
         {
@@ -110,6 +111,7 @@ namespace ezdomawka.Controllers
             }
             return BadRequest();
         }
+        #endregion
         
         #region Subjects
         [HttpGet]
@@ -179,6 +181,18 @@ namespace ezdomawka.Controllers
         }
         
         [HttpGet]
+        public async Task<ActionResult> DeleteFavor(Guid userId, Guid favorId, string? returnUrl = null)
+        {
+            if (await _userService.CheckUserHasFavor(userId, favorId) || User.IsInRole(Roles.SuperAdminId))
+            {
+                await _favorSolutionService.DeleteFavor(favorId);
+                if(returnUrl == null) return RedirectToAction();
+                return Redirect(returnUrl);
+            }
+            return BadRequest();
+        }
+        
+        [HttpGet]
         public async Task<IActionResult> FavorReportsPage(Guid favorId)
         {
             try
@@ -198,6 +212,11 @@ namespace ezdomawka.Controllers
             var suggestions = await GetSuggestions(new GetSuggestionsRequest());
 
             return View("Suggestions" ,suggestions);
+        }
+        
+        public async Task<IActionResult> BanUser(Guid userId)
+        {
+            return View(new BanRequest(){UserId = userId});
         }
         #endregion
 
@@ -243,6 +262,13 @@ namespace ezdomawka.Controllers
         #endregion
 
         #region Report
+
+        [HttpGet]
+        public async Task<IEnumerable<FavorSolutionVm>> GetTopSolutionsByReports( GetTopSolutionsByReportsRequest request)
+        {
+            return await _adminService.GetTopSolutionsByReports(request);
+        }
+
         [HttpGet]
         public async Task<IEnumerable<ReportVm>> GetFavorReports(GetUserFavorReportsRequest request)
         {

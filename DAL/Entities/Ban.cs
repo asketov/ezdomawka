@@ -31,5 +31,7 @@ namespace DAL.Entities
         
         [Required]
         public virtual User User { get; set; } = null!;
+
+        public bool IsActual { get; set; } = true;
     }
 }

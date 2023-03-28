@@ -12,7 +12,6 @@ using ModelsConfiguration;
 namespace DAL.Entities
 {
     [Table("Suggestions")]
-    [Index("CreationDate", IsUnique = false)]
     public class Suggestion
     {
         [Key]
