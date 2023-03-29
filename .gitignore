@@ -367,3 +367,6 @@ FodyWeavers.xsd
 
 /ezdomawka/appsettings.Development.json
 /ezdomawka/appsettings.Development.json
+/DAL/Migrations/
+
+/DAL/Migrations/DataContextModelSnapshot.cs
