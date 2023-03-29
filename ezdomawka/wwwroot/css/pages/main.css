@@ -125,7 +125,7 @@
     width: 100% !important;
 }
 
-.col-lg-12--flex .button{
+.button{
     width: 45%;
 
     min-width: 120px;
@@ -136,7 +136,7 @@
 
     margin-bottom: 15px;
 }
-.col-lg-12--flex .button button{
+.button button{
     width: 100%;
     text-align: center;
     border: none;
@@ -152,23 +152,23 @@
     z-index: 5;
 }
 
-.col-lg-12--flex .button--contact button{
+.button--contact button{
     background-color: #4281ff;
     color: #fff;
 }
 
 
-.col-lg-12--flex .button--remove button{
+.button--remove button{
     background-color: #222 !important;
     color: #fff !important;
 }
 
-.col-lg-12--flex .button--ban button{
+.button--ban button{
     background-color: #ff5252 !important;
     color: #fff !important;
 }
 
-.col-lg-12--flex .button--subjects button {
+.button--subjects button {
     background-color: #82acff !important;
     color: #ffffff !important;
 }
@@ -280,14 +280,14 @@
 }
 
 @media (max-width:600px) {
-    .col-lg-12--flex .button {
+    .button {
         margin-bottom: 10px;
     }
 }
 
 @media (max-width: 450px) {
     .orange-button,
-    .col-lg-12--flex .button--subjects button {
+    .button--subjects button {
         padding: 5px !important;
         border-radius: 8px !important;
     }

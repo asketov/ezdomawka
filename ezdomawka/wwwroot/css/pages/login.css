@@ -4,12 +4,12 @@
     padding-bottom: 25px;
 }
 
-.col-lg-12--flex .login_button{
+.login_button{
     width: 45%;
     margin-left: 2%;
     margin-right: 2%;
 }
-.col-lg-12--flex .login_button button{
+.login_button button{
     width: 100%;
     text-align: center;
 }

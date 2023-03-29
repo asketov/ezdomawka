@@ -2,8 +2,10 @@
 
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/pages/main.css"  asp-append-version="true">
-    <link rel="stylesheet" href="~/css/pages/admin.css"  asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/main.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/admin.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/viewServices.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/nav.css" asp-append-version="true">
 }
 
 <div class="servicesList">
@@ -14,50 +16,35 @@
                     <div class="container p-3">
                         <div class="row pt-4">
                             <div class="col-6">
-                                <h2 class="text-primary edit_model_title">Theme List</h2>
+                                <h2 class="text-primary edit_model_title">Все темы</h2>
                             </div>
                             <div class="col-6">
                                 <a asp-action="AddTheme" class="create_button">
-                                    <i>&nbsp; Create New Theme</i>
+                                    <i>Создать</i>
                                 </a>
                             </div>
                         </div>
                         <br/><br/>
-                        @if (Model.Count() > 0)
-                        {
-                            <table class="table table-bordered table-striped edit_model">
-                                <thead>
-                                <tr>
-                                    <th class="edit_model_element">
-                                        Theme Name
-                                    </th>
-                                    <th class="edit_model_element">
-                                        Manage
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var obj in Model)
-                                {
-                                    <tr>
-                                        <td width="50%" class="edit_model_element">@obj.Name</td>
-                                        <td class="text-center edit_model_element">
-                                            <div class="w-75 btn-group" role="group" class="edit_model_element">
-                                                <a asp-route-id="@obj.Id" asp-action="DeleteTheme" class="btn btn-danger mx-2">
-                                                    <i>Удалить</i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
-                        }
+                        <div class="events">
+                            @if (Model.Any())
+                            {
+                                <div class="pt-1 col-12">
+                                    @foreach (var el in Model)
+                                    {
+                                        <partial model="@el" name="Partials/_ThemeCard"/>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center pt-4">
+                                    <h2 class="text-center">Таких тем нету</h2>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-

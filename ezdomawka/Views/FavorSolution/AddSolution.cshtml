@@ -51,7 +51,7 @@
                                 <fieldset class="input_field">
                                     <div class="ms form-control">
                                         <ul class="ms__chose">
-                                            <li>
+                                            <li class="w-100">
                                                 <input
                                                     id="name"
                                                     type="text"
@@ -75,9 +75,8 @@
                                 <div class="mar-bottom-mini">
                                     <h4 class="text-center text-white text-uppercase">Выберите тему своей услуги</h4>
                                 </div>
-                                <fieldset class="input_field">
-                                    <select class="form-control"
-                                            name="themes"
+                                <fieldset class="select_form">
+                                    <select name="themes"
                                             id="themes">
                                         @foreach (var theme in Model.Themes)
                                         {
