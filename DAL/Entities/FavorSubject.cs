@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    [Table("FavorSubject")]
+    [Table("FavorSubjects")]
     public class FavorSubject
     {
         [Required]
