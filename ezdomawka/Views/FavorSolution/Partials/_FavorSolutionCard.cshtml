@@ -64,8 +64,9 @@
                 </fieldset>
 
                 <fieldset class="button button--remove">
-                    <button onclick="location.href='/User/DeleteFavor?returnUrl=%2F&favorId=@Model.Id'" class="orange-button"
+                    <button onclick="location.href='/User/DeleteFavor'" class="orange-button"
                             asp-route-returnUrl="@Url.Action("Index", "Home")" 
+                            asp-route-userId="@Model.AuthorId"
                             asp-route-favorId="@Model.Id" asp-controller="User" asp-action="DeleteFavor">Удалить услугу</button>
                 </fieldset>
             }

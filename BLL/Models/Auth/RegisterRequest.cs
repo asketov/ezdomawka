@@ -32,6 +32,7 @@ namespace BLL.Models.Auth
         [StringLength(NickConfiguration.MaxLength, MinimumLength = NickConfiguration.MinLength, 
             ErrorMessage = "Длина должна быть от {1} до {2} символов")]
         [Required(ErrorMessage = "Поле является обязательным")]
+        [RegularExpression("^(?!.*..)(?!.)(?!.*.$)(?!d+$)[a-zA-Z0-9.]{5,50}$")]
         public string Nick { get; set; } = null!;
     }
 }

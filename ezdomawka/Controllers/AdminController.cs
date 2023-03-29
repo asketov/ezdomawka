@@ -181,13 +181,15 @@ namespace ezdomawka.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult> DeleteFavor(Guid userId, Guid favorId, string? returnUrl = null)
+        public async Task<IActionResult> DeleteFavor(Guid userId, Guid favorId)
         {
             if (await _userService.CheckUserHasFavor(userId, favorId) || User.IsInRole(Roles.SuperAdminId))
-            {
+            { 
+                Console.WriteLine(":hfcxzvchjgdvhjkcvchyjkvchkvchkbvbhk");
+                
                 await _favorSolutionService.DeleteFavor(favorId);
-                if(returnUrl == null) return RedirectToAction();
-                return Redirect(returnUrl);
+                
+                return await GetFavorSolutions(userId);
             }
             return BadRequest();
         }
@@ -244,7 +246,7 @@ namespace ezdomawka.Controllers
             return BadRequest();
         }
         
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> UnBanUser(Guid userId)
         {
             if (ModelState.IsValid)
