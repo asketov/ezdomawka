@@ -34,6 +34,9 @@ namespace DAL.Migrations
                     b.Property<DateTime>("BanTo")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsActual")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasMaxLength(1500)
@@ -100,7 +103,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("FavorSubjects");
+                    b.ToTable("FavorSubject");
                 });
 
             modelBuilder.Entity("DAL.Entities.Notification", b =>
@@ -225,8 +228,6 @@ namespace DAL.Migrations
                         .HasColumnType("character varying(500)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreationDate");
 
                     b.ToTable("Suggestions");
                 });

@@ -14,6 +14,7 @@ namespace BLL.AutoMapper.Profiles
         public HomeProfile()
         {
             CreateMap<SuggestionVm, Suggestion>();
+            CreateMap<Suggestion, SuggestionVm>();
         }
     }
 }

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<BLL.Models.Admin.SubjectModel>
+
+
+<div class='col-12 pt-1 blockSelSubj'>
+    <div class='selectedSubject p-3'>
+        @foreach (var el in Model)
+        {
+            <i class=''>@el.Name</i>
+        }
+    </div>
+</div>
+<div class='col-12 buttonsSubj text-center pt-2'>
+    <button disabled class='backSubj btn btn-outline-dark'>&lt;&lt;</button> 
+    <button disabled class='nextSubj btn btn-outline-dark'>&gt;&gt;</button>
+</div>

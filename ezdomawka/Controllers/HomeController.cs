@@ -71,8 +71,8 @@ namespace ezdomawka.Controllers
             {
                 var model = _mapper.Map<Suggestion>(request);
 
-                model.CreationDate = DateTime.Now;
-
+                model.CreationDate = DateTime.UtcNow;
+                model.IsActual = true;
                 await _homeService.AddSuggestion(model);
                 return RedirectToAction(nameof(Index));
             }
