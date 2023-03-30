@@ -10,10 +10,10 @@
 @if (countPages <= 5 && countPages != 1)
 {
     <div class="d-flex justify-content-center">
-        <div class="nav_menu">
+        <div class="nav_menu d-flex">
             @for (int i = 1; i <= countPages; i++)
             {
-                <button class="nav_menu_button" id="selector" value="@i">@i</button>
+                <button style="width: 30px;" class="nav_menu_button page" value="@i">@i</button>
             }
         </div>
     </div>
@@ -24,12 +24,12 @@ else if(countPages > 5)
         <div class="nav_menu">
             
             <button class="nav_menu_button" id="previousPages"> &lt;&lt; </button>
-
-            @for (uint i = 1; i <= 5; i++)
+            <div class="d-flex pages" id="pages">
+            @for (uint i = 1; i <=  5; i++)
             {
-                <button class="nav_menu_button" id="selector" value="@i">@i</button>
+                <button style="width: 30px;" class="nav_menu_button page" id="selector" value="@i">@i</button>
             }
-
+            </div>
             <button class="nav_menu_button" id="nextPages"> &gt;&gt; </button>
             
         </div>
