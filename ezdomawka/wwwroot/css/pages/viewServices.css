@@ -180,7 +180,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 @media (max-width:600px) {
-    .col-lg-12--flex .button {
+    .button {
         margin-bottom: 10px;
     }    
 

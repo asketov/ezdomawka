@@ -66,6 +66,12 @@ namespace ezdomawka.Controllers
         }
 
         [HttpGet]
+        public IActionResult EditTheme()
+        {
+            throw new NotImplementedException();
+        }
+        
+        [HttpGet]
         public async Task<IActionResult> DeleteTheme(Guid id)
         {
             try
@@ -111,9 +117,7 @@ namespace ezdomawka.Controllers
             }
             return BadRequest();
         }
-        #endregion
-        
-        #region Subjects
+
         [HttpGet]
         public async Task<IActionResult> EditSubject(Guid id)
         {
@@ -138,6 +142,19 @@ namespace ezdomawka.Controllers
                 }
             }
             return BadRequest();
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteSubject(Guid id)
+        {
+            try
+            {
+                await _adminService.DeleteSubject(id);
+                return RedirectToAction(nameof(SubjectManager));
+            }
+            catch
+            {
+                return RedirectToAction("SubjectManager");
+            }
         }
         #endregion
 
