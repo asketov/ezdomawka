@@ -48,7 +48,7 @@ $(document).ready(function () {
     });
 
 
-    $(document).on('click', '#selector', function (event) {
+    $(document).on('click', '.page', function (event) {
         let skip = (Number.parseInt(event.currentTarget.value) - 1) * 10;
         $('#favorSolutions').append("<div class='pt-4'><div class='loader'></div></div>");
         $.ajax({
@@ -63,7 +63,7 @@ $(document).ready(function () {
                 
                 $('#favorSolutions').empty();
                 $('#favorSolutions').replaceWith(data);
-                window.scrollTo(0, 0);
+                location.href = "#header";
                 addSubjectToCard();
             },
             statusCode: {
