@@ -84,8 +84,15 @@ namespace BLL.Services
 
         public async Task<bool> UserIsBanned(Guid userId)
         {
-            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            var user = await _db.Users.Include(x => x.Bans).FirstOrDefaultAsync(x => x.Id == userId);
             if (user == null) return false;
+            if(user.Bans != null)
+            {
+                foreach(var ban in user.Bans)
+                {
+
+                }
+            }
             return user.IsBanned;
         }
         
@@ -121,7 +128,7 @@ namespace BLL.Services
             IEnumerable<Ban> bans = user.Bans;
 
             if (!includePassed)
-                bans = bans.Where(ban => ban.BanTo >= DateTime.Now);
+                bans = bans.Where(ban => ban.BanTo >= DateTime.UtcNow);
 
             return bans.Where(ban => ban.BanFrom > minCreateDateFilter)
                 .Skip(skip)

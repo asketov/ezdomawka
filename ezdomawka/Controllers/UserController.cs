@@ -159,9 +159,12 @@ namespace ezdomawka.Controllers
             {
                 var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
                 if (!await _userService.CheckUserHasFavor(userId, request.Id)) return BadRequest();
+                var countUpdates = await _favorSolutionService.GetTodayUpdatesFavors(userId);
+                if (countUpdates >= FavorConsts.UpdatesInDayLimit) return StatusCode(StatusCodes.Status406NotAcceptable);
                 var model = _mapper.Map<SolutionModel>(request);
-                model.Author = new User() { Id = userId };
+                model.AuthorId = userId;
                 await _favorSolutionService.UpdateFavor(model);
+                await _favorSolutionService.AddRecordToUpdateHistory(userId);
                 return StatusCode(StatusCodes.Status200OK, new { redirect = "/home/index" });
             }
             return BadRequest();

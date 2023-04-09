@@ -1,22 +1,29 @@
 ﻿let selectedSubjects = [];
 $(document).ready(function () {
-
-	$("#addFavor").click(function () {
-		if ($("#form").valid())
-		{
+	$(".ms__chose-item").each(function () {
+		selectedSubjects.push({ id: $(this)[0].id, name: $(this)[0].textContent });
+	});
+	selectedSubjects.forEach(function (item) { 
+		$(".ms__dropdown-item").each(function () {
+			if ($(this)[0].id == item.id) $(this)[0].classList.add("ms__dropdown-item_chose");
+		});
+	});
+	$("#editFavor").click(function () {
+		if ($("#form").valid() && selectedSubjects.length > 0) {
 			$.ajax({
-				url: '/FavorSolution/AddSolution',
+				url: '/User/EditFavor',
 				method: 'post',
 				dataType: 'json',
 				data: {
 					Subjects: selectedSubjects,
-					Theme: {id: $("#themes option").val(), name: $("#themes option").html()}, Text: $("#text").val(),
-					Price: $('#price').val(), Connection: $('#connect').val()
+					Theme: { id: $("#themes option:selected").val(), name: $("#themes option:selected").html() }, Text: $("#text").val(),
+					Price: $('#price').val(), Connection: $('#connect').val(), Id: $('#id').val()
 				},
 				success: function (data) {
 					if (data.redirect) {
 						window.location = '/home/index'
-					} else {
+					}
+					else {
 						window.location = data.redirect
 					}
 				},
@@ -26,15 +33,6 @@ $(document).ready(function () {
 					},
 					404: function () { // выполнить функцию если код ответа HTTP 404
 						alert("Страница не найдена");
-					},
-					302: function () {
-						$('.Content').empty();
-						$('.Content').css('min-height', '10px');
-						$('.Content').append(
-							`<div class='text-center' style='width: 300px;'><div class='pb-2'>
-                            Достигнут лимит в 20 услуг</div>
-                            <button id='CloseModal' class='btn btn-outline-secondary'>Закрыть</button></div>`);
-						$('.Modal').addClass('Active');
 					},
 					406: function () {
 						$('.Content').empty();
@@ -46,6 +44,7 @@ $(document).ready(function () {
 						$('.Modal').addClass('Active');
 					}
 				}
+
 			});
 		}
 	});
@@ -76,11 +75,11 @@ let counter = -1;
 
 // Открытие дропдауна при клике по полю ввода
 msChose &&
-msChose.addEventListener("click", (event) => {
-	if (!event.target.closest(".ms__chose-item")) {
-		msDropdownList.classList.remove("ms__dropdown_hidden");
-	}
-});
+	msChose.addEventListener("click", (event) => {
+		if (!event.target.closest(".ms__chose-item")) {
+			msDropdownList.classList.remove("ms__dropdown_hidden");
+		}
+	});
 
 document.addEventListener("click", (event) => {
 	// Закрытие поля ввода при клике вне него
@@ -101,17 +100,16 @@ msInput.addEventListener("focus", (event) => {
 
 // Клик по элементу выпадающего списка
 msDropdownList &&
-msDropdownList.addEventListener("click", (event) => {
-	if (event.target.classList.contains("ms__dropdown-item_chose")) {
-		searchChoseElement(event.target.textContent, event.target.id);
-	} else if (event.target.classList.contains("ms__dropdown-item")) {
-		createNewElement("li", ["ms__chose-item"], event, msChose);
-		selectedSubjects.push({ id: event.target.id, name: '22' });
-	}
-	console.log(selectedSubjects);
-	msInput.value = "";
-	checkInputValue();
-});
+	msDropdownList.addEventListener("click", (event) => {
+		if (event.target.classList.contains("ms__dropdown-item_chose")) {
+			searchChoseElement(event.target.textContent, event.target.id);
+		} else if (event.target.classList.contains("ms__dropdown-item")) {
+			createNewElement("li", ["ms__chose-item"], event, msChose);
+			selectedSubjects.push({ id: event.target.id, name: '22' });
+		}
+		msInput.value = "";
+		checkInputValue();
+	});
 
 // Создание нового html-элемента
 function createNewElement(tag, styles, event, parent) {
@@ -126,7 +124,7 @@ function createNewElement(tag, styles, event, parent) {
 // Поиск выбранного элемента из списка
 function searchChoseElement(text, subjectId) {
 	msDropdownItems.forEach((item) => {
-		if (text.toLowerCase() === item.textContent.toLowerCase()) {
+		if (subjectId.toLowerCase() === item.id.toLowerCase()) {
 			item.classList.remove("ms__dropdown-item_chose");
 			deleteElement(text, subjectId);
 		}
@@ -137,7 +135,7 @@ function searchChoseElement(text, subjectId) {
 function deleteElement(text, subjectId) {
 	const msChoseItems = document.querySelectorAll(".ms__chose-item");
 	msChoseItems.forEach((item) => {
-		if (text.toLowerCase() === item.textContent.toLowerCase()) {
+		if (subjectId.toLowerCase() === item.id.toLowerCase()) {
 			item.remove();
 			selectedSubjects = selectedSubjects.filter(el => el.id != subjectId);
 		}
@@ -146,13 +144,13 @@ function deleteElement(text, subjectId) {
 
 // Поиск элементов из выпадающего списка при вводе
 msInput &&
-msInput.addEventListener("input", (event) => {
-	checkInputValue();
+	msInput.addEventListener("input", (event) => {
+		checkInputValue();
 
-	visibleDropdownItems = document.querySelectorAll(
-		".ms__dropdown-item_visible"
-	);
-});
+		visibleDropdownItems = document.querySelectorAll(
+			".ms__dropdown-item_visible"
+		);
+	});
 
 // Проверка совпадений текста в инпуте с элементами выпадающего списка
 function checkInputValue() {
@@ -174,33 +172,33 @@ function checkInputValue() {
 
 // обработка событий клавиш "ArrowUp", "ArrowUp", "Enter" и "Backspace"
 msInput &&
-msInput.addEventListener("keydown", (event) => {
-	const items = msInput.value ? visibleDropdownItems : msDropdownItems;
+	msInput.addEventListener("keydown", (event) => {
+		const items = msInput.value ? visibleDropdownItems : msDropdownItems;
 
-	if (event.code === "ArrowUp" || event.code === "ArrowDown") {
-		event.code === "ArrowUp" ? counter-- : counter++;
-		checkCurrentCounter(items);
-		resetActiveClass();
-		items[counter].classList.add("ms__dropdown-item_current");
-	}
+		if (event.code === "ArrowUp" || event.code === "ArrowDown") {
+			event.code === "ArrowUp" ? counter-- : counter++;
+			checkCurrentCounter(items);
+			resetActiveClass();
+			items[counter].classList.add("ms__dropdown-item_current");
+		}
 
-	if (event.code === "Enter") {
-		const currentDropdownItem = document.querySelector(
-			".ms__dropdown-item_current"
-		);
-		currentDropdownItem && currentDropdownItem.click();
-		// resetToInitialState();
-	}
+		if (event.code === "Enter") {
+			const currentDropdownItem = document.querySelector(
+				".ms__dropdown-item_current"
+			);
+			currentDropdownItem && currentDropdownItem.click();
+			// resetToInitialState();
+		}
 
-	const msChoseItems = document.querySelectorAll(".ms__chose-item");
-	if (
-		msInput.selectionStart === 0 &&
-		event.code === "Backspace" &&
-		msChoseItems.length
-	) {
-		msChoseItems[msChoseItems.length - 1].click();
-	}
-});
+		const msChoseItems = document.querySelectorAll(".ms__chose-item");
+		if (
+			msInput.selectionStart === 0 &&
+			event.code === "Backspace" &&
+			msChoseItems.length
+		) {
+			msChoseItems[msChoseItems.length - 1].click();
+		}
+	});
 
 // Проверка текущего значения счетчика
 function checkCurrentCounter(items) {
@@ -222,9 +220,9 @@ function resetActiveClass() {
 
 // Сброс счетчика, если наводим мышкой
 msDropdownList &&
-msDropdownList.addEventListener("mouseover", (event) => {
-	resetToInitialState();
-});
+	msDropdownList.addEventListener("mouseover", (event) => {
+		resetToInitialState();
+	});
 
 // Возврат к первоначальному состоянию
 function resetToInitialState() {

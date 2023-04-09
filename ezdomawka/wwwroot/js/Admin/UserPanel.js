@@ -32,7 +32,8 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.page', function (event) {
-        let skip = (Number.parseInt(event.currentTarget.value) - 1) * 10;
+        let numberPage = Number.parseInt(event.currentTarget.value);
+        let skip = (numberPage - 1) * 10;
         let email = $("#InputEmail").val(), nick = $("#InputNick").val();
         $('#Users').append("<div class='pt-4'><div class='loader'></div></div>");
         $.ajax({
@@ -46,6 +47,9 @@ $(document).ready(function () {
                 $('#Users').empty();
                 $('#Users').replaceWith(data);
                 window.scrollTo(0, 0);
+                PaintCurrentPage("#6A8FD9");
+                currentPage = numberPage;
+                PaintCurrentPage("Red");
             },
             statusCode: {
                 400: function () {

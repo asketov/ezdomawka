@@ -52,5 +52,7 @@ namespace DAL.Entities
         
         [Required]
         public virtual Role Role { get; set; } = null!;
+        [AllowNull]
+        public virtual ICollection<UpdateFavorHistory>? UpdateFavorHistory { get; set; } = null!;
     }
 }

@@ -2,18 +2,20 @@
 
 @{
     var solutionsCount = Model;
-    int countPages = solutionsCount % 10 == 0 ? solutionsCount / 10 : solutionsCount / 10 + 1;
+    int countPages =solutionsCount % 10 == 0 ? solutionsCount / 10 : solutionsCount / 10 + 1;
     <script>
         var countPages = @countPages;
+        var currentPage = 1;
     </script>
 }
 @if (countPages <= 5 && countPages != 1)
 {
     <div class="d-flex justify-content-center">
-        <div class="nav_menu d-flex">
-            @for (int i = 1; i <= countPages; i++)
+        <div class="nav_menu">
+            <button style="background-color:red;" class="nav_menu_button page" value="1">1</button>
+            @for (int i = 2; i <= countPages; i++)
             {
-                <button style="width: 30px;" class="nav_menu_button page" value="@i">@i</button>
+                <button class="nav_menu_button page" value="@i">@i</button>
             }
         </div>
     </div>
@@ -22,16 +24,16 @@ else if(countPages > 5)
 {
     <div class="d-flex justify-content-center">
         <div class="nav_menu">
-            
-            <button class="nav_menu_button" id="previousPages"> &lt;&lt; </button>
-            <div class="d-flex pages" id="pages">
-            @for (uint i = 1; i <=  5; i++)
+
+            <button style="background-color: gray;" class="nav_menu_button previousPages" id=""> &lt;&lt; </button>
+            <div class="d-flex pages">
+                <button style="background-color:red;" class="nav_menu_button page" value="1">1</button>
+            @for (uint i = 2; i <=  5; i++)
             {
-                <button style="width: 30px;" class="nav_menu_button page" id="selector" value="@i">@i</button>
+                <button class="nav_menu_button page" id="selector" value="@i">@i</button>
             }
             </div>
-            <button class="nav_menu_button" id="nextPages"> &gt;&gt; </button>
-            
+            <button class="nav_menu_button nextPages" id=""> &gt;&gt; </button>
         </div>
     </div>
 }

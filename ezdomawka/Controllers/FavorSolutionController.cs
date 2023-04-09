@@ -3,6 +3,7 @@ using BLL.Models.FavorSolution;
 using BLL.Models.ViewModels;
 using BLL.Services;
 using Common.Consts;
+using Common.Generics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,10 +36,15 @@ namespace ezdomawka.Controllers
             {
                 try
                 {
+                    var userId = Guid.Parse(User.Claims.FirstOrDefault(u => u.Type == Claims.UserClaim)!.Value);
+                    var countUpdates = await _favorSolutionService.GetTodayUpdatesFavors(userId);
+                    if (countUpdates >= FavorConsts.UpdatesInDayLimit) return StatusCode(StatusCodes.Status406NotAcceptable);
+                    if (await _favorSolutionService.FavorsOutOfLimit(userId)) return StatusCode(StatusCodes.Status302Found);
                     var model = _mapper.Map<SolutionModel>(request);
                     model.Author = await _userService
-                        .GetUserById(Guid.Parse(User.Claims.FirstOrDefault(u => u.Type == Claims.UserClaim)!.Value));
+                        .GetUserById(userId);
                     await _favorSolutionService.AddFavor(model);
+                    await _favorSolutionService.AddRecordToUpdateHistory(userId);
                     return StatusCode(StatusCodes.Status200OK, new {redirect = "/home/index"});
                 }
                 catch
@@ -46,8 +52,26 @@ namespace ezdomawka.Controllers
                     return BadRequest();
                 }
             }
-
             return BadRequest();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateFavorDate(Guid favorId) 
+        {
+            try
+            {
+                var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
+                if (!await _favorSolutionService.CheckFavorExist(favorId) ||
+                    !await _userService.CheckUserHasFavor(userId, favorId)) return BadRequest();
+                if (await _favorSolutionService.GetTodayUpdatesFavors(userId) >= FavorConsts.UpdatesInDayLimit) return StatusCode(StatusCodes.Status406NotAcceptable, new { redirect = "/home/index" });
+                var isUpdated = await _favorSolutionService.UpdateFavorDate(favorId);
+                if(isUpdated) await _favorSolutionService.AddRecordToUpdateHistory(userId);
+                return StatusCode(StatusCodes.Status200OK, new { redirect = "/home/index" });
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]

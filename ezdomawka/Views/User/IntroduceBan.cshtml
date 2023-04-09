@@ -12,7 +12,7 @@
             <div class="col-lg-6">
                 <div class="contact-us-content">
                     <div class="info_text">
-                        <div class="head">Вы забанены до @Model.BanTo</div>
+                        <div class="head">Вы забанены до @Model.BanTo.ToLocalTime()</div>
                         <div class="body">По причине: @Model.Reason</div>
                     </div>
                 </div>

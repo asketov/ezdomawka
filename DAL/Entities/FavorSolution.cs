@@ -42,8 +42,6 @@ namespace DAL.Entities
         [AllowNull]
         public virtual ICollection<Report>? Reports { get; set; }
         
-        [Required]
-        public virtual ICollection<UpdateFavorHistory> UpdateFavorHistory { get; set; } = null!;
         
         [AllowNull]
         public virtual ICollection<Review>? Reviews { get; set; }

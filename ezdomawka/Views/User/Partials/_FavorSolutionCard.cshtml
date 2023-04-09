@@ -14,9 +14,9 @@
             </li>
             <li>
                 <span>
-                    <b>Добавлена:</b>
+                    <b>Обновлена:</b>
                 </span>
-                <h6>@Model.Created.ToLocalTime().ToString().Split()[0]</h6>
+                <h6>@Model.Created.ToLocalTime().DateTime.ToString()</h6>
             </li>
             <li>
                 <span>
@@ -29,14 +29,18 @@
 
         <div class="col-lg-12 col-lg-12--flex">
             <fieldset class="button button--remove">
-                <button class="orange-button"
-                        onclick="location.href='@Url.Action("EditFavor", "User")'">Редактировать</button>
+                <a class="orange-button btn btn-dark" asp-action="EditFavor" asp-controller="User" asp-route-id="@Model.Id">Редактировать</a>
             </fieldset>
             
             <fieldset class="button--ban">
-                <button class="orange-button"
-                        onclick="location.href='@Url.Action("DeleteFavor", "User")'"
-                        asp-route-Id="@Model.Id">Удалить услугу</button>
+                <a class="orange-button btn btn-danger"
+                        asp-controller="User" asp-action="DeleteFavor"
+                        asp-route-favorId="@Model.Id">Удалить услугу</a>
+            </fieldset>
+
+            <fieldset class="button--ban">
+                <button class="orange-button btn btn-light"
+                   id="reloadFavor" value="@Model.Id">Обновить услугу</button>
             </fieldset>
         </div>
     </div>

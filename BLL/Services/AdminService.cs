@@ -156,12 +156,13 @@ namespace BLL.Services
             if (user != null)
             {
                 user.IsBanned = false;
-
-                foreach (Ban userBan in user.Bans)
+                if (user.Bans != null)
                 {
-                    userBan.IsActual = false;
+                    foreach (Ban userBan in user.Bans)
+                    {
+                        userBan.IsActual = false;
+                    }
                 }
-
                 await _db.SaveChangesAsync();
             }
         }

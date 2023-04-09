@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BLL.Models.Admin;
 using BLL.Models.FavorSolution;
 using BLL.Models.ViewModels;
+using Common.Consts;
 using DAL;
 using DAL.Entities;
 using DAL.Extensions;
@@ -34,10 +29,10 @@ namespace BLL.Services
             var favor = _mapper.Map<FavorSolution>(model);
             
             if (favor.FavorSubjects == null ||
-                favor.FavorSubjects.Any() == false)
+                !favor.FavorSubjects.Any())
                 favor.FavorSubjects = _db.FavorSubject.ToList();
             
-            _db.FavorSolutions.Add(favor);
+            var favorId = _db.FavorSolutions.Add(favor);
             await _db.SaveChangesAsync();
         }
 
@@ -101,7 +96,30 @@ namespace BLL.Services
                 _db.Entry(favorExist).CurrentValues.SetValues(favor);
                 favorExist.FavorSubjects = favor.FavorSubjects;
                 await _db.SaveChangesAsync();
+                await AddRecordToUpdateHistory(favorExist.AuthorId);
             }
+        }
+
+        public async Task AddRecordToUpdateHistory(Guid userId)
+        {
+            var mdl = new UpdateFavorHistory()
+            {
+                UpdateDate = DateTime.UtcNow, AuthorId = userId 
+            };
+            _db.UpdateFavorHistory.Add(mdl);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<bool> UpdateFavorDate(Guid favorId)
+        {
+            var favor = await _db.FavorSolutions.FirstOrDefaultAsync(x => x.Id == favorId);
+            if (favor != null)
+            {
+                favor.Created = DateTime.UtcNow;
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         public async Task DeleteFavor(Guid id)
@@ -154,12 +172,12 @@ namespace BLL.Services
 
         public async Task<bool> CheckFavorReportExist(Guid favorReportId)
         {
-            return _db.Reports.Any(report => report.Id == favorReportId);
+            return await _db.Reports.AnyAsync(report => report.Id == favorReportId);
         }
 
         public async Task CleanReports(Guid favorId, Guid? favorReportId = null)
         {
-            var favor = _db.FavorSolutions.FirstOrDefault(favor => favor.Id == favorId);
+            var favor = await _db.FavorSolutions.FirstOrDefaultAsync(favor => favor.Id == favorId);
 
             if (favor == null || favor.Reports == null)
                 return;
@@ -174,7 +192,7 @@ namespace BLL.Services
             {
                 var reportToDelete = reports.FirstOrDefault(report => report.Id == favorReportId);
 
-                _db.Remove(reportToDelete);
+                if (reportToDelete != null) _db.Reports.Remove(reportToDelete);
             }
 
             await _db.SaveChangesAsync();
@@ -188,6 +206,19 @@ namespace BLL.Services
                 return 0;
 
             return favor.Reports.Count();
+        }
+
+        public async Task<bool> FavorsOutOfLimit(Guid userId)
+        {
+            var count = await _db.FavorSolutions.CountAsync(x => x.AuthorId == userId);
+            return (count >= FavorConsts.FavorsLimit) ? true : false; 
+        }
+
+        public async Task<int> GetTodayUpdatesFavors(Guid userId)
+        {
+            var count = await _db.UpdateFavorHistory.CountAsync(x => x.AuthorId == userId 
+            && x.UpdateDate >= DateTime.UtcNow.Date && x.UpdateDate <= DateTime.UtcNow.Date.AddDays(1));
+            return count;
         }
     }
 }

@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="~/css/pages/main.css"  asp-append-version="true">
     <link rel="stylesheet" href="~/css/pages/admin.css"  asp-append-version="true">
     <link rel="stylesheet" href="~/css/pages/login.css"  asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/nav.css" asp-append-version="true">
 }
 
 <div class="margin_top_mini"></div>
@@ -12,7 +13,7 @@
 <div class="servicesList">
     <div class="container">
         <div class="row">
-            <div class="menu">
+            <div style="background-color:#87CEFA;" class="menu">
                 <div class="menu_content">
                     <div class="col-lg-12 col-lg-12--flex">
 
@@ -21,7 +22,6 @@
                         
                         <button  id="findUsers" class="input_form_input input_form_input--search-button half-width">Найти</button>
                     </div>
-
                     <div class="col-12" id="UsersWithPagination">
                         <partial name="Partials/_UserTableWithPagination" model="@Model"/>
                     </div>

@@ -1,7 +1,6 @@
 .nav_menu_button{
     display: block;
     width: 100%;
-    
     text-align: center;
     border: none;
     height: 50px;
@@ -14,9 +13,10 @@
     transition: all .4s;
     position: relative;
     z-index: 5;
-    
     margin: 12px;
+    min-width: 35px;
 }
+
 
 .nav_menu{
     width: 100%;

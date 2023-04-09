@@ -1,73 +1,120 @@
-﻿@model BLL.Models.ViewModels.EditSolutionVm
+﻿@using ModelsConfiguration
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BLL.Models.ViewModels.EditSolutionVm
 
-<div class="d-flex justify-content-center">
-    <div class="col-12 addSolutionCard">
-        <form id="form">
-            <input hidden id="id" value="@Model.Id"/>
-            <div>
-                <div class="pt-2">
-                    <textarea id="text" asp-for="Text" data="elastic" class="form-control" placeholder="Введите текст* (опишите вашу услугу)"></textarea>
-                    <span class="text-danger" asp-validation-for="Text"></span>
-                </div>
-                <div class="pt-2">
-                    <input id="price" asp-for="Price" min="0" max="20000" type="number" class="form-control" placeholder="Сколько вы хотите за услугу?* (цена)"/>
-                    <span class="text-danger" asp-validation-for="Price"></span>
-                </div>
-                <div class="pt-2">
-                    <input id="connect" asp-for="Connection" type="text" class="form-control" placeholder="Как с вами связаться?* (пример: https://t.me/name)"/>
-                    <span class="text-danger" asp-validation-for="Connection"></span>
-                </div>
-                <div class="box pt-2 d-flex">
-                    <select id="themes" class="item form-select">
-                        @foreach (var theme in Model.Themes)
-                        {
-                            <option value="@theme.Id">@theme.Name</option>
-                        }
-                    </select>
-                </div>
-                <div class="box pt-2 d-flex">
-                    <select class="item form-select" id="subjects">
-                        <option value="select_all">Выбрать все предметы</option>
-                        @foreach (var subject in Model.Subjects)
-                        {
-                            <option value="@subject.Id">@subject.Name</option>
-                        }
-                    </select>
-                    <button id="addSubject" type="button" class="item btn btn-dark">Выбрать</button>
-                </div>
-                <div class="SelectedSubjects pt-2">
-                    @foreach (var el in Model.SelectedSubjects)
-                    {
-                        <div class='${selectedOption.val()} @el.Id d-flex justify-content-center pt-2 box'>
-                            <div class='selectedSubject p-3'>
-                                <i class='item'>@el.Name</i>
-                                <button value='@el.Id' id='deleteSubjectButton'
-                                        type='button' class='item btn btn-dark'><i class='fa-solid fa-trash'></i>
-                                </button>
-                            </div>
-                        </div>
-                    }
-                </div>
-                <div class="pt-2 text-center">
-                    <button id="editFavor" type="button" class="btn btn-dark">Сохранить</button>
-                    <button id="clearFormButton" type="button" class="btn btn-danger">Очистить</button>
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/pages/login.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/addsolution.css" asp-append-version="true">
+}
+
+<div class="contact-us section" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5  align-self-center add_menu_element">
+                <div class="section-heading">
+                    <h6>Редактировать услугу</h6>
+                    <h2 class="no_extra_text_effects">На этой странице вы можете редактировать услугу.</h2>
                 </div>
             </div>
-        </form>
+
+            <div class="col-lg-7 add_menu_element">
+                <div class="contact-us-content">
+                    <input id="id" hidden asp-for="Id"/>
+                    <form class="input_form" id="form">
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <textarea id="text" asp-for="Text" data="elastic" placeholder="Введите текст* (опишите вашу услугу)"></textarea>
+                                    <span class="text-danger text-danger--blue_style" asp-validation-for="Text"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="price" asp-for="Price" min="@SolutionConfiguration.MinPrice" max="@SolutionConfiguration.MaxPrice" type="number" placeholder="Сколько вы хотите за услугу?* (цена)"/>
+                                    <span class="text-danger text-danger--blue_style" asp-validation-for="Price"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="connect" asp-for="Connection" type="text" placeholder="Как с вами связаться?* (пример: https://t.me/name)"/>
+                                    <span class="text-danger text-danger--blue_style" asp-validation-for="Connection"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="mar-bottom-mini">
+                                    <h5 class="text-center text-white text-uppercase mar-bottom-mini">Выберите предметы для которых вы делаете эту услугу</h5>
+                                    <h6 class="text-center text-white text-uppercase mar-bottom-mini">(можете пропустить ето поле если делаете услугу для всех предметов)</h6>
+                                </div>
+                                <fieldset class="input_field">
+                                    <div class="ms form-control">
+                                        <ul class="ms__chose">
+                                            @foreach (var el in Model.SelectedSubjects)
+                                            {
+                                                <li class="ms__chose-item" id="@el.Id">@el.Name</li>
+                                            }
+                                            <li class="w-100">
+                                                <input
+                                                    id="name"
+                                                    type="text"
+                                                    class="ms__input"
+                                                    placeholder="Поиск..."/>
+                                            </li>
+                                        </ul>
+                                        <ul class="ms__dropdown ms__dropdown_hidden">
+                                            @foreach (var subject in Model.Subjects)
+                                            {
+                                                <li id="@subject.Id" class="ms__dropdown-item ms__dropdown-item_visible">
+                                                    @subject.Name
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="mar-bottom-mini">
+                                    <h4 class="text-center text-white text-uppercase">Выберите тему своей услуги</h4>
+                                </div>
+                                <fieldset class="select_form">
+                                    <select class="form-select" name="themes"
+                                            id="themes">
+                                        @foreach (var theme in Model.Themes)
+                                        {
+                                            <option value="@theme.Id">@theme.Name</option>
+                                        }
+                                    </select>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12 col-lg-12--flex">
+                                <fieldset class="login_button">
+                                    <button id="editFavor" type="button" class="orange-button">Сохранить</button>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<link href="~/css/Favor/addSolution.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+@*Модальное окно*@
+<div class="Modal">
+    <div class="Content">
+    </div>
+</div>
+
            
 @section Scripts{
-    <script src="~/js/Favor/AddSolution.js" asp-append-version="true"></script>
+    <script src="~/js/Favor/EditFavor.js" asp-append-version="true"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    @foreach (var el in Model.SelectedSubjects)
-    {
-         <script>
-            selectedSubjects.push({ id: '@el.Id', name: '@el.Name' });
-         </script>
     }
 }

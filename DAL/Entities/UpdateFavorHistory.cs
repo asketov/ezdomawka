@@ -18,9 +18,9 @@ namespace DAL.Entities
         public DateTimeOffset UpdateDate { get; set; }
         
         [Required]
-        public Guid FavorId { get; set; }
+        public Guid AuthorId { get; set; }
         
         [Required]
-        public virtual FavorSolution Favor { get; set; } = null!;
+        public virtual User Author { get; set; } = null!;
     }
 }

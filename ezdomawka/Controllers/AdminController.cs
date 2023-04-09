@@ -271,7 +271,7 @@ namespace ezdomawka.Controllers
                 if (!await _adminService.CheckUserExistById(userId)) return BadRequest();
                 if (await _adminService.UserIsAdmin(userId)) return BadRequest();
                 
-                if (!await _userService.UserIsNotBanned(userId)) return BadRequest();
+                //if (!await _userService.UserIsNotBanned(userId)) return BadRequest();
 
                 await _adminService.UnBanUser(userId);
                 return StatusCode(StatusCodes.Status200OK, new { redirect = "/home/index" });

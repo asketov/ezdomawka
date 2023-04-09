@@ -31,7 +31,6 @@ $(document).ready(function () {
                     MinPrice = minPrice;
                     MaxPrice = maxPrice;
                     window.scrollTo(0, 0);
-                    addSubjectToCard();
                 },
                 statusCode: {
                     400: function () { // выполнить функцию если код ответа HTTP 400
@@ -49,7 +48,8 @@ $(document).ready(function () {
 
 
     $(document).on('click', '.page', function (event) {
-        let skip = (Number.parseInt(event.currentTarget.value) - 1) * 10;
+        let numberPage = Number.parseInt(event.currentTarget.value);
+        let skip = (numberPage - 1) * 10;
         $('#favorSolutions').append("<div class='pt-4'><div class='loader'></div></div>");
         $.ajax({
             url: '/FavorSolution/GetSolutions/',
@@ -64,7 +64,9 @@ $(document).ready(function () {
                 $('#favorSolutions').empty();
                 $('#favorSolutions').replaceWith(data);
                 location.href = "#header";
-                addSubjectToCard();
+                PaintCurrentPage("#6A8FD9");
+                currentPage = numberPage;
+                PaintCurrentPage("Red");
             },
             statusCode: {
                 400: function () { 
@@ -115,17 +117,6 @@ $(document).ready(function () {
             }
         });
     });
-    function addSubjectToCard() {
-        let val = $("#subjects option:selected").html();
-        if (val != "Любой предмет") {
-            $('.subjects').append(
-                `<div class='pt-2 blockSelSubj'>
-                            <div class='selectedSubject p-3'>
-                                   <i class=''>${val} </i>
-                            </div>
-                </div>`);
-        }
-    }
 
     $(document).on('click', '.checkSubjects', function (event) {
         event.stopPropagation();
