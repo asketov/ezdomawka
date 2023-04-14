@@ -194,8 +194,8 @@ namespace BLL.Services
                 .Include(solution => solution.Theme)
                 .Include(solution => solution.Author)
                 .Include(solution => solution.Reports)
-                .OrderBy(solution => solution.Reports.Count())
-                .ThenBy(solution => solution.Created.Date)
+                .OrderByDescending(solution => solution.Reports.Count())
+                .ThenByDescending(solution => solution.Created.Date)
                 .Skip(request.Skip).Take(request.Take).ToArray();
 
             var vmTop = top.Select(solution => _mapper.Map<WarnTopFavorSolutionVm>(solution)).ToArray();

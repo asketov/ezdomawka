@@ -11,11 +11,11 @@ public class LocalEmailSender : IEmailSender
         _writeLocalMessage = writeLocalMessage;
     }
 
-    public Task SendEmailAsync(string email, string subject, string text)
+    public Task SendEmailAsync(string email, string subject, string text, string? link)
     {
         _writeLocalMessage.Invoke($"Email: {email}" +
-                                  $"\nSubject {subject}" +
-                                  $"\nText {text}");
+                                  $"\nLink: {link ?? "None"}" +
+                                  $"\nSubject: {subject}");
         
         return Task.CompletedTask;
     }

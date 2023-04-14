@@ -1,3 +1,4 @@
+using System.Text.Json;
 using BLL;
 using BLL.Implementations;
 using BLL.Interfaces;
@@ -11,15 +12,15 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var emailSection = builder.Configuration.GetSection(EmailConfig.Position);
-builder.Services.Configure<EmailConfig>(emailSection);
+var emailConfig = builder.Configuration.GetSection(EmailConfig.Position).Get<EmailConfig>();
+builder.Services.AddSingleton<EmailConfig>(provider => emailConfig);
 
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddSingleton<IEmailSender, MultiEmailSender>(provider =>
     {
         return new MultiEmailSender(new LocalEmailSender((message) => Console.WriteLine(message)),
-            new EmailSender(builder.Configuration.Get<EmailConfig>()));
+            new EmailSender(provider.GetService<EmailConfig>()));
     });
 }
 else
