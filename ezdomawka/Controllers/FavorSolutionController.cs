@@ -56,17 +56,17 @@ namespace ezdomawka.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateFavorDate(Guid favorId) 
+        public async Task<IActionResult> UpdateFavorDate(Guid favorId, string? returnLink) 
         {
             try
             {
                 var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
                 if (!await _favorSolutionService.CheckFavorExist(favorId) ||
                     !await _userService.CheckUserHasFavor(userId, favorId)) return BadRequest();
-                if (await _favorSolutionService.GetTodayUpdatesFavors(userId) >= FavorConsts.UpdatesInDayLimit) return StatusCode(StatusCodes.Status406NotAcceptable, new { redirect = "/home/index" });
+                if (await _favorSolutionService.GetTodayUpdatesFavors(userId) >= FavorConsts.UpdatesInDayLimit) return StatusCode(StatusCodes.Status406NotAcceptable, new { redirect = GetRedirectLink(returnLink) });
                 var isUpdated = await _favorSolutionService.UpdateFavorDate(favorId);
                 if(isUpdated) await _favorSolutionService.AddRecordToUpdateHistory(userId);
-                return StatusCode(StatusCodes.Status200OK, new { redirect = "/home/index" });
+                return StatusCode(StatusCodes.Status200OK, new { redirect = GetRedirectLink(returnLink) });
             }
             catch
             {

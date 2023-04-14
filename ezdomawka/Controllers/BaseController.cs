@@ -6,6 +6,11 @@ namespace ezdomawka.Controllers;
 
 public class BaseController : Controller
 {
+    public string GetRedirectLink(string? text)
+    {
+        return text ?? "/home/index";
+    }
+    
     public IActionResult SingeElementInformation(string text)
     {
         return GenerateInformation(new HomeInformationExtensions.InfoElement(true, text));

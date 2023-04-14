@@ -155,7 +155,7 @@ namespace ezdomawka.Controllers
         [HttpPost]
         [Authorize]
         [RequestFormLimits(ValueCountLimit = int.MaxValue)]
-        public async Task<IActionResult> EditFavor(EditSolutionRequest request)
+        public async Task<IActionResult> EditFavor(EditSolutionRequest request, string? returnLink)
         {
             if (ModelState.IsValid)
             {
@@ -167,7 +167,7 @@ namespace ezdomawka.Controllers
                 model.AuthorId = userId;
                 await _favorSolutionService.UpdateFavor(model);
                 await _favorSolutionService.AddRecordToUpdateHistory(userId);
-                return StatusCode(StatusCodes.Status200OK, new { redirect = "/home/index" });
+                return StatusCode(StatusCodes.Status200OK, new { redirect = GetRedirectLink(returnLink) });
             }
             return BadRequest();
         }

@@ -18,6 +18,13 @@
                 </a>
             </fieldset>
 
+            <fieldset class="button button--contact">
+                <a asp-controller="Admin"
+                   asp-action="BanHistoryPage" asp-route-userId="@Model.Id">
+                    История Банов
+                </a>
+            </fieldset>
+
             @if (Model.IsBanned)
             {
                 <fieldset class="button button--remove">

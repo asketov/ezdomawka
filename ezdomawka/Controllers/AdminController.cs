@@ -159,6 +159,14 @@ namespace ezdomawka.Controllers
         #endregion
 
         #region Views
+        
+        [HttpGet]
+        public async Task<IActionResult> BanHistoryPage(Guid userId)
+        {
+            var banHistory = await GetUserBans(new GetUserBansRequest(){UserId = userId, Take = 10, Skip = 0});
+            return  PartialView("BanHistory", banHistory);
+        }
+        
         [HttpGet]
         public async Task<IActionResult> FavorSolutionsWarnTopPage()
         {
@@ -268,7 +276,7 @@ namespace ezdomawka.Controllers
             return await _userService.GetBans(request.UserId, skip: request.Skip, take: request.Take);
         }
         [HttpPost]
-        public async Task<IActionResult> BanUser(BanRequest request)
+        public async Task<IActionResult> BanUser(BanRequest request, string? returnLink)
         {
             if (ModelState.IsValid)
             {
@@ -278,23 +286,23 @@ namespace ezdomawka.Controllers
                 if ( await _userService.UserIsBanned(request.UserId)) return BadRequest();
 
                 await _adminService.BanUser(request);
-                return StatusCode(StatusCodes.Status200OK, new { redirect = "/home/index" });
+                return StatusCode(StatusCodes.Status200OK, new { redirect = GetRedirectLink(returnLink)  });
             }
             return BadRequest();
         }
         
         [HttpGet]
-        public async Task<IActionResult> UnBanUser(Guid userId)
+        public async Task<IActionResult> UnBanUser(Guid userId, string? returnLink)
         {
             if (ModelState.IsValid)
             {
                 if (!await _adminService.CheckUserExistById(userId)) return BadRequest();
                 if (await _adminService.UserIsAdmin(userId)) return BadRequest();
                 
-                //if (!await _userService.UserIsNotBanned(userId)) return BadRequest();
+                if (await _userService.UserIsNotBanned(userId)) return BadRequest();
 
                 await _adminService.UnBanUser(userId);
-                return StatusCode(StatusCodes.Status200OK, new { redirect = "/home/index" });
+                return StatusCode(StatusCodes.Status200OK, new { redirect = GetRedirectLink(returnLink) });
             }
             return BadRequest();
         }

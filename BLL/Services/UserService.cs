@@ -120,7 +120,9 @@ namespace BLL.Services
         {
             minCreateDateFilter = minCreateDateFilter ?? DateTime.MinValue;
             
-            var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(user => user.Id == userId);
+            var user = await _db.Users.AsNoTracking()
+                .Include(user => user.Bans)
+                .FirstOrDefaultAsync(user => user.Id == userId);
 
             if (user == null)
                 return Array.Empty<BanVm>();
@@ -130,7 +132,7 @@ namespace BLL.Services
             if (!includePassed)
                 bans = bans.Where(ban => ban.BanTo >= DateTime.UtcNow);
 
-            return bans.Where(ban => ban.BanFrom > minCreateDateFilter)
+            return bans.Where(ban => ban.BanFrom > (minCreateDateFilter ?? DateTime.MinValue))
                 .Skip(skip)
                 .Take(take)
                 .Select(ban => _mapper.Map<BanVm>(ban)); 
