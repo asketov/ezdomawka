@@ -14,7 +14,7 @@ public class EmailSender : IEmailSender
         _emailConfig = emailConfig;
     }
 
-    public async Task SendEmailAsync(string email, string subject, string text)
+    public async Task SendEmailAsync(string email, string subject, string text, string? link)
     {
         var emailMessage = new MimeMessage();
 

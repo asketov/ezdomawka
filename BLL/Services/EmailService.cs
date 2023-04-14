@@ -33,7 +33,7 @@ namespace BLL.Services
             {
                string HtmlBody = sr.ReadToEnd();
                string messageBody = string.Format(HtmlBody, redirectToRegisterLink);
-               await SendEmailAsync(registerModel.Email, subject, messageBody);
+               await SendEmailAsync(registerModel.Email, subject, messageBody, redirectToRegisterLink.ToString());
             }
             
             CacheData(codeToRegisterEmail.ToString(),  registerModel, 5);
@@ -57,7 +57,7 @@ namespace BLL.Services
             {
                 string HtmlBody = sr.ReadToEnd();
                 string messageBody = string.Format(HtmlBody, urlToMethod + "?code=" + code);
-                await SendEmailAsync(email, subject, messageBody);
+                await SendEmailAsync(email, subject, messageBody, urlToMethod);
             }
 
             CacheData(code.ToString(), email, 30);
@@ -71,9 +71,9 @@ namespace BLL.Services
         }
         
         
-        private async Task SendEmailAsync(string email, string subject, string text)
+        private async Task SendEmailAsync(string email, string subject, string text, string? link)
         {
-            await _emailSender.SendEmailAsync(email, subject, text);
+            await _emailSender.SendEmailAsync(email, subject, text, link);
         }
         
         private void CacheData<T>(string key, T value, int minutesToAutoClean)

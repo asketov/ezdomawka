@@ -11,11 +11,11 @@ public class MultiEmailSender : IEmailSender
         _emailSenders = emailSenders;
     }
 
-    public async Task SendEmailAsync(string email, string subject, string text)
+    public async Task SendEmailAsync(string email, string subject, string text, string? link)
     {
         foreach (var emailSender in _emailSenders)
         {
-           await emailSender.SendEmailAsync(email, subject, text);
+           await emailSender.SendEmailAsync(email, subject, text, link);
         }
     }
 }
