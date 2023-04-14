@@ -13,10 +13,20 @@ namespace BLL.Models.ViewModels
         [Required]
         public DateTime BanTo { get; set; }
         
+        [Required]
+        public DateTime BanFrom { get; set; }
+        
+        [Required]
+        public Guid Id { get; set; }
+        
+        [Required]
+        public Guid UserId { get; set; }
         
         [Required]
         [StringLength(BanConfiguration.MaxReasonTextLenght, 
             MinimumLength = BanConfiguration.MinReasonTextLenght, ErrorMessage = "Длина должна быть от {1} до {2} символов")]
         public string Reason { get; set; } = null!;
+
+        public bool IsActual { get; set; } = true;
     }
 }
