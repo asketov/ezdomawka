@@ -73,7 +73,7 @@ namespace BLL.Services
         public async Task<List<SolutionModel>> GetFavorSolutionsByUserId(Guid userId)
         {
             var favorSolutions = await _db.FavorSolutions.Where(x => x.AuthorId == userId)
-                .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync();
+                .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).OrderByDescending(x => x.Created).AsNoTracking().ToListAsync();
             return favorSolutions;
         }
 

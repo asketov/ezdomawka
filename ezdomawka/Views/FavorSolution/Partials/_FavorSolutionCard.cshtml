@@ -20,9 +20,9 @@
             </li>
             <li>
                 <span>
-                    <b>Добавлена:</b>
+                    <b>Обновлена:</b>
                 </span>
-                <h6>@Model.Created.ToLocalTime().ToString().Split()[0]</h6>
+                <h6>@Model.Created.ToLocalTime().DateTime.ToString()</h6>
             </li>
             <li>
                 <span>
@@ -54,7 +54,7 @@
                 }
             </fieldset>
             <fieldset class="button button--subjects">
-                <button value="@Model.AuthorId" class="dislike orange-button--white">Пожаловаться</button>
+                <button value="@Model.Id" class="dislike orange-button--white">Пожаловаться</button>
             </fieldset>
             @if (User.IsInRole(Roles.SuperAdminId))
             {

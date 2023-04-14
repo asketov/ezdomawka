@@ -33,26 +33,4 @@ $(document).ready(function () {
 				}
 			});
 	});
-
-
-
-
-
-	$(document).on('click', '.Modal', function (event) {
-		$('.Content').css('min-height', '200px');
-		event.stopPropagation();
-		$('.Modal').removeClass('Active');
-		$('.Content').empty();
-	})
-
-	$(document).on('click', '#CloseModal', function (event) {
-		$('.Content').css('min-height', '200px');
-		event.stopPropagation();
-		$('.Modal').removeClass('Active');
-		$('.Content').empty();
-	})
-
-	$(document).on('click', '.Content', function (event) {
-		event.stopPropagation();
-	})
 });

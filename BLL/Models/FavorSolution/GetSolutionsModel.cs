@@ -17,21 +17,21 @@ namespace BLL.Models.FavorSolution
         
         [AllowNull]
         public Guid? SubjectId { get; set; }
-        
-        
+
+
         [Range(SolutionConfiguration.GetRequest.MinSkip, SolutionConfiguration.GetRequest.MaxSkip)]
-        public int Skip { get; set; }
-        
-        
+        public int Skip { get; set; } = 0;
+
+
         [Range(SolutionConfiguration.GetRequest.MinTake, SolutionConfiguration.GetRequest.MaxTake)]
-        public int Take { get; set; }
-        
-        
+        public int Take { get; set; } = 10;
+
+
         [Range(SolutionConfiguration.MinPrice, SolutionConfiguration.MaxPrice)]
-        public int MinPrice { get; set; }
-        
-        
+        public int MinPrice { get; set; } = 0;
+
+
         [Range(SolutionConfiguration.MinPrice, SolutionConfiguration.MaxPrice)]
-        public int MaxPrice { get; set; }
+        public int MaxPrice { get; set; } = 20000;
     }
 }

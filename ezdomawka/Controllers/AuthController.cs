@@ -90,7 +90,7 @@ namespace ezdomawka.Controllers
             return MultiElementInformation(
                 "Сообщение с кодом для регестрации было отправлено вам на почту", 
                 $"<div class=\"head\">{model.Email}",
-                "Если код не пришел проверте точно ли указана ваша почта.");
+                "Если код не пришел проверьте точно ли указана ваша почта.");
         }
 
         [HttpGet]

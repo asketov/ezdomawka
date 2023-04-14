@@ -45,24 +45,23 @@ namespace BLL.Services
             return model;
         }
 
-        public async Task<List<SolutionModel>> GetSolutionModels(int skip, int take, CancellationToken token)
-        {
-            var favorSolutions = await _db.FavorSolutions.Where(x => !x.Author.IsBanned)
-                .Skip(skip).Take(take)
-                .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
-            return favorSolutions;
-        }
+        //public async Task<List<SolutionModel>> GetSolutionModels(int skip, int take, CancellationToken token)
+        //{
+        //    var favorSolutions = await _db.FavorSolutions.Where(x => !x.Author.IsBanned).OrderBy(x => x.Created)
+        //        .Skip(skip).Take(take)
+        //        .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
+        //    return favorSolutions;
+        //}
 
         public async Task<List<SolutionModel>> GetSolutionModels(GetSolutionsModel model, CancellationToken token)
-        {
-            Console.WriteLine($"{model.Take} tk -- {model.Skip} sk");
-            
+        {       
             var favorSolutions = await _db.FavorSolutions
                 .WithSubjectIdFilter(model.SubjectId).WithThemeIdFilter(model.ThemeId)
                 .WithPriceFilter(model.MinPrice, model.MaxPrice)
                 .Where(x => !x.Author.IsBanned)
-                .Skip(model.Skip).Take(model.Take)
-                .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
+                .OrderByDescending(x => x.Created)
+                .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).Skip(model.Skip)
+                .Take(model.Take).AsNoTracking().ToListAsync(token);
             return favorSolutions;
         }
 
@@ -217,7 +216,7 @@ namespace BLL.Services
         public async Task<int> GetTodayUpdatesFavors(Guid userId)
         {
             var count = await _db.UpdateFavorHistory.CountAsync(x => x.AuthorId == userId 
-            && x.UpdateDate >= DateTime.UtcNow.Date && x.UpdateDate <= DateTime.UtcNow.Date.AddDays(1));
+            && x.UpdateDate >= DateTime.UtcNow.Date && x.UpdateDate < DateTime.UtcNow.Date.AddDays(1));
             return count;
         }
     }
