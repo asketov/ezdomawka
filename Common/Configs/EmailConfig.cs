@@ -8,7 +8,7 @@ namespace Common.Configs
 {
     public class EmailConfig
     {
-        public static string Position { get; } = "email";
+        public static string Position => "email";
         public string Name { get; set; } = null!;
         public string Password { get; set; } = null!;
     }

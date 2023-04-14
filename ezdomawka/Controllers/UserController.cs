@@ -86,8 +86,10 @@ namespace ezdomawka.Controllers
                 ModelState.AddModelError("", "Пользователя с такой почтой нет");
                 return View("InputEmail");
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e);
+                
                 return SomeSingWrongMessage();
             }
 
