@@ -12,7 +12,7 @@
 {
     <div class="d-flex justify-content-center">
         <div class="nav_menu">
-            <button style="background-color:red;" class="nav_menu_button page" value="1">1</button>
+            <button style="background-color:#297eff;" class="nav_menu_button page" value="1">1</button>
             @for (int i = 2; i <= countPages; i++)
             {
                 <button class="nav_menu_button page" value="@i">@i</button>
@@ -25,9 +25,9 @@ else if(countPages > 5)
     <div class="d-flex justify-content-center">
         <div class="nav_menu">
 
-            <button style="background-color: gray;" class="nav_menu_button previousPages" id=""> &lt;&lt; </button>
+            <button style="background-color: #bdbbbb;" class="nav_menu_button previousPages" id=""> &lt;&lt; </button>
             <div class="d-flex pages">
-                <button style="background-color:red;" class="nav_menu_button page" value="1">1</button>
+                <button style="background-color:#297eff;" class="nav_menu_button page" value="1">1</button>
             @for (uint i = 2; i <=  5; i++)
             {
                 <button class="nav_menu_button page" id="selector" value="@i">@i</button>

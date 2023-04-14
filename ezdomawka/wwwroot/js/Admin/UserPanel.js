@@ -49,7 +49,7 @@ $(document).ready(function () {
                 window.scrollTo(0, 0);
                 PaintCurrentPage("#6A8FD9");
                 currentPage = numberPage;
-                PaintCurrentPage("Red");
+                PaintCurrentPage("#6A8FD9");
             },
             statusCode: {
                 400: function () {

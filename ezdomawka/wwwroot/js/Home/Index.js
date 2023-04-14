@@ -66,7 +66,7 @@ $(document).ready(function () {
                 location.href = "#header";
                 PaintCurrentPage("#6A8FD9");
                 currentPage = numberPage;
-                PaintCurrentPage("Red");
+                PaintCurrentPage("#297eff");
             },
             statusCode: {
                 400: function () { 

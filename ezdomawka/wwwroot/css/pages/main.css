@@ -27,6 +27,10 @@
     margin-bottom: 15px !important;
 }
 
+.input_field--large input{
+    height: 125px;
+}
+
 .input_form input{
     margin-bottom: 10px; !important;
 }
@@ -36,10 +40,6 @@
     font-size: 15px !important;
     font-weight: bold !important;
     text-align: center !important;
-}
-
-.orange-button:hover{
-    background-color: #ccc;
 }
 
 .extra_login_link:hover{
@@ -67,9 +67,7 @@
     
     transition: background-color 0.2s linear !important;
 }
-.orange-button--white:hover{
-    background-color: #cbcbcb !important;
-}
+
 
 
 .menu{
@@ -111,7 +109,7 @@
 }
 
 .half-width{
-    width: 29%;
+    width: 27%;
     margin-left: 2%;
     margin-right: 2%;
 }
@@ -136,11 +134,16 @@
 
     margin-bottom: 15px;
 }
-.button button{
+.button button,
+.button a{
+    display: block;
+    vertical-align: middle;
+    
     width: 100%;
     text-align: center;
     border: none;
     height: 50px;
+    line-height: 50px;
     font-size: 14px;
     font-weight: 600;
     background-color: #fff;
@@ -152,23 +155,27 @@
     z-index: 5;
 }
 
-.button--contact button{
+.button--contact button,
+.button--contact a{
     background-color: #4281ff;
     color: #fff;
 }
 
 
-.button--remove button{
+.button--remove button,
+.button--remove a{
     background-color: #222 !important;
     color: #fff !important;
 }
 
-.button--ban button{
+.button--ban button,
+.button--ban a{
     background-color: #ff5252 !important;
     color: #fff !important;
 }
 
-.button--subjects button {
+.button--subjects button,
+.button--subjects a{
     background-color: #82acff !important;
     color: #ffffff !important;
 }
@@ -282,6 +289,10 @@
 @media (max-width:600px) {
     .button {
         margin-bottom: 10px;
+        width: 75%;
+    }
+    .menu_content {
+        padding: 20px 0;
     }
 }
 
