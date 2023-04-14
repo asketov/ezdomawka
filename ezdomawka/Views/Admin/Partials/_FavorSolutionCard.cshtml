@@ -28,23 +28,23 @@
         <div class="col-lg-12 col-lg-12--flex">
             <fieldset class="button button--remove">
                 <a asp-controller="Admin" asp-action="FavorReportsPage" asp-route-favorId="@Model.Id">
-                    <button class="orange-button">
-                        Жалобы
-                    </button>
+                    Жалобы
                 </a>
             </fieldset>
-            <a asp-action="DeleteFavor"  
-               asp-route-userId="@Model.AuthorId"
-               asp-route-favorId="@Model.Id">
-                <fieldset class="button button--ban">
-                    <button class="orange-button">Удалить услугу</button>
-                </fieldset>
-            </a>         
+
             <fieldset class="button button--ban">
-                <button value="@Model.AuthorId" class="orange-button dislike">Заблокировать</button>
+                <a asp-action="DeleteFavor"
+                   asp-route-userId="@Model.AuthorId"
+                   asp-route-favorId="@Model.Id">
+                    Удалить услугу
+                </a>
             </fieldset>
-            <fieldset class="button button--subjects">
-                <button value="@Model.Id" class="orange-button checkSubjects">Предметы</button>
+
+            <fieldset class="button button--ban">
+                <a asp-controller="Admin"
+                   asp-action="BanUser" asp-route-userId="@Model.AuthorId">
+                    Заблокировать
+                </a>
             </fieldset>
         </div>
     </div>

@@ -16,9 +16,10 @@ builder.Services.Configure<EmailConfig>(emailSection);
 
 if (builder.Environment.IsDevelopment())
 {
-    builder.Services.AddSingleton<IEmailSender, LocalEmailSender>(provider =>
+    builder.Services.AddSingleton<IEmailSender, MultiEmailSender>(provider =>
     {
-        return new LocalEmailSender((message) => Console.WriteLine(message));
+        return new MultiEmailSender(new LocalEmailSender((message) => Console.WriteLine(message)),
+            new EmailSender(builder.Configuration.Get<EmailConfig>()));
     });
 }
 else

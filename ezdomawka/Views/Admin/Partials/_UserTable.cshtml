@@ -1,68 +1,17 @@
 ﻿@model List<BLL.Models.ViewModels.UserVm>
 
-<div id="Users" class="container p-3">
-    @if (Model.Count() > 0)
-    {
-        <table class="table table-bordered table-striped edit_model" style="width: 100%">
-            <thead>
-            <tr>
-                <th  class="edit_model_element">
-                    Имя
-                </th>
-                <th class="edit_model_element"> 
-                    Почта
-                </th>
-                <th class="edit_model_element">
-                    Забанен
-                </th>
-                <th></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var obj in Model)
-            {
-                <tr>
-                    <td width="30%" class="edit_model_element">@obj.Nick</td>
-                    
-                    <td width="20%" class="edit_model_element">@obj.Email</td>
-                    
-                    <td width="10%" class="edit_model_element">@(obj.IsBanned ? "да" : "нет")</td>
-                    
-                    <td width="5%" class="edit_model_element">  
-                        <a class="extra_login_link" asp-controller="Admin"
-                           asp-action="GetFavorSolutions" asp-route-userId="@obj.Id">Услуги</a>
-                    </td>
-                    
-                    <td class="text-center">
-                        <div class="w-75 btn-group" role="group">
-                            @if (obj.IsBanned)
-                            {
-                                <a class="btn btn-primary mx-2"
-                                   asp-controller="Admin"
-                                   asp-action="UnBanUser" asp-route-userId="@obj.Id">
-                                    Разбанить
-                                </a>
-                            }
-                            else
-                            {
-                                <a class="btn btn-danger mx-2"
-                                   asp-controller="Admin"
-                                   asp-action="BanUser" asp-route-userId="@obj.Id">
-                                    Забанить
-                                </a>
-                            }
-                        </div>
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <div class="d-flex justify-content-center">
-            <h1>Результатов нет</h1>
-        </div>
-    }
-</div>
+@if (Model.Any())
+{
+    <div class="pt-1 col-12">
+        @foreach (var el in Model)
+        {
+            <partial model="@el" name="Partials/_UserCard"/>
+        }
+    </div>
+}
+else
+{
+    <div class="d-flex justify-content-center">
+        <h1>Результатов нет</h1>
+    </div>
+}

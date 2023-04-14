@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BLL.Models.Admin;
 using BLL.Models.ViewModels;
@@ -193,12 +188,24 @@ namespace BLL.Services
             return suggestions.Skip(request.Skip).Take(request.Take);
         }
 
-        public async Task<IEnumerable<FavorSolutionVm>> GetTopSolutionsByReports(GetTopSolutionsByReportsRequest request)
+        public async Task<IEnumerable<WarnTopFavorSolutionVm>> GetTopSolutionsByReports(GetTopSolutionsByReportsRequest request)
         {
-            var top = _db.FavorSolutions.OrderBy(solution =>
-                _db.Reports.Where(report => report.FavorSolutionId == solution.Id).Count());
+            var top = _db.FavorSolutions
+                .Include(solution => solution.Theme)
+                .Include(solution => solution.Author)
+                .Include(solution => solution.Reports)
+                .OrderBy(solution => solution.Reports.Count())
+                .ThenBy(solution => solution.Created.Date)
+                .Skip(request.Skip).Take(request.Take).ToArray();
 
-            return top.Skip(request.Skip).Take(request.Take).Select(solution => _mapper.Map<FavorSolutionVm>(solution));
+            var vmTop = top.Select(solution => _mapper.Map<WarnTopFavorSolutionVm>(solution)).ToArray();
+
+            for (int i = 0; i < top.Length; i++)
+            {
+                vmTop[i].ReportCount = top[i].Reports.Count;
+            }
+            
+            return vmTop;
         }
     }
 }
