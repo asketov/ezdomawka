@@ -160,8 +160,16 @@ namespace ezdomawka.Controllers
 
         #region Views
         [HttpGet]
+        public async Task<IActionResult> FavorSolutionsWarnTopPage()
+        {
+            var solutionsTop = await GetTopSolutionsByReports(new GetTopSolutionsByReportsRequest(){Take = 10, Skip = 0});
+            
+            return  PartialView("_FavorSolutiosWarnTop", solutionsTop);
+        }
+        
+        [HttpGet]
         ////Pag onclick
-        public async Task<IActionResult> GetUserTable(UserPanelRequest request, CancellationToken token)
+        public async Task<IActionResult> UserTable(UserPanelRequest request, CancellationToken token)
         {
             var userVms = await _adminService.GetUsersByRequest(request, token);
             return PartialView("Partials/_UserTable", userVms);
@@ -178,7 +186,7 @@ namespace ezdomawka.Controllers
 
         ////Pag View
         [HttpGet]
-        public async Task<IActionResult> GetUsersWithPagination(UserPanelRequest request, CancellationToken token)
+        public async Task<IActionResult> UsersWithPagination(UserPanelRequest request, CancellationToken token)
         {
             var userVms = await _adminService.GetUsersByRequest(request, token);
             var count = await _adminService.GetCountUsersByFilters(request, token);
@@ -186,7 +194,19 @@ namespace ezdomawka.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFavorSolutions(Guid userId)
+        public async Task<IActionResult> FavorSolutions(Guid userId)
+        {
+            if (!await _adminService.CheckUserExistById(userId))
+                return BadRequest();
+            
+            var favorSolutions = await _userService.GetFavorSolutionsByUserId(userId);
+            var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x)).ToList();
+            
+            return View("UserFavors", vms);
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> FavorSolutionsWarnTop(Guid userId)
         {
             if (!await _adminService.CheckUserExistById(userId))
                 return BadRequest();
@@ -206,7 +226,7 @@ namespace ezdomawka.Controllers
                 
                 await _favorSolutionService.DeleteFavor(favorId);
                 
-                return await GetFavorSolutions(userId);
+                return await FavorSolutions(userId);
             }
             return BadRequest();
         }
@@ -282,8 +302,9 @@ namespace ezdomawka.Controllers
 
         #region Report
 
+        
         [HttpGet]
-        public async Task<IEnumerable<FavorSolutionVm>> GetTopSolutionsByReports( GetTopSolutionsByReportsRequest request)
+        public async Task<IEnumerable<WarnTopFavorSolutionVm>> GetTopSolutionsByReports( GetTopSolutionsByReportsRequest request)
         {
             return await _adminService.GetTopSolutionsByReports(request);
         }

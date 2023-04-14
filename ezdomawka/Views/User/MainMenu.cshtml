@@ -14,54 +14,42 @@
                 <div class="menu_content">
                     <div class="align-content-center">
                         <fieldset class="button button--navmenu">
-                            <a asp-area="" asp-controller="FavorSolution" asp-action="AddSolution">
-                                <button class="orange-button orange-button--white">Добавить Свою Услугу</button>
-                            </a>
+                            <a asp-area="" asp-controller="FavorSolution" asp-action="AddSolution">Добавить Свою Услугу</a>
                         </fieldset>
 
                         <fieldset class="button button--navmenu">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="FavorSolutions">
-                                <button class="orange-button orange-button--white">Мои Услуги</button>
-                            </a>
+                            <a asp-area="" asp-controller="User" asp-action="FavorSolutions">Мои Услуги</a>
                         </fieldset>
 
                         <fieldset class="button button--navmenu">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="ChangePassword">
-                                <button class="orange-button orange-button--white">Сменить пароль</button>
-                            </a>
+                            <a asp-area="" asp-controller="User" asp-action="ChangePassword">Сменить пароль </a>
                         </fieldset>
 
                         @if (User.IsInRole(Roles.SuperAdminId) || User.IsInRole(Roles.AdminId))
                         {
                             <fieldset class="button button--navmenu">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ThemeManager">
-                                    <button class="orange-button orange-button--white">Работа с темами</button>
-                                </a>
+                                <a asp-area="" asp-controller="Admin" asp-action="ThemeManager">Работа с темами </a>
                             </fieldset>
 
                             <fieldset class="button button--navmenu">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="SubjectManager">
-                                    <button class="orange-button orange-button--white">Работа с предметами</button>
-                                </a>
+                                <a asp-area="" asp-controller="Admin" asp-action="SubjectManager">Работа с предметами </a>
                             </fieldset>
 
                             <fieldset class="button button--navmenu">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="UserPanel">
-                                    <button class="orange-button orange-button--white">Работа с пользователями</button>
-                                </a>
+                                <a asp-area="" asp-controller="Admin" asp-action="UserPanel">Работа с пользователями </a>
                             </fieldset>
-
+                            
                             <fieldset class="button button--navmenu">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="SuggestionsPage">
-                                    <button class="orange-button orange-button--white">Предложения</button>
-                                </a>
+                            <a asp-area="" asp-controller="Admin" asp-action="FavorSolutionsWarnTopPage">Подозрительные записи</a>
+                            </fieldset>
+                            
+                            <fieldset class="button button--navmenu">
+                                <a asp-area="" asp-controller="Admin" asp-action="SuggestionsPage">Предложения </a>
                             </fieldset>
                         }
 
                         <fieldset class="button button--navmenu">
-                            <a asp-area="" asp-controller="Auth" asp-action="Logout">
-                                <button class="orange-button orange-button--white">Выйти из аккаунта</button>
-                            </a>
+                            <a asp-area="" asp-controller="Auth" asp-action="Logout">Выйти из аккаунта </a>
                         </fieldset>
                     </div>
                 </div>

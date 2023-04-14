@@ -919,7 +919,8 @@ h2.accordion-header button {
 
 .about-us .section-heading {
     margin-left: 60px;
-    margin-bottom: 0px;
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .about-us .section-heading .main-button {
@@ -1824,10 +1825,6 @@ body {
     }
     .events .item ul li:last-child {
         text-align: right;
-    }
-    .events .item a {
-        bottom: 150px;
-        top: auto;
     }
     .events .item ul li h6 {
         font-size: 14px;

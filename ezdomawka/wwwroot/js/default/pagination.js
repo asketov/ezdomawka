@@ -24,10 +24,10 @@
                 });
             }
             currentPage = (currentListPages - 2) * 5 + 1;
-            PaintCurrentPage("red");
+            PaintCurrentPage("#6A8FD9");
             ClickCurrentPage();
             currentListPages--;
-            if (currentListPages == 1) $('.previousPages').css('background-color', "gray");
+            if (currentListPages == 1) $('.previousPages').css('background-color', "#bdbbbb");
         }
     });
 
@@ -42,7 +42,7 @@
                     $('.pages').append(`<button class="nav_menu_button page" value="${firstNumPage + i}">${firstNumPage + i}</button>`);
                 }
                
-                $('.nextPages').css('background-color', "gray");
+                $('.nextPages').css('background-color', "#bdbbbb");
             }
             else {
                 $(".page").each(function () {
@@ -52,7 +52,7 @@
                 });
             }
             currentPage = currentListPages * 5 + 1;
-            PaintCurrentPage("red");
+            PaintCurrentPage("#6A8FD9");
             ClickCurrentPage();
             currentListPages++;
             if (currentListPages == 2) $('.previousPages').css('background-color', "#6A8FD9");
