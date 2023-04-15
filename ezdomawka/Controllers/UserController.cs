@@ -129,9 +129,15 @@ namespace ezdomawka.Controllers
         public async Task<IActionResult> FavorSolutions()
         {
             var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);
+            var countTodayUpdates = await _favorSolutionService.GetTodayUpdatesFavors(userId);
+            var remainUpdates = FavorConsts.UpdatesInDayLimit - countTodayUpdates;
             var favorSolutions = await _userService.GetFavorSolutionsByUserId(userId);
             var vms = favorSolutions.Select(x => _mapper.Map<FavorSolutionVm>(x)).ToList();
-            return View("Favors", vms);
+            var vm = new MyFavorsVm()
+            {
+                favors = vms, RemainUpdates = remainUpdates
+            };
+            return View("Favors", vm);
         }
 
         [HttpGet]
@@ -165,8 +171,8 @@ namespace ezdomawka.Controllers
                 if (countUpdates >= FavorConsts.UpdatesInDayLimit) return StatusCode(StatusCodes.Status406NotAcceptable);
                 var model = _mapper.Map<SolutionModel>(request);
                 model.AuthorId = userId;
-                await _favorSolutionService.UpdateFavor(model);
-                await _favorSolutionService.AddRecordToUpdateHistory(userId);
+                var isUpdated = await _favorSolutionService.UpdateFavor(model);
+                if(isUpdated) await _favorSolutionService.AddRecordToUpdateHistory(userId);
                 return StatusCode(StatusCodes.Status200OK, new { redirect = GetRedirectLink(returnLink) });
             }
             return BadRequest();

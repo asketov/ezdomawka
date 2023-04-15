@@ -28,21 +28,17 @@
             @if (Model.IsBanned)
             {
                 <fieldset class="button button--remove">
-                    <a
-                       asp-controller="Admin"
-                       asp-action="UnBanUser" asp-route-userId="@Model.Id">
+                    <button id="unBan" value="@Model.Id">
                         Разбанить
-                    </a>
+                    </button>
                 </fieldset>
             }
             else
             {
                 <fieldset class="button button--ban">
-                    <a
-                       asp-controller="Admin"
-                       asp-action="BanUser" asp-route-userId="@Model.Id">
+                    <button id="BanUser" value="@Model.Id">
                         Забанить
-                    </a>
+                    </button>
                 </fieldset>
             }
         </div>

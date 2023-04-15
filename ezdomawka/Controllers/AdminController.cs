@@ -296,7 +296,7 @@ namespace ezdomawka.Controllers
             return BadRequest();
         }
         
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> UnBanUser(Guid userId, string? returnLink)
         {
             if (ModelState.IsValid)

@@ -44,15 +44,6 @@ namespace BLL.Services
             model.Themes = await _adminService.GetThemeModels();
             return model;
         }
-
-        //public async Task<List<SolutionModel>> GetSolutionModels(int skip, int take, CancellationToken token)
-        //{
-        //    var favorSolutions = await _db.FavorSolutions.Where(x => !x.Author.IsBanned).OrderBy(x => x.Created)
-        //        .Skip(skip).Take(take)
-        //        .ProjectTo<SolutionModel>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync(token);
-        //    return favorSolutions;
-        //}
-
         public async Task<List<SolutionModel>> GetSolutionModels(GetSolutionsModel model, CancellationToken token)
         {       
             var favorSolutions = await _db.FavorSolutions
@@ -86,7 +77,7 @@ namespace BLL.Services
         /// <summary>
         /// update if favor exist
         /// </summary>
-        public async Task UpdateFavor(SolutionModel model)
+        public async Task<bool> UpdateFavor(SolutionModel model)
         {
             var favor = _mapper.Map<FavorSolution>(model);
             var favorExist = await _db.FavorSolutions.Include(x=>x.FavorSubjects).FirstOrDefaultAsync(x => x.Id == model.Id);
@@ -95,8 +86,9 @@ namespace BLL.Services
                 _db.Entry(favorExist).CurrentValues.SetValues(favor);
                 favorExist.FavorSubjects = favor.FavorSubjects;
                 await _db.SaveChangesAsync();
-                await AddRecordToUpdateHistory(favorExist.AuthorId);
+                return true;
             }
+            return false;
         }
 
         public async Task AddRecordToUpdateHistory(Guid userId)

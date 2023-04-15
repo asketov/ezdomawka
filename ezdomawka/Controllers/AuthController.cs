@@ -88,7 +88,7 @@ namespace ezdomawka.Controllers
             await _emailService.SendRegisterFinishCodeToEmailAsync(model, _webHostEnvironment.WebRootPath, this);
             
             return MultiElementInformation(
-                "Сообщение с кодом для регестрации было отправлено вам на почту", 
+                "Сообщение с кодом для регистрации было отправлено вам на почту", 
                 $"<div class=\"head\">{model.Email}",
                 "Если код не пришел проверьте точно ли указана ваша почта.");
         }

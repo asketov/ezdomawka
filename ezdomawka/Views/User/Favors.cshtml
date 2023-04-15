@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BLL.Models.ViewModels.FavorSolutionVm>
+﻿@model BLL.Models.ViewModels.MyFavorsVm
 
 @section Styles
 {
@@ -12,11 +12,12 @@
             <div class="col-lg-12 text-center">
                 <div class="section-heading">
                     <h2 class="no_extra_text_effects">Ваши Услуги</h2>
+                    <h2>Сегодня у вас осталось @Model.RemainUpdates обновлений услуг</h2>
                 </div>
             </div>
 
             <div>
-                <partial name="Partials/_FavorSolutions" model="Model"/>
+                <partial name="Partials/_FavorSolutions" model="@Model.favors"/>
             </div>
         </div>
     </div>
