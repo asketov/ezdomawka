@@ -1,28 +1,26 @@
-﻿@model IEnumerable<BLL.Models.ViewModels.SuggestionVm>
+﻿@model BLL.Models.ViewModels.SuggestionsWithPaginationVm
 
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/pages/main.css"  asp-append-version="true">
-    <link rel="stylesheet" href="~/css/pages/admin.css"  asp-append-version="true">
-    <link rel="stylesheet" href="~/css/pages/login.css"  asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/main.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/admin.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/login.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/viewServices.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/nav.css" asp-append-version="true">
 }
 
 <div class="margin_top_mini"></div>
 
-<div class="servicesList">
+<div class="section events" id="events">
     <div class="container">
         <div class="row">
             <div class="menu">
                 <div class="menu_content">
-                    <div class="col-12" id="UsersWithPagination">
-                            @if (Model.Count() > 0)
-                            {
-                                <partial name="Partials/_SuggestionsWithPagination" model="@Model"/>
-                            }
-                            else
-                            {
-                                <h2 class="text-center edit_model_element edit_model_element--large">Нету предложений</h2>
-                            }
+                    <div class="col-12">
+                         <partial name="Partials/_SuggestionsWithPagination" model="@Model.Suggestions"/>     
+                    </div>
+                    <div class="col-12">
+                        <partial name="../Home/Partials/_Pagination" model="@Model.Count" />
                     </div>
                 </div>
             </div>
@@ -31,3 +29,6 @@
 </div>
 
 
+@section Scripts{
+    <script src="~/js/Admin/SuggestionPanel.js" asp-append-version="true"></script>
+}

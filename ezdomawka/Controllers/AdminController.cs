@@ -261,11 +261,24 @@ namespace ezdomawka.Controllers
 
         public async Task<IActionResult> SuggestionsPage()
         {
-            var suggestions = await GetSuggestions(new GetSuggestionsRequest());
-
-            return View("Suggestions" ,suggestions);
+            var vms = await _adminService.GetSuggestions(new GetSuggestionsRequest());
+            var count = await _adminService.GetCountSuggestions();
+            var vm = new SuggestionsWithPaginationVm()
+            {
+                Suggestions = vms, Count = count
+            };
+            return View("Suggestions", vm);
         }
-        
+
+        #region Suggestion
+        [HttpGet]
+        public async Task<IActionResult> Suggestions(GetSuggestionsRequest request)
+        {
+            var vms = await _adminService.GetSuggestions(request);
+            return View("Partials/_SuggestionsWithPagination", vms);
+        }
+        #endregion
+
         public async Task<IActionResult> BanUser(Guid userId)
         {
             return View(new BanRequest(){UserId = userId});
@@ -368,14 +381,6 @@ namespace ezdomawka.Controllers
             await _favorSolutionService.CleanReports(favorId);
 
             return Ok();
-        }
-        #endregion
-
-        #region Suggection
-        [HttpGet]
-        public async Task<IEnumerable<SuggestionVm>> GetSuggestions(GetSuggestionsRequest request)
-        {
-            return await _adminService.GetSuggestions(request);
         }
         #endregion
     }

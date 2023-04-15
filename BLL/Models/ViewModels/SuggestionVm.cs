@@ -10,6 +10,7 @@ namespace BLL.Models.ViewModels
 {
     public class SuggestionVm
     {
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "Введите контакты для связи")] 
         [StringLength(ConnectionConfiguration.MaxConnectionLength, MinimumLength = ConnectionConfiguration.MinConnectionLength, 
             ErrorMessage = "Длина должна быть от {1} до {2} символов")]

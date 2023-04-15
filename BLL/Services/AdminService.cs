@@ -181,13 +181,17 @@ namespace BLL.Services
 
         public async Task<IEnumerable<SuggestionVm>> GetSuggestions(GetSuggestionsRequest request)
         {
-            var suggestions = _db.Suggestions.AsNoTracking().Where(suggestion => suggestion.IsActual)
+            var suggestions = await _db.Suggestions.AsNoTracking().Where(suggestion => suggestion.IsActual)
                 .OrderByDescending(suggestion => suggestion.CreationDate)
-                .Select(suggestion => _mapper.Map<SuggestionVm>(suggestion));
+                .ProjectTo<SuggestionVm>(_mapper.ConfigurationProvider).Skip(request.Skip).Take(request.Take).ToListAsync();
     
-            return suggestions.Skip(request.Skip).Take(request.Take);
+            return suggestions;
         }
 
+        public async Task<int> GetCountSuggestions()
+        {
+            return await _db.Suggestions.CountAsync();
+        }
         public async Task<IEnumerable<WarnTopFavorSolutionVm>> GetTopSolutionsByReports(GetTopSolutionsByReportsRequest request)
         {
             var top = _db.FavorSolutions
