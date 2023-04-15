@@ -1,6 +1,7 @@
 ﻿@model BLL.Models.ViewModels.UserPanelVm
 
-<partial name="Partials/_UserTable" model="@Model.UserVms" />
-<div id="">
+
+    <partial name="Partials/_UserTable" model="@Model.UserVms" />
+
+
     <partial name="../Home/Partials/_Pagination" model="@Model.CountUsersByFilters" />
-</div>

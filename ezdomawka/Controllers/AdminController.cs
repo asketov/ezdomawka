@@ -170,9 +170,14 @@ namespace ezdomawka.Controllers
         [HttpGet]
         public async Task<IActionResult> FavorSolutionsWarnTopPage()
         {
-            var solutionsTop = await GetTopSolutionsByReports(new GetTopSolutionsByReportsRequest(){Take = 10, Skip = 0});
             
-            return  PartialView("_FavorSolutiosWarnTop", solutionsTop);
+            var solutionsTop = await _adminService.GetTopSolutionsByReports(new GetTopSolutionsByReportsRequest() { Take = 10, Skip = 0 });
+            var count = await _favorSolutionService.GetCountSolutions();
+            var vm = new WarnTopFavorSolutionPaginationVm()
+            {
+                WarnTopFavorSolutions = solutionsTop, Count = count
+            };
+            return View("FavorSolutiosWarnTopPagination", vm);
         }
         
         [HttpGet]
@@ -312,9 +317,10 @@ namespace ezdomawka.Controllers
 
         
         [HttpGet]
-        public async Task<IEnumerable<WarnTopFavorSolutionVm>> GetTopSolutionsByReports( GetTopSolutionsByReportsRequest request)
+        public async Task<IActionResult> TopSolutionsByReports(GetTopSolutionsByReportsRequest request)
         {
-            return await _adminService.GetTopSolutionsByReports(request);
+            var vms = await _adminService.GetTopSolutionsByReports(request);
+            return View("Partials/_FavorSolutionsWarnTop", vms);
         }
 
         [HttpGet]

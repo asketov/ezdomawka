@@ -32,7 +32,7 @@ namespace BLL.Models.Auth
         [StringLength(NickConfiguration.MaxLength, MinimumLength = NickConfiguration.MinLength, 
             ErrorMessage = "Длина должна быть от {1} до {2} символов")]
         [Required(ErrorMessage = "Поле является обязательным")]
-        [RegularExpression("^(?!.*..)(?!.)(?!.*.$)(?!d+$)[a-zA-Z0-9.]{5,50}$", ErrorMessage = "Ник указан не коректно.")]
+        [RegularExpression("^[a-zA-Z0-9_.]{5,50}$", ErrorMessage = "Только Аa-Яя,Aa-Zz, 0-9, включая . и _")]
         public string Nick { get; set; } = null!;
     }
 }

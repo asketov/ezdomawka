@@ -1,8 +1,5 @@
-﻿@model IEnumerable<BLL.Models.ViewModels.WarnTopFavorSolutionVm>
+﻿@model BLL.Models.ViewModels.WarnTopFavorSolutionPaginationVm
 
-@{
-    Layout = "_Layout";
-}
 
 @section Styles
 {
@@ -23,18 +20,17 @@
             </div>
 
             <div>
-                <partial name="Partials/_FavorSolutionsWarnTopPagination" model="Model"/>
+                <partial name="Partials/_FavorSolutionsWarnTop" model="@Model.WarnTopFavorSolutions"/>
+            </div>
+            <div>
+                <partial name="../Home/Partials/_Pagination" model="@Model.Count" />
             </div>
         </div>
     </div>
 </div>
 
-@*Модальное окно*@
-<div style="" class="Modal">
-    <div class="Content">
-    </div>
-</div>
 
 @section Scripts{
-    <script src="~/js/Home/Index.js" asp-append-version="true"></script>
+    <script src="~/js/Favor/ToDoFavor.js" asp-append-version="true"></script>
+    <script src="~/js/Admin/TopWarnFavors.js" asp-append-version="true"></script>
 }

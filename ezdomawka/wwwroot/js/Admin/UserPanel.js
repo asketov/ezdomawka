@@ -6,7 +6,7 @@ $(document).ready(function () {
         blockUsersPagination.append("<div class='loader'></div>");
         let email = $("#InputEmail").val(), nick = $("#InputNick").val();
         $.ajax({
-            url: '/Admin/GetUsersWithPagination',
+            url: '/Admin/UsersWithPagination',
             method: 'get',
             dataType: 'html',
             data: {
@@ -37,7 +37,7 @@ $(document).ready(function () {
         let email = $("#InputEmail").val(), nick = $("#InputNick").val();
         $('#Users').append("<div class='pt-4'><div class='loader'></div></div>");
         $.ajax({
-            url: '/Admin/GetUserTable/',
+            url: '/Admin/UserTable/',
             method: 'get',
             dataType: 'html',
             data: {
@@ -49,7 +49,7 @@ $(document).ready(function () {
                 window.scrollTo(0, 0);
                 PaintCurrentPage("#6A8FD9");
                 currentPage = numberPage;
-                PaintCurrentPage("#6A8FD9");
+                PaintCurrentPage("#297eff");
             },
             statusCode: {
                 400: function () {
@@ -67,7 +67,7 @@ $(document).ready(function () {
         blockUsersPagination.append("<div class='loader'></div>");
         let email = $("#InputEmail").val(), nick = $("#InputNick").val();
         $.ajax({
-            url: '/Admin/GetUsersWithPagination',
+            url: '/Admin/UsersWithPagination',
             method: 'get',
             dataType: 'html',
             data: {

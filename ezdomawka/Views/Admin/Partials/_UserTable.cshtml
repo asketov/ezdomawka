@@ -1,17 +1,18 @@
 ﻿@model List<BLL.Models.ViewModels.UserVm>
-
-@if (Model.Any())
-{
-    <div class="pt-1 col-12">
-        @foreach (var el in Model)
-        {
-            <partial model="@el" name="Partials/_UserCard"/>
-        }
-    </div>
-}
-else
-{
-    <div class="d-flex justify-content-center">
-        <h1>Результатов нет</h1>
-    </div>
-}
+<div id="Users">
+    @if (Model.Any())
+    {
+        <div class="pt-1 col-12">
+            @foreach (var el in Model)
+            {
+                <partial model="@el" name="Partials/_UserCard"/>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center">
+            <h1>Результатов нет</h1>
+        </div>
+    }
+</div>

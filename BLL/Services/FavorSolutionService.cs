@@ -157,7 +157,7 @@ namespace BLL.Services
 
         public async Task<IEnumerable<ReportVm>> GetReports(Guid favorId, int skip = 0, int take = 10)
         {
-            var favor = await _db.FavorSolutions.AsNoTracking().FirstOrDefaultAsync(favor => favor.Id == favorId);
+            var favor = await _db.FavorSolutions.Include(x => x.Reports).AsNoTracking().FirstOrDefaultAsync(favor => favor.Id == favorId);
 
             if (favor == null || favor.Reports == null)
                 return Array.Empty<ReportVm>();

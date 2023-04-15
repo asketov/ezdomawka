@@ -3,7 +3,7 @@
 @model BLL.Models.ViewModels.WarnTopFavorSolutionVm
 
 <div class="item">
-    <div class="col-lg-9 text-center">
+    <div class="col-lg-12 text-center">
         <ul>
             <li>
                 <h3>@Model.Theme.Name</h3>
@@ -45,7 +45,8 @@
                 }
             </fieldset>
             <fieldset class="button button--subjects">
-                <button value="@Model.AuthorId" class="dislike orange-button--white">Пожаловаться</button>
+                <button onclick="location.href='/Admin/FavorReportsPage?favorId=@Model.Id'"
+                         class="orange-button--white">Жалобы</button>
             </fieldset>
             @if (User.IsInRole(Roles.SuperAdminId))
             {
