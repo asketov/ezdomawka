@@ -35,14 +35,7 @@
                 <button value="@Model.Id"  class="checkSubjects orange-button--white">Предметы</button>
             </fieldset>
             <fieldset class="button button--contact">
-                @if (Model.Connection.Substring(0, 5) == "https")
-                {
-                    <button class="orange-button" onclick="location.href='@Url.Action(@Model.Connection)'">Контакты</button>
-                }
-                else
-                {
-                    <button class="orange-button" onclick="location.href='https://@Model.Connection'">Контакты</button>
-                }
+                <button value="@Model.Connection" class="orange-button" id="contact">Контакты</button>
             </fieldset>
             <fieldset class="button button--subjects">
                 <button onclick="location.href='/Admin/FavorReportsPage?favorId=@Model.Id'"

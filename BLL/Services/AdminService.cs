@@ -198,6 +198,7 @@ namespace BLL.Services
                 .Include(solution => solution.Theme)
                 .Include(solution => solution.Author)
                 .Include(solution => solution.Reports)
+                .Where(x => !x.Author.IsBanned)
                 .OrderByDescending(solution => solution.Reports.Count())
                 .ThenByDescending(solution => solution.Created.Date)
                 .Skip(request.Skip).Take(request.Take).ToArray();

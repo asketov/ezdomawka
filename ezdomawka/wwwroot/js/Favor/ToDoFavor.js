@@ -37,6 +37,7 @@ $(document).ready(function () {
                         `<div class='text-center' style='width: 300px;'><div class='pb-2'>
                             Пользователь забанен <i class="fa-regular fa-circle-check"></i></div>
                             <button id='CloseModal' class='btn btn-outline-secondary'>Закрыть</button></div>`);
+                    location.reload();
                 },
                 statusCode: {
                     400: function () {
@@ -252,5 +253,17 @@ $(document).ready(function () {
             });
         }
     });
-
+    $(document).on('click', '#contact', function (event) {
+        let link = event.currentTarget.value;
+        $('.Content').css('min-height', '10px');
+        $('.Content').append(`
+        <div class='text-center'>
+                    <div>Не вводите никакие личные данные на подставных сайтах, если вас обманули - отправьте
+                    жалобу на услугу</div>
+                    <div class='text-center pt-2'>Вы перейдете по ссылке: ${link}</div>
+                    <a href='${link}' class='btn btn-outline-dark'>Перейти на эту страницу</a>
+                    <button id='CloseModal' class='btn btn-outline-secondary'>Назад</button>
+        </div>`);
+        $('.Modal').addClass('Active');
+    });
 });

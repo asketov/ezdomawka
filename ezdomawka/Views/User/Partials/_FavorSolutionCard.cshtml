@@ -36,7 +36,9 @@
                 <a asp-controller="User" asp-action="DeleteFavor"
                         asp-route-favorId="@Model.Id">Удалить услугу</a>
             </fieldset>
-
+            <fieldset class="button button--contact">
+                <button value="@Model.Connection" class="orange-button" id="contact">Контакты</button>
+            </fieldset>
             <fieldset class="button button--contact">
                 <button id="reloadFavor" value="@Model.Id">Обновить услугу</button>
             </fieldset>
