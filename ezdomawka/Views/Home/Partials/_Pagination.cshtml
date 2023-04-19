@@ -2,13 +2,13 @@
 
 @{
     var solutionsCount = Model;
-    int countPages = 53/*solutionsCount % 10 == 0 ? solutionsCount / 10 : solutionsCount / 10 + 1*/;
+    int countPages = solutionsCount % 10 == 0 ? solutionsCount / 10 : solutionsCount / 10 + 1;
     <script>
         var countPages = @countPages;
         var currentPage = 1;
     </script>
 }
-@if (countPages <= 5 && countPages != 1)
+@if (countPages <= 5 && countPages > 1)
 {
     <div class="d-flex justify-content-center">
         <div class="nav_menu">

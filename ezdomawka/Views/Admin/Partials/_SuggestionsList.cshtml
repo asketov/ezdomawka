@@ -1,0 +1,22 @@
+﻿@model IEnumerable<BLL.Models.ViewModels.SuggestionVm>
+
+<div id="Suggestions">
+    @if (Model.Any())
+    {
+        <div class="pt-1 col-12">
+            @foreach (var el in Model)
+            {
+                <partial model="@el" name="Partials/_SuggestionCard" />
+            }
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center">
+            <h1>Предложений нет</h1>
+        </div>
+    }
+</div>
+
+
+

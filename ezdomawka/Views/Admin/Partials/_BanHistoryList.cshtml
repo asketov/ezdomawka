@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<BLL.Models.ViewModels.BanVm>
 
-<div id="favorSolutions">
+<div id="bans">
     @if (Model.Any())
     {
         <div class="pt-1 col-12">
             @foreach (var el in Model)
             {
-                <partial model="@el" name="Partials/_FavorSolutionWarnTopCard"/>
+                <partial model="@el" name="Partials/_BanCard" />
             }
         </div>
     }

@@ -17,10 +17,12 @@
                 $('.nextPages').css('background-color', "#6A8FD9");
             }
             else {
+                let i = 0;
                 $(".page").each(function () {
-                    let num = Number.parseInt($(this).text());
-                    $(this).text(num - 5);
-                    $(this).val(num - 5);
+                    let num = (currentListPages - 2) * 5 + 1;
+                    $(this).text(num + i);
+                    $(this).val(num + i);
+                    i++;
                 });
             }
             currentPage = (currentListPages - 2) * 5 + 1;
@@ -45,10 +47,12 @@
                 $('.nextPages').css('background-color', "#bdbbbb");
             }
             else {
+                let i = 0;
                 $(".page").each(function () {
-                    let num = Number.parseInt($(this).text());
-                    $(this).text(num + 5);
-                    $(this).val(num + 5);
+                    let num = currentListPages * 5 + 1;
+                    $(this).text(num + i);
+                    $(this).val(num + i);
+                    i++;
                 });
             }
             currentPage = currentListPages * 5 + 1;

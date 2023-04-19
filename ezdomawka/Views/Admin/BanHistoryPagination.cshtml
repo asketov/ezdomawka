@@ -1,8 +1,4 @@
-﻿@model IEnumerable<BLL.Models.ViewModels.BanVm>
-
-@{
-    Layout = "_Layout";
-}
+﻿@model BLL.Models.ViewModels.BanHistoryVm
 
 @section Styles
 {
@@ -23,12 +19,16 @@
             </div>
 
             <div>
-                <partial name="Partials/_BanHistoryPagination" model="Model"/>
+                <partial name="Partials/_BanHistoryList" model="@Model.Bans"/>
+            </div>
+            <div>
+                <partial name="../Home/Partials/_Pagination" model="@Model.Count" />
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts{
-    <script src="~/js/Home/Index.js" asp-append-version="true"></script>
+    <script>var userId = '@Model.UserId';</script>
+    <script src="~/js/Admin/BanPanel.js" asp-append-version="true"></script>
 }

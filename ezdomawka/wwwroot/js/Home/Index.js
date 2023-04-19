@@ -13,7 +13,6 @@ $(document).ready(function () {
         let selectedSubjectId = $("#subjects option:selected").val();
         let minPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
         let maxPrice = Number.parseInt($("#maxPrice").val().split(' ')[0]);
-        $('#FavorsWithPagination').empty();
         $('#FavorsWithPagination').append("<div class='loader'></div>");
             $.ajax({
                 url: '/FavorSolution/FindFavors/',
@@ -30,7 +29,7 @@ $(document).ready(function () {
                     SubjectId = selectedSubjectId;
                     MinPrice = minPrice;
                     MaxPrice = maxPrice;
-                    window.scrollTo(0, 0);
+                    location.href = "#header";
                 },
                 statusCode: {
                     400: function () { // выполнить функцию если код ответа HTTP 400
@@ -125,7 +124,6 @@ $(document).ready(function () {
         let selectedSubjectId = $("#subjects option:selected").val();
         let minPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
         let maxPrice = Number.parseInt($("#maxPrice").val().split(' ')[0]);
-        $('#FavorsWithPagination').empty();
         $('#FavorsWithPagination').append("<div class='loader'></div>");
         $.ajax({
             url: '/FavorSolution/FindFavors/',

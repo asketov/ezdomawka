@@ -124,44 +124,17 @@ namespace BLL.Services
         }
         #endregion
 
-        public async Task BanUser(BanRequest request)
+        public async Task<IEnumerable<BanVm>> GetBans(GetUserBansRequest request, CancellationToken token)
         {
-            var ban = new Ban()
-            {
-                BanFrom = DateTime.UtcNow, BanTo = DateTime.UtcNow.AddDays(request.Duration), UserId = request.UserId,
-                Reason = request.Reason
-            };
-            
-            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == request.UserId);
-            
-            if (user != null)
-            {
-                user.IsBanned = true;
-                if (user.Bans != null) user.Bans?.Add(ban);
-                else user.Bans = new List<Ban>() { ban };
-                
-                await _db.SaveChangesAsync();
-            }
+            return await _db.Bans.Where(x => x.UserId == request.UserId)
+                .Skip(request.Skip).Take(request.Take).AsNoTracking()
+                .ProjectTo<BanVm>(_mapper.ConfigurationProvider).ToListAsync(token);
         }
 
-        public async Task UnBanUser(Guid userId)
+        public async Task<int> GetCountBans(Guid userId, CancellationToken token)
         {
-            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == userId);
-            
-            if (user != null)
-            {
-                user.IsBanned = false;
-                if (user.Bans != null)
-                {
-                    foreach (Ban userBan in user.Bans)
-                    {
-                        userBan.IsActual = false;
-                    }
-                }
-                await _db.SaveChangesAsync();
-            }
+            return await _db.Bans.CountAsync(x => x.UserId == userId, token);
         }
-        
         public async Task<List<UserVm>> GetUsersByRequest(UserPanelRequest request, CancellationToken token)
         {
             var users = await _db.Users.WithEmailFilter(request.Email).WithNickFilter(request.Nick)
@@ -199,7 +172,7 @@ namespace BLL.Services
                 .Include(solution => solution.Author)
                 .Include(solution => solution.Reports)
                 .Where(x => !x.Author.IsBanned)
-                .OrderByDescending(solution => solution.Reports.Count())
+                .OrderByDescending(solution => solution.Reports.Count()) 
                 .ThenByDescending(solution => solution.Created.Date)
                 .Skip(request.Skip).Take(request.Take).ToArray();
 

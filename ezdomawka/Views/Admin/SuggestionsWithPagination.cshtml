@@ -2,7 +2,6 @@
 
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/pages/main.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/pages/admin.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/pages/login.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/pages/viewServices.css" asp-append-version="true">
@@ -17,7 +16,7 @@
             <div class="menu">
                 <div class="menu_content">
                     <div class="col-12">
-                         <partial name="Partials/_SuggestionsWithPagination" model="@Model.Suggestions"/>     
+                         <partial name="Partials/_SuggestionsList" model="@Model.Suggestions"/>     
                     </div>
                     <div class="col-12">
                         <partial name="../Home/Partials/_Pagination" model="@Model.Count" />

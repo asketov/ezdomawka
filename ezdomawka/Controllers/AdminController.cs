@@ -159,14 +159,6 @@ namespace ezdomawka.Controllers
         #endregion
 
         #region Views
-        
-        [HttpGet]
-        public async Task<IActionResult> BanHistoryPage(Guid userId)
-        {
-            var banHistory = await GetUserBans(new GetUserBansRequest(){UserId = userId, Take = 10, Skip = 0});
-            return  PartialView("BanHistory", banHistory);
-        }
-        
         [HttpGet]
         public async Task<IActionResult> FavorSolutionsWarnTopPage()
         {
@@ -267,7 +259,7 @@ namespace ezdomawka.Controllers
             {
                 Suggestions = vms, Count = count
             };
-            return View("Suggestions", vm);
+            return View("SuggestionsWithPagination", vm);
         }
 
         #region Suggestion
@@ -275,7 +267,7 @@ namespace ezdomawka.Controllers
         public async Task<IActionResult> Suggestions(GetSuggestionsRequest request)
         {
             var vms = await _adminService.GetSuggestions(request);
-            return View("Partials/_SuggestionsWithPagination", vms);
+            return PartialView("Partials/_SuggestionsList", vms);
         }
         #endregion
 
@@ -284,14 +276,27 @@ namespace ezdomawka.Controllers
             return View(new BanRequest(){UserId = userId});
         }
         #endregion
-
         #region Ban
         [HttpGet]
-        public async Task<IEnumerable<BanVm>> GetUserBans(GetUserBansRequest request)
+        public async Task<IActionResult> UserBans(GetUserBansRequest request, CancellationToken token)
         {
             if (!await _adminService.CheckUserExistById(request.UserId)) throw new NullReferenceException();
-            
-            return await _userService.GetBans(request.UserId, skip: request.Skip, take: request.Take);
+            if (ModelState.IsValid)
+            {
+                var bans = await _adminService.GetBans(request, token);
+                return PartialView("Partials/_BanHistoryList", bans);
+            }
+            return BadRequest();
+        }
+        [HttpGet]
+        public async Task<IActionResult> BanHistoryPagination(Guid userId, CancellationToken token)
+        {
+            var bans = await _adminService.GetBans(new GetUserBansRequest() { UserId = userId, Take = 10, Skip = 0 }, token);
+            var vm = new BanHistoryVm()
+            {
+                Bans = bans, Count = (await _adminService.GetCountBans(userId, token)), UserId = userId
+            };
+            return View(vm);
         }
         [HttpPost]
         public async Task<IActionResult> BanUser(BanRequest request, string? returnLink)
@@ -303,7 +308,7 @@ namespace ezdomawka.Controllers
                 
                 if ( await _userService.UserIsBanned(request.UserId)) return BadRequest();
 
-                await _adminService.BanUser(request);
+                await _userService.BanUser(request);
                 return StatusCode(StatusCodes.Status200OK, new { redirect = GetRedirectLink(returnLink)  });
             }
             return BadRequest();
@@ -314,12 +319,10 @@ namespace ezdomawka.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!await _adminService.CheckUserExistById(userId)) return BadRequest();
-                if (await _adminService.UserIsAdmin(userId)) return BadRequest();
-                
-                if (await _userService.UserIsNotBanned(userId)) return BadRequest();
+                if (!await _adminService.CheckUserExistById(userId)) return BadRequest();              
+                if (!await _userService.UserIsBanned(userId)) return BadRequest();
 
-                await _adminService.UnBanUser(userId);
+                await _userService.UnbanUser(userId);
                 return StatusCode(StatusCodes.Status200OK, new { redirect = GetRedirectLink(returnLink) });
             }
             return BadRequest();
@@ -333,7 +336,7 @@ namespace ezdomawka.Controllers
         public async Task<IActionResult> TopSolutionsByReports(GetTopSolutionsByReportsRequest request)
         {
             var vms = await _adminService.GetTopSolutionsByReports(request);
-            return View("Partials/_FavorSolutionsWarnTop", vms);
+            return PartialView("Partials/_FavorSolutionsWarnTop", vms);
         }
 
         [HttpGet]

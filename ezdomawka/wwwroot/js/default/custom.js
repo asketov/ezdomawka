@@ -22,15 +22,15 @@
 	  }
 	})
 
-	var width = $(window).width();
-		$(window).resize(function() {
-		if (width > 767 && $(window).width() < 767) {
-			location.reload();
-		}
-		else if (width < 767 && $(window).width() > 767) {
-			location.reload();
-		}
-	})
+	//var width = $(window).width();
+	//	$(window).resize(function() {
+	//	if (width > 767 && $(window).width() < 767) {
+	//		location.reload();
+	//	}
+	//	else if (width < 767 && $(window).width() > 767) {
+	//		location.reload();
+	//	}
+	/*})*/
 
 	const elem = document.querySelector('.event_box');
 	const filtersElem = document.querySelector('.event_filter');
