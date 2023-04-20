@@ -270,11 +270,6 @@ namespace ezdomawka.Controllers
             return PartialView("Partials/_SuggestionsList", vms);
         }
         #endregion
-
-        public async Task<IActionResult> BanUser(Guid userId)
-        {
-            return View(new BanRequest(){UserId = userId});
-        }
         #endregion
         #region Ban
         [HttpGet]
@@ -312,7 +307,7 @@ namespace ezdomawka.Controllers
                 return StatusCode(StatusCodes.Status200OK, new { redirect = GetRedirectLink(returnLink)  });
             }
             return BadRequest();
-        }
+        } 
         
         [HttpPost]
         public async Task<IActionResult> UnBanUser(Guid userId, string? returnLink)
@@ -386,5 +381,29 @@ namespace ezdomawka.Controllers
             return Ok();
         }
         #endregion
+        [HttpGet]
+        public async Task<IActionResult> DeleteSuggestion(Guid SuggestionId)
+        {
+            var isDeleted = await _adminService.DeleteSuggestion(SuggestionId);
+            return isDeleted ? RedirectToAction(nameof(SuggestionsPage)) : BadRequest();
+        }
+        [HttpGet]
+        public async Task<IActionResult> UnactiveSuggestion(Guid SuggestionId)
+        {
+            var isDeleted = await _adminService.UnactiveSuggestion(SuggestionId);
+            return isDeleted ? RedirectToAction(nameof(SuggestionsPage)) : BadRequest();
+        }
+        [HttpGet]
+        public async Task<IActionResult> UnactiveBan(Guid banId, Guid userId)
+        {
+            var isDeleted = await _adminService.UnactiveBan(banId);
+            return isDeleted ? RedirectToAction(nameof(BanHistoryPagination), new { userId }) : BadRequest();
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteWarns(Guid favorId)
+        {
+            var isDeleted = await _adminService.DeleteWarns(favorId);
+            return StatusCode((isDeleted ? StatusCodes.Status200OK : StatusCodes.Status400BadRequest), new { redirect = GetRedirectLink(null) });
+        }
     }
 }

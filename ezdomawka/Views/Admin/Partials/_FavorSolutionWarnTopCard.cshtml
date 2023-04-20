@@ -47,7 +47,10 @@
                     <button class="orange-button"
                             id="BanUser"  value="@Model.AuthorId">Заблокировать</button>
                 </fieldset>
-
+                <fieldset class="button button--contact">
+                    <button class="orange-button"
+                            id="deleteWarns"  value="@Model.Id">Очистить жалобы</button>
+                </fieldset>
                 <fieldset class="button button--remove">
                     <button onclick="location.href='/User/DeleteFavor'" class="orange-button"
                             asp-route-returnUrl="@Url.Action("Index", "Home")" 

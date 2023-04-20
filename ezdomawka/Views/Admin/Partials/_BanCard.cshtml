@@ -29,7 +29,7 @@
             @if (Model.IsActual)
             {
                 <fieldset class="button button--navmenu">
-                    <a asp-action="UnBanUser" asp-controller="Admin" asp-route-userId="@Model.Id" asp-route-returnLink="@Url">Снять</a>
+                    <a asp-action="UnactiveBan" asp-controller="Admin" asp-route-banId="@Model.Id" asp-route-userId="@Model.UserId">Снять</a>
                 </fieldset>
             }
         </div>

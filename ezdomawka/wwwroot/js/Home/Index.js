@@ -125,34 +125,33 @@ $(document).ready(function () {
         let minPrice = Number.parseInt($("#minPrice").val().split(' ')[0]);
         let maxPrice = Number.parseInt($("#maxPrice").val().split(' ')[0]);
         $('#FavorsWithPagination').append("<div class='loader'></div>");
-        $.ajax({
-            url: '/FavorSolution/FindFavors/',
-            method: 'get',
-            dataType: 'html',
-            data: {
-                ThemeId: selectedThemeId, SubjectId: selectedSubjectId,
-                MinPrice: minPrice, MaxPrice: maxPrice
-            },
-            success: function (data) {
-                $('#FavorsWithPagination').empty();
-                $('#FavorsWithPagination').append(data);
-                ThemeId = selectedThemeId;
-                SubjectId = selectedSubjectId;
-                MinPrice = minPrice;
-                MaxPrice = maxPrice;
-                window.scrollTo(0, 0);
-                addSubjectToCard();
-            },
-            statusCode: {
-                400: function () { // выполнить функцию если код ответа HTTP 400
-                    $('#FavorsWithPagination').empty();
-                    $('#FavorsWithPagination').append(`<div class='d-flex justify-content-center pt-3'>
-                                            <div class='text-danger'>Запрос введён неверно</div></div>`);
+            $.ajax({
+                url: '/FavorSolution/FindFavors/',
+                method: 'get',
+                dataType: 'html',
+                data: {
+                    ThemeId: selectedThemeId, SubjectId: selectedSubjectId,
+                    MinPrice: minPrice, MaxPrice: maxPrice
                 },
-                404: function () { // выполнить функцию если код ответа HTTP 404
-                    alert("Страница не найдена");
+                success: function (data) {
+                    $('#FavorsWithPagination').empty();
+                    $('#FavorsWithPagination').append(data);
+                    ThemeId = selectedThemeId;
+                    SubjectId = selectedSubjectId;
+                    MinPrice = minPrice;
+                    MaxPrice = maxPrice;
+                },
+                statusCode: {
+                    400: function () { // выполнить функцию если код ответа HTTP 400
+                        $('#FavorsWithPagination').empty();
+                        $('#FavorsWithPagination').append(`<div class='d-flex justify-content-center pt-3'>
+                                                <div class='text-danger'>Запрос введён неверно</div></div>`);
+                    },
+                    404: function () { // выполнить функцию если код ответа HTTP 404
+                        alert("Страница не найдена");
+                    }
                 }
-            }
-        });
+
+            });
     });
 });

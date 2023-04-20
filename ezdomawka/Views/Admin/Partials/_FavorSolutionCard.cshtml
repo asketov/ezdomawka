@@ -41,10 +41,9 @@
             </fieldset>
 
             <fieldset class="button button--ban">
-                <a asp-controller="Admin"
-                   asp-action="BanUser" asp-route-userId="@Model.AuthorId">
+                <button id="BanUser" value="@Model.AuthorId">
                     Заблокировать
-                </a>
+                </button>
             </fieldset>
         </div>
     </div>

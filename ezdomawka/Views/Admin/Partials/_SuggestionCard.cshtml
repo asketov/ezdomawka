@@ -13,14 +13,14 @@
         <div class="col-lg-12 col-lg-12--flex">
             <fieldset class="button button--ban">
                 <a asp-controller="Admin"
-                   asp-action="FavorSolutions" asp-route-userId="@Model.Id">
+                   asp-action="DeleteSuggestion" asp-route-SuggestionId="@Model.Id">
                     Удалить
                 </a>
             </fieldset>
 
             <fieldset class="button button--contact">
                 <a asp-controller="Admin"
-                   asp-action="BanHistoryPage" asp-route-userId="@Model.Id">
+                   asp-action="UnactiveSuggestion" asp-route-SuggestionId="@Model.Id">
                     Сделать неактивным
                 </a>
             </fieldset>

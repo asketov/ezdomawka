@@ -29,7 +29,7 @@ namespace ezdomawka.Controllers
         }
 
         [HttpPost]
-        [RequestFormLimits(ValueCountLimit = int.MaxValue)]
+        [RequestFormLimits(ValueCountLimit = 10000)]
         public async Task<IActionResult> AddSolution([FromForm] AddSolutionRequest request)
         {
             if (ModelState.IsValid)

@@ -26,12 +26,7 @@ namespace BLL.Services
 
         public async Task AddFavor(SolutionModel model)
         {
-            var favor = _mapper.Map<FavorSolution>(model);
-            
-            if (favor.FavorSubjects == null ||
-                !favor.FavorSubjects.Any())
-                favor.FavorSubjects = _db.FavorSubject.ToList();
-            
+            var favor = _mapper.Map<FavorSolution>(model);           
             var favorId = _db.FavorSolutions.Add(favor);
             await _db.SaveChangesAsync();
         }
@@ -64,7 +59,7 @@ namespace BLL.Services
         public async Task<int> GetCountSolutions(GetSolutionsModel model, CancellationToken token)
         {
             return await _db.FavorSolutions
-                .WithSubjectIdFilter(model.SubjectId).WithThemeIdFilter(model.ThemeId)
+                .WithSubjectIdFilter(model.SubjectId).WithThemeIdFilter(model.ThemeId).WithPriceFilter(model.MinPrice, model.MaxPrice)
                 .CountAsync(token);
         }
 

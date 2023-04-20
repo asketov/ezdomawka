@@ -126,9 +126,10 @@ namespace BLL.Services
 
         public async Task<IEnumerable<BanVm>> GetBans(GetUserBansRequest request, CancellationToken token)
         {
-            return await _db.Bans.Where(x => x.UserId == request.UserId)
+            var bans = await _db.Bans.Where(x => x.UserId == request.UserId)
                 .Skip(request.Skip).Take(request.Take).AsNoTracking()
-                .ProjectTo<BanVm>(_mapper.ConfigurationProvider).ToListAsync(token);
+                .ProjectTo<BanVm>(_mapper.ConfigurationProvider).OrderByDescending(x => x.BanFrom).ToListAsync(token);
+            return bans;
         }
 
         public async Task<int> GetCountBans(Guid userId, CancellationToken token)
@@ -184,6 +185,49 @@ namespace BLL.Services
             }
             
             return vmTop;
+        }
+
+        public async Task<bool> DeleteSuggestion(Guid id)
+        {
+            var sug = await _db.Suggestions.FirstOrDefaultAsync(x => x.Id == id);
+            if (sug != null)
+            {
+                _db.Suggestions.Remove(sug);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> UnactiveSuggestion(Guid id)
+        {
+            var sug = await _db.Suggestions.FirstOrDefaultAsync(x => x.Id == id);
+            if (sug != null)
+            {
+                sug.IsActual = false;
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> UnactiveBan(Guid id)
+        {
+            var ban = await _db.Bans.FirstOrDefaultAsync(x => x.Id == id);
+            if(ban != null)
+            {
+                ban.IsActual = false;
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteWarns(Guid favorId)
+        {
+            _db.Reports.RemoveRange(_db.Reports.Where(x => x.FavorSolutionId == favorId));
+            var res = await _db.SaveChangesAsync();
+            return res > 0 ? true : false;
         }
     }
 }

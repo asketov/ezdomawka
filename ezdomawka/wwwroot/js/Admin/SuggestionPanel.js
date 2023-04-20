@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
     $(document).on('click', '.page', function (event) {
         let numberPage = Number.parseInt(event.currentTarget.value);
         let skip = (numberPage - 1) * 10;

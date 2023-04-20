@@ -106,7 +106,7 @@ namespace BLL.Services
         }
         public async Task UnbanUser(Guid userId)
         {
-            var user = await _db.Users.Include(x => x.Bans!.Where(f => f.BanTo > DateTime.UtcNow && f.UserId == userId && f.IsActual))
+            var user = await _db.Users.Include(x => x.Bans!.Where(f => f.UserId == userId && f.IsActual))
                 .FirstOrDefaultAsync(x => x.Id == userId);
             if (user != null)
             {

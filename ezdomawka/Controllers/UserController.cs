@@ -160,7 +160,7 @@ namespace ezdomawka.Controllers
 
         [HttpPost]
         [Authorize]
-        [RequestFormLimits(ValueCountLimit = int.MaxValue)]
+        [RequestFormLimits(ValueCountLimit = 10000)]
         public async Task<IActionResult> EditFavor(EditSolutionRequest request, string? returnLink)
         {
             if (ModelState.IsValid)
