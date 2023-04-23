@@ -144,17 +144,17 @@ namespace BLL.Services
             return await _db.FavorSubjects.CountAsync(x => x.FavorSolutionId == favorId);
         }
 
-        public async Task<IEnumerable<ReportVm>> GetReports(Guid favorId, int skip = 0, int take = 10)
+        public async Task<IEnumerable<ReportVm>> GetReports(GetUserFavorReportsRequest request)
         {
-            var favor = await _db.FavorSolutions.Include(x => x.Reports).AsNoTracking().FirstOrDefaultAsync(favor => favor.Id == favorId);
+            var favor = await _db.FavorSolutions.Include(x => x.Reports).AsNoTracking().FirstOrDefaultAsync(favor => favor.Id == request.FavorId);
 
             if (favor == null || favor.Reports == null)
                 return Array.Empty<ReportVm>();
 
             var reports = favor.Reports;
             
-            return reports.Skip(skip)
-                .Take(take)
+            return reports.Skip(request.Skip)
+                .Take(request.Take)
                 .Select(ban => _mapper.Map<ReportVm>(ban)); 
         }
 

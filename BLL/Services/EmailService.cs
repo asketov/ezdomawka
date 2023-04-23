@@ -25,7 +25,7 @@ namespace BLL.Services
         {
             var codeToRegisterEmail = Guid.NewGuid();
             var PathToTemplate = Path.Combine(webRootPath,"templates","confirmMail.html");
-            var subject = "Подтверждение почты на сайте ezdomawka.com";
+            var subject = "Подтверждение почты на сайте ezvuz.ru";
 
             var redirectToRegisterLink = registrationUriGenerator.GenerateUri(codeToRegisterEmail);
             
@@ -39,7 +39,7 @@ namespace BLL.Services
             CacheData(codeToRegisterEmail.ToString(),  registerModel, 5);
         }
 
-        public async Task<RegisterModel?> TryGetRegisterFinishModelAsync(Guid confirmCode)
+        public RegisterModel? TryGetRegisterFinishModel(Guid confirmCode)
         {
             if (TryUnCacheData(confirmCode.ToString(), out RegisterModel registerModel) == false)
                 return null;

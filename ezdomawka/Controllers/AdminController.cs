@@ -241,14 +241,29 @@ namespace ezdomawka.Controllers
         {
             try
             {
-                var favorReports = await GetFavorReports(new GetUserFavorReportsRequest(){FavorId = favorId});
+                if (!await _favorSolutionService.CheckFavorExist(favorId)) throw new NullReferenceException();
 
-                return View(favorReports);
+                var favorReports = await _favorSolutionService.GetReports(new GetUserFavorReportsRequest() { FavorId = favorId});
+                var count = await _favorSolutionService.GetReportsCount(favorId);
+                var vm = new ReportsPaginationVm()
+                {
+                    Reports = favorReports, Count = count, FavorId = favorId
+
+                };
+                return View("FavorReportsPagination", vm);
             }
             catch(NullReferenceException e)
             {
                 return NotFound();
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetFavorReports(GetUserFavorReportsRequest request)
+        {
+            if (!await _favorSolutionService.CheckFavorExist(request.FavorId)) throw new NullReferenceException();
+            var reps = await _favorSolutionService.GetReports(request);
+            return PartialView("Partials/_FavorReportsList", reps);
         }
 
         public async Task<IActionResult> SuggestionsPage()
@@ -334,13 +349,6 @@ namespace ezdomawka.Controllers
             return PartialView("Partials/_FavorSolutionsWarnTop", vms);
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<ReportVm>> GetFavorReports(GetUserFavorReportsRequest request)
-        {
-            if(!await _favorSolutionService.CheckFavorExist(request.FavorId)) throw new NullReferenceException();
-            
-            return await _favorSolutionService.GetReports(request.FavorId,  skip: request.Skip, take: request.Take);
-        }
         
         [HttpGet]
         public async Task<int> GetFavorReportsCount(Guid favorId)

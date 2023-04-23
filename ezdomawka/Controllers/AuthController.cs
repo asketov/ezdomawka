@@ -96,15 +96,15 @@ namespace ezdomawka.Controllers
         [HttpGet]
         public async Task<IActionResult> ConfirmRegister(Guid registerCode)
         {
-            var model = await _emailService.TryGetRegisterFinishModelAsync(registerCode);
+            var model = _emailService.TryGetRegisterFinishModel(registerCode);
 
             if (model == null)
-                return BadRequest();
+                return SingeElementInformation("Что-то пошло не так, попробуйте позже.");
 
             User user = await _authService.RegisterUser(model);
             await Authenticate(user);
             
-            return SingeElementInformation("Аккаунт был создан.");
+            return SingeElementInformation("Аккаунт был создан, перезагрузите страницу.");
         }
 
         public async Task<IActionResult> Logout()
@@ -130,7 +130,7 @@ namespace ezdomawka.Controllers
 
         public Uri GenerateUri(Guid confirmCode)
         {
-            return new Uri(Url.Action("ConfirmRegister", "Auth", new { registerCode = confirmCode }, Request.Scheme));
+            return new Uri(Url.Action("ConfirmRegister", "Auth", new { registerCode = confirmCode }, Request.Scheme)!);
         }
         
         private async Task<bool> RegisterModelIsValid(RegisterModel model)
