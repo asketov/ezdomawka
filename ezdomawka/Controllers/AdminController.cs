@@ -151,7 +151,7 @@ namespace ezdomawka.Controllers
                 await _adminService.DeleteSubject(id);
                 return RedirectToAction(nameof(SubjectManager));
             }
-            catch
+            catch(Exception ex)
             {
                 return RedirectToAction("SubjectManager");
             }

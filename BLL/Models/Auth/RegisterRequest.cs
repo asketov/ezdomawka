@@ -13,6 +13,7 @@ namespace BLL.Models.Auth
         [Required(ErrorMessage = "Поле является обязательным")]
         [EmailAddress(ErrorMessage = "Поле должно являться почтой")]
         [MaxLength(MailConfiguration.MaxLength, ErrorMessage = "Почта должна быть меньше {1} символов")]
+        [RegularExpression("^\\S*@voenmeh.ru$", ErrorMessage = "Используйте почту вуза name@voenmeh.ru")]
         public string Email { get; set; } = null!;
         
         

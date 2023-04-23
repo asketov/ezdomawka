@@ -36,7 +36,7 @@ namespace BLL.Models.FavorSolution
         
         
         [Required]
-        public DateTimeOffset Created { get; set; }
+        public DateTime Created { get; set; }
         
         
         [Required]

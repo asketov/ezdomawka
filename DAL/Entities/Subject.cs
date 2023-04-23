@@ -23,5 +23,9 @@ namespace DAL.Entities
         
         [AllowNull]
         public virtual ICollection<FavorSubject>? FavorSubjects { get; set; }
+        [Required]
+        public Guid InstituteId { get; set; }
+        [Required]
+        public virtual Institute Institute { get; set; } = null!;
     }
 }

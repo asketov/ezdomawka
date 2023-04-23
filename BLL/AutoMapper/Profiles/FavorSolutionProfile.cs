@@ -13,12 +13,12 @@ namespace BLL.AutoMapper.Profiles
             CreateMap<SubjectVm, Subject>();
             CreateMap<ThemeVm, Theme>();
             CreateMap<AddSolutionRequest, SolutionModel>()
-                .ForMember(d=>d.Created, f=>f.MapFrom(a => DateTimeOffset.UtcNow));
+                .ForMember(d=>d.Created, f=>f.MapFrom(a => DateTime.UtcNow));
             CreateMap<SolutionModel, AddSolutionRequest>();
             CreateMap<EditSolutionRequest, SolutionModel>()
-                .ForMember(d => d.Created, f => f.MapFrom(a => DateTimeOffset.UtcNow)); 
+                .ForMember(d => d.Created, f => f.MapFrom(a => DateTime.UtcNow)); 
             CreateMap<SolutionModel, FavorSolution>()
-                .ForMember(u => u.Created, k => k.MapFrom(d => DateTimeOffset.UtcNow))
+                .ForMember(u => u.Created, k => k.MapFrom(d => DateTime.UtcNow))
                 .ForMember(d => d.FavorSubjects, s => s.MapFrom(a => a.Subjects))
                 .ForMember(f => f.Theme, opt => opt.Ignore())
                 .ForMember(f=>f.ThemeId, k=>k.MapFrom(a=>a.Theme.Id));

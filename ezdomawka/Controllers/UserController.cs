@@ -160,7 +160,7 @@ namespace ezdomawka.Controllers
 
         [HttpPost]
         [Authorize]
-        [RequestFormLimits(ValueCountLimit = 10000)]
+        [RequestFormLimits(ValueCountLimit = 10000)] 
         public async Task<IActionResult> EditFavor(EditSolutionRequest request, string? returnLink)
         {
             if (ModelState.IsValid)
@@ -194,7 +194,6 @@ namespace ezdomawka.Controllers
 
         [HttpGet]
         [Authorize]
-        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> IntroduceBan()
         {
             var userId = User.Claims.GetClaimValueOrDefault<Guid>(Claims.UserClaim);

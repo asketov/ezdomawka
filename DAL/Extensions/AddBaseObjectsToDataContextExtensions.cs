@@ -46,7 +46,7 @@ public static class AddBaseObjectsToDataContextExtensions
             {
                 var newSubject = new Subject()
                 {
-                    Name = name
+                    Name = name, InstituteId = Guid.Parse("578c1f27-b393-4d87-9370-6544c5d0a1f0")
                 };
 
                 dbContext.Subjects.Add(newSubject);
@@ -74,7 +74,8 @@ public static class AddBaseObjectsToDataContextExtensions
             {
                 var theme = new Theme()
                 {
-                    Name = name
+                    Name = name, 
+                    InstituteId = Guid.Parse("578c1f27-b393-4d87-9370-6544c5d0a1f0")
                 };
 
                 dbContext.Themes.Add(theme);

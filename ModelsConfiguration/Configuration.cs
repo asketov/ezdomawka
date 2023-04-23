@@ -96,4 +96,16 @@
         public const int MaxNameLength = 100;
         public const int MinNameLength = 1;
     }
+
+    public static class InstituteConfiguration
+    {
+        public const int MaxNameLength = 50;
+        public const int MinNameLength = 1;
+    }
+
+    public static class InstituteMailDomainConfiguration
+    {
+        public const int MaxNameLength = 50;
+        public const int MinNameLength = 1;
+    }
 }

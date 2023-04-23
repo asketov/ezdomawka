@@ -26,7 +26,8 @@ namespace BLL.Services
 
         public async Task AddFavor(SolutionModel model)
         {
-            var favor = _mapper.Map<FavorSolution>(model);           
+            var favor = _mapper.Map<FavorSolution>(model);
+            favor.InstituteId = Guid.Parse(Institutes.DefaultVuzVoenmehId);
             var favorId = _db.FavorSolutions.Add(favor);
             await _db.SaveChangesAsync();
         }
@@ -80,6 +81,7 @@ namespace BLL.Services
             {
                 _db.Entry(favorExist).CurrentValues.SetValues(favor);
                 favorExist.FavorSubjects = favor.FavorSubjects;
+                favorExist.InstituteId = Guid.Parse(Institutes.DefaultVuzVoenmehId);
                 await _db.SaveChangesAsync();
                 return true;
             }
@@ -139,7 +141,7 @@ namespace BLL.Services
 
         public async Task<int> GetCountSubjects(Guid favorId)
         {
-            return await _db.FavorSubject.CountAsync(x => x.FavorSolutionId == favorId);
+            return await _db.FavorSubjects.CountAsync(x => x.FavorSolutionId == favorId);
         }
 
         public async Task<IEnumerable<ReportVm>> GetReports(Guid favorId, int skip = 0, int take = 10)

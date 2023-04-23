@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Models.Auth;
+using Common.Consts;
 using Common.Exceptions.User;
 using DAL;
 using DAL.Entities;
@@ -31,6 +32,7 @@ namespace BLL.Services
             if (await _userService.CheckUserExistByEmail(model.Email)) throw new EmailAlreadyExistException();
 
             var user = _mapper.Map<User>(model);
+            user.InstituteId = Guid.Parse(Institutes.DefaultVuzVoenmehId);
             _db.Users.Add(user);
             await _db.SaveChangesAsync();
             return user;

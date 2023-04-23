@@ -25,6 +25,7 @@ namespace BLL.Services
         {
             if (await CheckThemeExistByName(model.Name)) throw new ThemeAlreadyExistException();
             var theme = _mapper.Map<Theme>(model);
+            theme.InstituteId = Guid.Parse(Institutes.DefaultVuzVoenmehId);
             _db.Themes.Add(theme);
             await _db.SaveChangesAsync();
         }
@@ -34,6 +35,7 @@ namespace BLL.Services
             var subject = _mapper.Map<Subject>(model);
             if (!await CheckSubjectExist(model.Id))
             {
+                subject.InstituteId = Guid.Parse(Institutes.DefaultVuzVoenmehId);
                 _db.Subjects.Add(subject);
                 await _db.SaveChangesAsync();
             }

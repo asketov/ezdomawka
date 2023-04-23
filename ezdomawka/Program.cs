@@ -14,7 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var emailConfig = builder.Configuration.GetSection(EmailConfig.Position).Get<EmailConfig>();
 builder.Services.AddSingleton<EmailConfig>(provider => emailConfig);
-
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddSingleton<IEmailSender, MultiEmailSender>(provider =>
@@ -45,7 +44,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    /*
+
     using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetService<DataContext>();
@@ -54,22 +53,17 @@ if (app.Environment.IsDevelopment())
             await dbContext.AddBaseUserRoles();
 
         if (!await dbContext.AnySubjectAdded())
-            await dbContext.AddSubjectFromFile(@"D:\lesons\DotnetMicrosoftGuidLearningProjects\MAIN\Tasks\ezdomawka\ezdomawka\предметы.txt");
-        
-        if(!await dbContext.AnyThemeAdded())
-            await dbContext.AddThemeFromFile(@"D:\lesons\DotnetMicrosoftGuidLearningProjects\MAIN\Tasks\ezdomawka\ezdomawka\темы.txt");
+            await dbContext.AddSubjectFromFile(@"C:\Users\Asketov\source\repos\ezdomawka\ezdomawka\предметы.txt");
 
-        var s = dbContext.GetUserFavorSolutions;
+        if (!await dbContext.AnyThemeAdded())
+            await dbContext.AddThemeFromFile(@"C:\Users\Asketov\source\repos\ezdomawka\ezdomawka\темы.txt");
 
-        foreach (var ss in s)
-        {
-            ss.Price = new Random().Next(0, 20000);
-        }
         
+
         dbContext.SaveChanges();
-    }*/
+    }
 }
-    
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

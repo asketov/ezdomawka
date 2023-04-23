@@ -24,5 +24,9 @@ namespace DAL.Entities
         //May by not required
         [Required]
         public virtual ICollection<FavorSolution> FavorSolutions { get; set; } = null!;
+        [Required]
+        public Guid InstituteId { get; set; }
+        [Required]
+        public virtual Institute Institute { get; set; } = null!;
     }
 }

@@ -30,7 +30,7 @@ namespace BLL.Models.FavorSolution
         public string Connection { get; set; } = null!;
         
         
-        //[Required(ErrorMessage = "Введите предметы")]
+        [Required(ErrorMessage = "Введите предметы")]
         public IEnumerable<SubjectVm> Subjects { get; set; } = null!;
         
         

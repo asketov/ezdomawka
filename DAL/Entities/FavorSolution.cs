@@ -17,7 +17,7 @@ namespace DAL.Entities
         public Guid Id { get; set; }
         
         [Required]
-        public DateTimeOffset Created { get; set; }
+        public DateTime Created { get; set; }
         
         [Range(SolutionConfiguration.MinPrice, SolutionConfiguration.MaxPrice)]
         public int Price { get; set; }
@@ -51,5 +51,9 @@ namespace DAL.Entities
         
         [Required]
         public virtual Theme Theme { get; set; } = null!;
+        [Required]
+        public Guid InstituteId { get; set; }
+        [Required]
+        public virtual Institute Institute { get; set; } = null!;
     }
 }
