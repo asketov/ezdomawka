@@ -10,7 +10,11 @@ public class BaseController : Controller
     {
         return text ?? "/home/index";
     }
-    
+
+    public IActionResult SomeSingWrongMessage()
+    {
+        return SingeElementInformation("Что-то пошло не так, попробуйте позже");
+    }
     public IActionResult SingeElementInformation(string text)
     {
         return GenerateInformation(new HomeInformationExtensions.InfoElement(true, text));

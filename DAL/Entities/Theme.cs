@@ -20,10 +20,8 @@ namespace DAL.Entities
         [MinLength(ThemeConfiguration.MinNameLength)]
         [Required]
         public string Name { get; set; } = null!;
-        
-        //May by not required
-        [Required]
-        public virtual ICollection<FavorSolution> FavorSolutions { get; set; } = null!;
+        [AllowNull]
+        public virtual ICollection<FavorSolution>? FavorSolutions { get; set; } = null!;
         [Required]
         public Guid InstituteId { get; set; }
         [Required]

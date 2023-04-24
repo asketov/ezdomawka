@@ -1,7 +1,5 @@
 using System.Text.Json;
 using BLL;
-using BLL.Implementations;
-using BLL.Interfaces;
 using Common.Configs;
 using DAL;
 using DAL.Extensions;
@@ -12,21 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var emailConfig = builder.Configuration.GetSection(EmailConfig.Position).Get<EmailConfig>();
-builder.Services.AddSingleton<EmailConfig>(provider => emailConfig);
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddSingleton<IEmailSender, MultiEmailSender>(provider =>
-    {
-        return new MultiEmailSender(new LocalEmailSender((message) => Console.WriteLine(message)),
-            new EmailSender(provider.GetService<EmailConfig>()));
-    });
-}
-else
-{
-    builder.Services.AddSingleton<IEmailSender, EmailSender>();
-}
-
+var emailSection = builder.Configuration.GetSection(EmailConfig.Position);
+builder.Services.Configure<EmailConfig>(emailSection);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc(options =>
@@ -53,7 +38,7 @@ if (app.Environment.IsDevelopment())
             await dbContext.AddBaseUserRoles();
 
         if (!await dbContext.AnySubjectAdded())
-            await dbContext.AddSubjectFromFile(@"C:\Users\Asketov\source\repos\ezdomawka\ezdomawka\предметы.txt");
+            await dbContext.AddSubjectFromFile(@"~\предметы.txt");
 
         if (!await dbContext.AnyThemeAdded())
             await dbContext.AddThemeFromFile(@"C:\Users\Asketov\source\repos\ezdomawka\ezdomawka\темы.txt");
@@ -77,7 +62,6 @@ app.UseRouting();
 
 app.UseAuthentication();    
 app.UseAuthorization();
-
 app.UseBanMiddleware();
 
 app.MapControllerRoute(

@@ -1,9 +1,7 @@
-﻿using BLL.Interfaces;
-using BLL.Models.Auth;
+﻿using BLL.Models.Auth;
 using Common.Configs;
 using MimeKit;
 using MailKit.Net.Smtp;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
@@ -12,13 +10,12 @@ namespace BLL.Services
     public class EmailService
     {
         private readonly IMemoryCache _memoryCache;
+        private readonly EmailConfig _emailConfig;
 
-        private readonly IEmailSender _emailSender;
-
-        public EmailService(IMemoryCache memoryCache, IEmailSender emailSender)
+        public EmailService(IMemoryCache memoryCache, IOptions<EmailConfig> config)
         {
             _memoryCache = memoryCache;
-            _emailSender = emailSender;
+            _emailConfig = config.Value; 
         }
 
         public async Task SendRegisterFinishCodeToEmailAsync(RegisterModel registerModel, string webRootPath, IMailConfirmRegistrationUriGenerator registrationUriGenerator)
@@ -50,7 +47,7 @@ namespace BLL.Services
         public async Task SendChangePasswordLinkToEmail(string email, string urlToMethod, string webRootPath)
         {
             var PathToTemplate = Path.Combine(webRootPath, "templates", "changePassword.html");
-            var subject = "Смена пароля на сайте ezdomawka.com";
+            var subject = "Смена пароля на сайте ezvuz.ru";
             var code = Guid.NewGuid();
             
             using (StreamReader sr = System.IO.File.OpenText(PathToTemplate))
@@ -73,7 +70,23 @@ namespace BLL.Services
         
         private async Task SendEmailAsync(string email, string subject, string text, string? link)
         {
-            await _emailSender.SendEmailAsync(email, subject, text, link);
+            var emailMessage = new MimeMessage();
+
+            emailMessage.From.Add(new MailboxAddress("ezdomawka", _emailConfig.Name));
+            emailMessage.To.Add(new MailboxAddress(email, email));
+            emailMessage.Subject = subject;
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
+            {
+                Text = text
+            };
+
+            using (var client = new SmtpClient())
+            {
+                await client.ConnectAsync("smtp.gmail.com", 465, true);
+                await client.AuthenticateAsync(_emailConfig.Name, _emailConfig.Password);
+                await client.SendAsync(emailMessage);
+                await client.DisconnectAsync(true);
+            }
         }
         
         private void CacheData<T>(string key, T value, int minutesToAutoClean)
@@ -94,5 +107,7 @@ namespace BLL.Services
         {
             Uri GenerateUri(Guid confirmCode);
         }
+
+        
     }
 }

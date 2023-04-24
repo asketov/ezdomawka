@@ -32,42 +32,33 @@ namespace DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<FavorSubject>().HasKey(bc => new { bc.FavorSolutionId, bc.SubjectId });
-
+            //modelBuilder.Entity<Theme>().HasMany(x => x.FavorSolutions)
+            //        .WithOne(x => x.Theme)
+            //        .HasForeignKey(x => x.ThemeId)
+            //        .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<FavorSubject>().HasOne(bc => bc.FavorSolution)
                     .WithMany(b => b.FavorSubjects)
                     .HasForeignKey(bc => bc.FavorSolutionId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             modelBuilder.Entity<FavorSubject>().HasOne(bc => bc.Subject)
                     .WithMany(c => c.FavorSubjects)
                     .HasForeignKey(bc => bc.SubjectId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
-            modelBuilder.Entity<Subject>().HasMany(x => x.FavorSubjects)
-                    .WithOne(x => x.Subject)
-                    .HasForeignKey(x => x.SubjectId)
-                    .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Subject>().HasOne(bc => bc.Institute)
                     .WithMany(c => c.Subjects)
                     .HasForeignKey(bc => bc.InstituteId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
-            modelBuilder.Entity<Theme>().HasMany(x => x.FavorSolutions)
-                    .WithOne(x => x.Theme)
-                    .HasForeignKey(x => x.ThemeId)
-                    .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Theme>().HasOne(bc => bc.Institute)
                     .WithMany(c => c.Themes)
                     .HasForeignKey(bc => bc.InstituteId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             modelBuilder.Entity<FavorSolution>().HasOne(ff => ff.Author)
                     .WithMany(ff => ff.FavorSolutions)
                     .HasForeignKey(ff => ff.AuthorId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .IsRequired();
-            modelBuilder.Entity<FavorSolution>().HasMany(ff => ff.FavorSubjects)
-                    .WithOne(ff => ff.FavorSolution)
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             modelBuilder.Entity<FavorSolution>().HasOne(bc => bc.Institute)
@@ -77,20 +68,17 @@ namespace DAL
                     .IsRequired();
             modelBuilder.Entity<FavorSolution>().HasOne(ff => ff.Theme)
                     .WithMany(ff => ff.FavorSolutions)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasForeignKey(bc => bc.ThemeId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
-            modelBuilder.Entity<FavorSolution>().HasMany(ff => ff.Reports)
-                    .WithOne(ff => ff.FavorSolution)
-                    .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<InstituteMailDomain>().HasOne(ff => ff.Institute)
                     .WithMany(ff => ff.InstituteMailDomains)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             modelBuilder.Entity<Report>().HasOne(ff => ff.FavorSolution)
                    .WithMany(ff => ff.Reports)
-                   .OnDelete(DeleteBehavior.Restrict)
+                   .OnDelete(DeleteBehavior.Cascade)
                    .IsRequired();
-
         }
     }
 }

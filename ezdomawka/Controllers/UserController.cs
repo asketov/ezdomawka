@@ -216,10 +216,6 @@ namespace ezdomawka.Controllers
             await _emailService.SendChangePasswordLinkToEmail(email, myUrl!, _webHostBuilder.WebRootPath);
         }
         
-        private IActionResult SomeSingWrongMessage()
-        {
-            return SingeElementInformation( "Что-то пошло не так, попробуйте позже");
-        }
         
         private IActionResult ChangePasswordInformation(string? email = null)
         {
@@ -227,7 +223,7 @@ namespace ezdomawka.Controllers
                 return SingeElementInformation("Сообщение с информацией было отправлено на вашу почту");
 
             return MultiElementInformation("Сообщение с информацией было отправлено на вашу почту",
-            email,$"Если код не пришел проверте точно ли указана ваша почта.");
+            email,$"Если код не пришел проверьте точно ли указана ваша почта.");
         }
     }
 }

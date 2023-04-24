@@ -15,7 +15,7 @@ namespace DAL.Entities
         public Guid Id { get; set; }
         
         [Required]
-        public DateTimeOffset UpdateDate { get; set; }
+        public DateTime UpdateDate { get; set; }
         
         [Required]
         public Guid AuthorId { get; set; }

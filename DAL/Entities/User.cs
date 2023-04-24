@@ -46,7 +46,7 @@ namespace DAL.Entities
         
         [AllowNull]
         public virtual ICollection<Notification>? Notifications { get; set; }
-        
+
         [Required]
         public Guid RoleId { get; set; }
         

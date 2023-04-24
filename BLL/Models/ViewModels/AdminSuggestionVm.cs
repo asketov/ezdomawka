@@ -6,7 +6,7 @@ namespace BLL.Models.ViewModels;
 
 public class AdminSuggestionVm
 {
-    [NotNull] public UserVm User { get; set; }
+    [NotNull] public UserVm User { get; set; } = null!;
 
     [Required(ErrorMessage = "Введите контакты для связи")]
     [StringLength(ConnectionConfiguration.MaxConnectionLength,

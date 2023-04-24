@@ -86,9 +86,9 @@ namespace ezdomawka.Controllers
             }
 
             await _emailService.SendRegisterFinishCodeToEmailAsync(model, _webHostEnvironment.WebRootPath, this);
-            
+
             return MultiElementInformation(
-                "Сообщение с кодом для регистрации было отправлено вам на почту", 
+                "Сообщение с кодом для регистрации было отправлено вам на почту",
                 $"<div class=\"head\">{model.Email}",
                 "Если код не пришел проверьте точно ли указана ваша почта.");
         }
@@ -99,7 +99,7 @@ namespace ezdomawka.Controllers
             var model = _emailService.TryGetRegisterFinishModel(registerCode);
 
             if (model == null)
-                return SingeElementInformation("Что-то пошло не так, попробуйте позже.");
+                return SomeSingWrongMessage();
 
             User user = await _authService.RegisterUser(model);
             await Authenticate(user);
