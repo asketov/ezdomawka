@@ -26,28 +26,37 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddServices();
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+using (var serviceScope = ((IApplicationBuilder)app)
+       .ApplicationServices.GetService<IServiceScopeFactory>()?.CreateScope())
 {
-
-    using (var scope = app.Services.CreateScope())
+    if (serviceScope != null)
     {
-        var dbContext = scope.ServiceProvider.GetService<DataContext>();
+        var context = serviceScope.ServiceProvider
+            .GetRequiredService<DataContext>();
+        context.Database.Migrate();
+    }
+}
+//if (app.Environment.IsDevelopment())
+//{
 
-        if (!await dbContext.BaseUserRolesAdded())
-            await dbContext.AddBaseUserRoles();
+//    using (var scope = app.Services.CreateScope())
+//    {
+//        var dbContext = scope.ServiceProvider.GetService<DataContext>();
 
-        if (!await dbContext.AnySubjectAdded())
-            await dbContext.AddSubjectFromFile(@"~\предметы.txt");
+//        if (!await dbContext.BaseUserRolesAdded())
+//            await dbContext.AddBaseUserRoles();
 
-        if (!await dbContext.AnyThemeAdded())
-            await dbContext.AddThemeFromFile(@"C:\Users\Asketov\source\repos\ezdomawka\ezdomawka\темы.txt");
+//        if (!await dbContext.AnySubjectAdded())
+//            await dbContext.AddSubjectFromFile(@"~\предметы.txt");
+
+//        if (!await dbContext.AnyThemeAdded())
+//            await dbContext.AddThemeFromFile(@"~\темы.txt");
 
         
 
-        dbContext.SaveChanges();
-    }
-}
+//        dbContext.SaveChanges();
+//    }
+//}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

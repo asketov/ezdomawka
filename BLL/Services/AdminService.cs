@@ -20,22 +20,13 @@ namespace BLL.Services
             _db = db;
             _mapper = mapper;
         }
-
-        public async Task AddTheme(ThemeModel model)
-        {
-            if (await CheckThemeExistByName(model.Name)) throw new ThemeAlreadyExistException();
-            var theme = _mapper.Map<Theme>(model);
-            theme.InstituteId = Guid.Parse(Institutes.DefaultVuzVoenmehId);
-            _db.Themes.Add(theme);
-            await _db.SaveChangesAsync();
-        }
         public async Task AddOrUpdateSubject(SubjectModel model)
         {
             if (await CheckSubjectExistByName(model.Name)) throw new SubjectAlreadyExistException();
             var subject = _mapper.Map<Subject>(model);
+            subject.InstituteId = Guid.Parse(Institutes.DefaultVuzVoenmehId);
             if (!await CheckSubjectExist(model.Id))
             {
-                subject.InstituteId = Guid.Parse(Institutes.DefaultVuzVoenmehId);
                 _db.Subjects.Add(subject);
                 await _db.SaveChangesAsync();
             }
@@ -50,10 +41,37 @@ namespace BLL.Services
             }
         }
 
+        public async Task AddOrUpdateTheme(ThemeModel model)
+        {
+            if (await CheckThemeExistByName(model.Name)) throw new ThemeAlreadyExistException();
+            var theme = _mapper.Map<Theme>(model);
+            theme.InstituteId = Guid.Parse(Institutes.DefaultVuzVoenmehId);
+            if (!await CheckThemeExist(model.Id))
+            {
+                _db.Themes.Add(theme);
+                await _db.SaveChangesAsync();
+            }
+            else
+            {
+                var thm = await _db.Themes.FirstOrDefaultAsync(x => x.Id == model.Id);
+                if (thm != null)
+                {
+                    _db.Entry(thm).CurrentValues.SetValues(theme);
+                    await _db.SaveChangesAsync();
+                }
+            }
+        }
+
         public async Task<bool> CheckSubjectExist(Guid subjectId)
         {
             return await _db.Subjects.AnyAsync(x => x.Id == subjectId);
         }
+
+        public async Task<bool> CheckThemeExist(Guid themeId)
+        {
+            return await _db.Themes.AnyAsync(x => x.Id == themeId);
+        }
+
         public async Task<bool> CheckThemeExistByName(string name)
         {
             var theme = await _db.Themes.FirstOrDefaultAsync(u => u.Name == name);
@@ -99,6 +117,17 @@ namespace BLL.Services
             if (dbModel != null)
             {
                 var model = _mapper.Map<SubjectModel>(dbModel);
+                return model;
+            }
+            return null;
+        }
+
+        public async Task<ThemeModel?> GetThemeModel(Guid id)
+        {
+            var dbModel = await _db.Themes.FirstOrDefaultAsync(x => x.Id == id);
+            if (dbModel != null)
+            {
+                var model = _mapper.Map<ThemeModel>(dbModel);
                 return model;
             }
             return null;

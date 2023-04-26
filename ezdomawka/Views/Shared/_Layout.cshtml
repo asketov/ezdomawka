@@ -30,7 +30,7 @@
                 <nav class="main-nav">
                     <!--Logo-->
                     <a asp-controller="Home" asp-action="Index" class="logo">
-                        <h1>EzVuz</h1>
+                            <div style="font-size: 30px; color:#add96a;">EzVuz<small style="font-size: 10px;">beta</small></div>
                     </a>
                     <!--Logo End-->
 
@@ -46,7 +46,7 @@
                             <a asp-area="" asp-controller="Home" asp-action="Rools">О сайте</a>
                         </li>
                         <li class="go-to-section">
-                            <a asp-area="" asp-controller="Home" asp-action="AddSuggestion">Предложить идею</a>
+                            <a asp-area="" asp-controller="Home" asp-action="AddSuggestion">Высказать мнение</a>
                         </li>
                         <li class="go-to-section">
                             @if (@User.Identity!.IsAuthenticated)

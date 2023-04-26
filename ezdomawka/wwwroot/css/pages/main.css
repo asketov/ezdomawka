@@ -57,7 +57,7 @@
     width: 100%;
     text-align: center;
     border: none;
-    height: 50px;
+    height: 40px;
     font-size: 14px;
     font-weight: 600;
     padding: 0px 25px;
@@ -115,7 +115,7 @@
 }
 
 .margin_top_mini{
-    margin-top: 150px;
+    margin-top: 80px;
 }
 
 .col-lg-12--flex{

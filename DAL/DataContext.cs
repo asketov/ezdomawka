@@ -31,11 +31,8 @@ namespace DAL
         public DataContext(DbContextOptions<DataContext> options) : base(options){}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<FavorSubject>().HasKey(bc => new { bc.FavorSolutionId, bc.SubjectId });
-            //modelBuilder.Entity<Theme>().HasMany(x => x.FavorSolutions)
-            //        .WithOne(x => x.Theme)
-            //        .HasForeignKey(x => x.ThemeId)
-            //        .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<FavorSubject>().HasOne(bc => bc.FavorSolution)
                     .WithMany(b => b.FavorSubjects)
                     .HasForeignKey(bc => bc.FavorSolutionId)

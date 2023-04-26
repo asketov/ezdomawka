@@ -70,12 +70,12 @@ namespace ezdomawka.Controllers
         {
             try
             {
+                if (!ModelState.IsValid) return SomeSingWrongMessage();
                 var model = _mapper.Map<Suggestion>(request);
-
                 model.CreationDate = DateTime.UtcNow;
                 model.IsActual = true;
                 await _homeService.AddSuggestion(model);
-                return RedirectToAction(nameof(Index));
+                return SingeElementInformation("Ваша заявка добавлена, вскоре она будет рассмотрена");
             }
             catch
             {

@@ -54,7 +54,7 @@ namespace ezdomawka.Controllers
             {
                 try
                 {
-                    await _adminService.AddTheme(_mapper.Map<ThemeModel>(request));
+                    await _adminService.AddOrUpdateTheme(_mapper.Map<ThemeModel>(request));
                     return RedirectToAction(nameof(ThemeManager));
                 }
                 catch (ThemeAlreadyExistException)
@@ -66,11 +66,29 @@ namespace ezdomawka.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditTheme()
+        public async Task<IActionResult> EditTheme(Guid id)
         {
-            throw new NotImplementedException();
+            var model = await _adminService.GetThemeModel(id);
+            if (model == null) return RedirectToAction(nameof(ThemeManager));
+            return View(_mapper.Map<ThemeVm>(model));
         }
-        
+        [HttpPost]
+        public async Task<IActionResult> EditTheme(ThemeVm vm)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _adminService.AddOrUpdateTheme(_mapper.Map<ThemeModel>(vm));
+                    return RedirectToAction(nameof(ThemeManager));
+                }
+                catch (ThemeAlreadyExistException)
+                {
+                    return View(vm);
+                }
+            }
+            return BadRequest();
+        }
         [HttpGet]
         public async Task<IActionResult> DeleteTheme(Guid id)
         {

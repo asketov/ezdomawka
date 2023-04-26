@@ -112,7 +112,7 @@ body {
 
 .section {
     padding-top: 30px;
-    margin-top: 75px;
+    margin-top: 45px;
 }
 
 .section-heading {
@@ -1313,7 +1313,7 @@ Events Style
     border-radius: 25px;
     position: relative;
     padding: 40px;
-    margin-bottom: 96px;
+    margin-bottom: 36px;
 }
 
 .events .item .image {
@@ -1545,7 +1545,6 @@ Contact Style
     padding: 20px;
     font-size: 14px;
     color: #fff;
-    margin-bottom: 30px;
     position: relative;
     z-index: 3;
 }
@@ -1689,7 +1688,7 @@ body {
     .main-banner {
         padding-top: 100px;
     }
-    .main-banner .item {
+    .main-banner /*.item*/ {
         padding: 100px 60px 140px 60px;
         margin-left: 0px;
         text-align: center;
@@ -1801,7 +1800,7 @@ body {
         margin-top: 80px;
     }
     .events .item {
-        margin-bottom: 66px;
+        margin-bottom: 16px;
     }
     .events .item .image img {
         position: relative;
@@ -1883,7 +1882,7 @@ body {
 
 @media (max-width: 650px) {
     .events .section-heading{
-        margin-bottom: 35px;
+        margin-bottom: 25px;
     }
     .events{
         margin-top: 10px;
