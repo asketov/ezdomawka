@@ -24,5 +24,7 @@ namespace DAL.Entities
         
         [Required]
         public virtual FavorSolution FavorSolution { get; set; } = null!;
+        [Required]
+        public DateTime Created { get; set; }
     }
 }

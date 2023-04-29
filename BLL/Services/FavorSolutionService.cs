@@ -188,12 +188,8 @@ namespace BLL.Services
 
         public async Task<int> GetReportsCount(Guid favorId)
         {
-            var favor = await _db.FavorSolutions.FirstOrDefaultAsync(favor => favor.Id == favorId);
-
-            if (favor == null || favor.Reports == null)
-                return 0;
-
-            return favor.Reports.Count();
+            var count = await _db.Reports.CountAsync(x => x.FavorSolution.Id == favorId);
+            return count;
         }
 
         public async Task<bool> FavorsOutOfLimit(Guid userId)

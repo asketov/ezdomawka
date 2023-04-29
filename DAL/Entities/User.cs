@@ -31,7 +31,9 @@ namespace DAL.Entities
         
         [Required]
         public bool IsBanned { get; set; }
-        
+        [Required]
+        public DateTime Created { get; set; }
+
         [AllowNull]
         public virtual ICollection<Ban>? Bans { get; set; }
         

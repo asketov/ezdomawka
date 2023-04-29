@@ -1,4 +1,5 @@
-﻿let selectedSubjects = [];
+﻿var selectedSubjects = [];
+
 $(document).ready(function () {
 
 	$("#addFavor").click(function () {
@@ -90,7 +91,6 @@ document.addEventListener("click", (event) => {
 	// Клик по выбранному элементу в поле ввода
 	if (event.target.closest(".ms__chose-item")) {
 		searchChoseElement(event.target.textContent, event.target.id);
-		console.log(selectedSubjects);
 	}
 });
 
@@ -108,7 +108,6 @@ msDropdownList.addEventListener("click", (event) => {
 		createNewElement("li", ["ms__chose-item"], event, msChose);
 		selectedSubjects.push({ id: event.target.id, name: '22' });
 	}
-	console.log(selectedSubjects);
 	msInput.value = "";
 	checkInputValue();
 });

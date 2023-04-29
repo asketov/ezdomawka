@@ -29,21 +29,21 @@
 
         <div class="col-lg-12 col-lg-12--flex">
             <fieldset class="button button--remove">
-                <a asp-action="EditFavor" asp-controller="User" asp-route-id="@Model.Id">Редактировать</a>
+                <a class="btn btn-outline-warning" asp-action="EditFavor" asp-controller="User" asp-route-id="@Model.Id">Редактировать</a>
             </fieldset>
             
             <fieldset class="button button--ban">
-                <a asp-controller="User" asp-action="DeleteFavor"
+                <a class="btn btn-outline-danger" asp-controller="User" asp-action="DeleteFavor"
                         asp-route-favorId="@Model.Id">Удалить услугу</a>
             </fieldset>
             <fieldset class="button button--contact">
-                <button value="@Model.Connection" class="orange-button" id="contact">Контакты</button>
+                <button value="@Model.Connection" class="btn btn-outline-secondary" id="contact">Контакты услуги</button>
             </fieldset>
             <fieldset class="button button--contact">
-                <button id="reloadFavor" value="@Model.Id">Обновить услугу</button>
+                <button class="btn btn-outline-info" id="reloadFavor" value="@Model.Id">Обновить услугу</button>
             </fieldset>
             <fieldset class="button button--subjects">
-                <button value="@Model.Id" class="orange-button checkSubjects">Предметы</button>
+                <button value="@Model.Id" class="orange-button checkSubjects btn btn-outline-primary">Предметы</button>
             </fieldset>
         </div>
     </div>

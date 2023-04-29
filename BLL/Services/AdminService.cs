@@ -258,7 +258,7 @@ namespace BLL.Services
         {
             _db.Reports.RemoveRange(_db.Reports.Where(x => x.FavorSolutionId == favorId));
             var res = await _db.SaveChangesAsync();
-            return res > 0 ? true : false;
+            return res >= 0 ? true : false;
         }
     }
 }
