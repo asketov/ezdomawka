@@ -105,7 +105,7 @@ msDropdownList &&
 			searchChoseElement(event.target.textContent, event.target.id);
 		} else if (event.target.classList.contains("ms__dropdown-item")) {
 			createNewElement("li", ["ms__chose-item"], event, msChose);
-			selectedSubjects.push({ id: event.target.id, name: '22' });
+			selectedSubjects.push({ id: event.target.id, name: `${event.target.innerText}` });
 		}
 		msInput.value = "";
 		checkInputValue();

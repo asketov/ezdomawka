@@ -333,7 +333,6 @@ namespace ezdomawka.Controllers
             {
                 if (!await _adminService.CheckUserExistById(request.UserId)) return BadRequest();
                 if (await _adminService.UserIsAdmin(request.UserId)) return BadRequest();
-                
                 if ( await _userService.UserIsBanned(request.UserId)) return BadRequest();
 
                 await _userService.BanUser(request);
@@ -348,8 +347,6 @@ namespace ezdomawka.Controllers
             if (ModelState.IsValid)
             {
                 if (!await _adminService.CheckUserExistById(userId)) return BadRequest();              
-                if (!await _userService.UserIsBanned(userId)) return BadRequest();
-
                 await _userService.UnbanUser(userId);
                 return StatusCode(StatusCodes.Status200OK, new { redirect = GetRedirectLink(returnLink) });
             }

@@ -16,7 +16,7 @@
                 <span>
                     <b>Обновлена:</b>
                 </span>
-                <h6>@Model.Created.ToLocalTime().ToString()</h6>
+                <h6>@Model.Created.ToLocalTime().ToString().Split(' ')[0]</h6>
             </li>
             <li>
                 <span>
@@ -46,12 +46,12 @@
             @if (User.IsInRole(Roles.SuperAdminId))
             {
                 <fieldset class="button button--ban">
-                    <button class="orange-button"
+                    <button class=""
                             id="BanUser"  value="@Model.AuthorId">Заблокировать</button>
                 </fieldset>
 
                 <fieldset class="button button--remove">
-                    <a class="orange-button"
+                    <a class=""
                             asp-route-returnUrl="@Url.Action("Index", "Home")" 
                             asp-route-userId="@Model.AuthorId"
                             asp-route-favorId="@Model.Id" asp-controller="User" asp-action="DeleteFavor">Удалить услугу</a>

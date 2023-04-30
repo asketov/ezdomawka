@@ -8,4 +8,5 @@ public class ReportVm
     [MaxLength(ReportConfiguration.MaxReasonLength, ErrorMessage = "Слишком много символов")]
     [Required(ErrorMessage = "Поле причина обязательно")]
     public string Reason { get; set; } = null!;
+    public DateTime Created { get; set; }
 }

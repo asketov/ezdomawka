@@ -146,16 +146,11 @@ namespace BLL.Services
 
         public async Task<IEnumerable<ReportVm>> GetReports(GetUserFavorReportsRequest request)
         {
-            var favor = await _db.FavorSolutions.Include(x => x.Reports).AsNoTracking().FirstOrDefaultAsync(favor => favor.Id == request.FavorId);
 
-            if (favor == null || favor.Reports == null)
-                return Array.Empty<ReportVm>();
+            var reports = await _db.Reports.Where(x => x.FavorSolutionId == request.FavorId).Skip(request.Skip)
+                .Take(request.Take).ProjectTo<ReportVm>(_mapper.ConfigurationProvider).AsNoTracking().ToListAsync();
 
-            var reports = favor.Reports;
-            
-            return reports.Skip(request.Skip)
-                .Take(request.Take)
-                .Select(ban => _mapper.Map<ReportVm>(ban)); 
+            return reports; 
         }
 
         public async Task<bool> CheckFavorReportExist(Guid favorReportId)

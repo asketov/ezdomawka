@@ -294,10 +294,10 @@
     }
 }
 
-@media (max-width: 450px) {
+/*@media (max-width: 450px) {
     .orange-button,
     .button--subjects button {
         padding: 5px !important;
         border-radius: 8px !important;
     }
-}
+}*/

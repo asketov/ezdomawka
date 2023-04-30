@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-lg-12 col-lg-12--flex">
                 <fieldset class="button button--contact buttonfullsize">
-                       <a asp-area="" asp-controller="FavorSolution" asp-action="AddSolution" class="orange-button btn-outline-primary">Добавить Свою Услугу</a>
+                       <a asp-area="" asp-controller="FavorSolution" asp-action="AddSolution" class="btn-outline-primary">Добавить Свою Услугу</a>
                     </fieldset>
             </div>
         </div>
@@ -77,7 +77,7 @@
 
                     <fieldset class="input_field half-width">
                         <button id="findFavors" class="orange-button--white">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Найти услугу
                         </button>
                     </fieldset>
                 </div>
@@ -94,7 +94,7 @@
                     <h2 id="header" class="no_extra_text_effects">Результаты по запросу</h2>
                 </div>
             </div>*@
-
+            <div id="header"></div>
             <div id="FavorsWithPagination">
                 <partial name="Partials/_FavorsWithPagination" model="Model.FavorsWithPaginationVm"/>
             </div>

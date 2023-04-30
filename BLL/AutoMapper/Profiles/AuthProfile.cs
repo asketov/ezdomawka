@@ -19,7 +19,8 @@ namespace BLL.AutoMapper.Profiles
             CreateMap<RegisterRequest, RegisterModel>();
             CreateMap<RegisterModel, User>()
                 .ForMember(k => k.PasswordHash, f => f.MapFrom(m => HashHelper.GetHash(m.Password)))
-                .ForMember(k => k.RoleId, m => m.MapFrom(f => Roles.UserId));
+                .ForMember(k => k.RoleId, m => m.MapFrom(f => Roles.UserId))
+                .ForMember(d => d.Created, f => f.MapFrom(a => DateTime.UtcNow)); 
             CreateMap<ChangePasswordVm, ChangePasswordModel>()
                 .ForMember(x => x.PasswordHash, u => u.MapFrom(m => HashHelper.GetHash(m.Password)))
                 .ForMember(x=>x.Email, opt => opt.Ignore());

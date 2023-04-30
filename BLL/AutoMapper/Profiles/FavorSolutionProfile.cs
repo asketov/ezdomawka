@@ -38,8 +38,8 @@ namespace BLL.AutoMapper.Profiles
             CreateMap<SolutionModel, EditSolutionVm>()
                 .ForMember(x => x.Subjects, opt => opt.Ignore())
                 .ForMember(x => x.SelectedSubjects, f=>f.MapFrom(x => x.Subjects));
-            CreateMap<ReportRequest, Report>();
-            
+            CreateMap<ReportRequest, Report>().ForMember(d => d.Created, f => f.MapFrom(a => DateTime.UtcNow));
+
             CreateMap<Report, ReportVm>();
         }
     }

@@ -77,8 +77,8 @@ namespace BLL.Services
 
         public async Task<bool> UserIsBanned(Guid userId)
         {
-            var ban = await GetCurrentBanOrDefault(userId);
-            return ban != null;
+            return await _db.Bans.AnyAsync(f => f.BanTo > DateTime.UtcNow && f.UserId == userId && f.IsActual);
+           
         }  
 
         public async Task<Ban?> GetCurrentBanOrDefault(Guid userId)
@@ -86,6 +86,8 @@ namespace BLL.Services
             var ban = await _db.Bans.FirstOrDefaultAsync(f => f.BanTo > DateTime.UtcNow && f.UserId == userId && f.IsActual);
             return ban;
         }
+
+        
         public async Task BanUser(BanRequest request)
         {
             var ban = new Ban()
@@ -103,6 +105,7 @@ namespace BLL.Services
                 _db.Bans.Add(ban);
                 await _db.SaveChangesAsync();
             }
+            await ClearFavors(request.UserId);
         }
         public async Task UnbanUser(Guid userId)
         {
@@ -113,6 +116,12 @@ namespace BLL.Services
                 user.IsBanned = false;
                 user.Bans?.ToList().ForEach(x => x.IsActual = false);
             }
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task ClearFavors(Guid userId)
+        {
+            _db.FavorSolutions.RemoveRange(_db.FavorSolutions.Where(x => x.AuthorId == userId));
             await _db.SaveChangesAsync();
         }
     }

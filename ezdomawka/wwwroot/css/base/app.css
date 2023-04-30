@@ -1331,7 +1331,7 @@ Events Style
 .events .item ul li {
     display: inline-block;
     width: 17.5%;
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 .events .item ul li:first-child {
@@ -1811,8 +1811,8 @@ body {
     }
     .events .item ul li:first-child {
         width: 100% !important;
-        margin-bottom: 30px;
-        padding-bottom: 30px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
         border-bottom: 1px solid #ddd;
     }
     .events .item ul li:nth-child(2) {

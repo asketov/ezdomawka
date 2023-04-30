@@ -11,7 +11,7 @@ $(document).ready(function () {
 				dataType: 'json',
 				data: {
 					Subjects: selectedSubjects,
-					Theme: {id: $("#themes option").val(), name: $("#themes option").html()}, Text: $("#text").val(),
+					Theme: { id: $("#themes option:selected").val(), name: $("#themes option:selected").html()}, Text: $("#text").val(),
 					Price: $('#price').val(), Connection: $('#connect').val()
 				},
 				success: function (data) {
@@ -106,7 +106,7 @@ msDropdownList.addEventListener("click", (event) => {
 		searchChoseElement(event.target.textContent, event.target.id);
 	} else if (event.target.classList.contains("ms__dropdown-item")) {
 		createNewElement("li", ["ms__chose-item"], event, msChose);
-		selectedSubjects.push({ id: event.target.id, name: '22' });
+		selectedSubjects.push({ id: event.target.id, name: `${event.target.innerText}` });
 	}
 	msInput.value = "";
 	checkInputValue();

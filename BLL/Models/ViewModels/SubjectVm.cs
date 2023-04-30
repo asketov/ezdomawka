@@ -13,8 +13,8 @@ namespace BLL.Models.ViewModels
         [Required]
         public Guid Id { get; set; }
 
-        //[Required]
-        //[StringLength(SubjectConfiguration.MaxNameLength, MinimumLength = SubjectConfiguration.MinNameLength, ErrorMessage = "Длина должна быть от {1} до {2} символов")]
+        [Required]
+        [StringLength(SubjectConfiguration.MaxNameLength, MinimumLength = SubjectConfiguration.MinNameLength, ErrorMessage = "Длина должна быть от {1} до {2} символов")]
         public string Name { get; set; } = null!;
        
     }

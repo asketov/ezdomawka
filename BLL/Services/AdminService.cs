@@ -254,6 +254,11 @@ namespace BLL.Services
             return false;
         }
 
+        public async Task ClearBans(Guid userId)
+        {
+
+        }
+
         public async Task<bool> DeleteWarns(Guid favorId)
         {
             _db.Reports.RemoveRange(_db.Reports.Where(x => x.FavorSolutionId == favorId));
