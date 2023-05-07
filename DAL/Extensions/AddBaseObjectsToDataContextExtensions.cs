@@ -1,4 +1,5 @@
 ﻿using Common.Consts;
+using Common.Helpers;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,12 +20,42 @@ public static class AddBaseObjectsToDataContextExtensions
                await rolesId.ContainsAsync(SuperAdminId);
     }
 
+    public static async Task<bool> BaseInstituteAdded(this DataContext dbContext)
+    {
+        var listId = dbContext.Institutes.Select(x => x.Id);
+        return await listId.ContainsAsync(Guid.Parse(Institutes.DefaultVuzVoenmehId));
+    }
+
     public static async Task<DataContext> AddBaseUserRoles(this DataContext dbContext)
     {
         await dbContext.Roles.AddRangeAsync(
             new Role(){Id = UserId, Name = "User"},
         new Role(){Id = AdminId, Name = "Admin"},
         new Role(){Id = SuperAdminId, Name = "SuperAdmin"});
+
+        await dbContext.SaveChangesAsync();
+
+        return dbContext;
+    }
+    public static async Task<DataContext> AddBaseInstitutes(this DataContext dbContext)
+    {
+        await dbContext.Institutes.AddAsync(
+        new Institute() { Id = Guid.Parse(Institutes.DefaultVuzVoenmehId), Name = "Бгту Военмех" });
+
+        await dbContext.SaveChangesAsync();
+
+        return dbContext;
+    }
+
+    public static async Task<bool> SuperAdminAdded(this DataContext dbContext)
+    {
+        return await dbContext.Users.AnyAsync(x => x.RoleId == Guid.Parse(Roles.SuperAdminId));
+    }
+
+    public static async Task<DataContext> AddBaseAdmin(this DataContext dbContext)
+    {
+        await dbContext.Users.AddAsync(
+        new User() { InstituteId = Guid.Parse(Institutes.DefaultVuzVoenmehId), Nick = "Asketov", Email = "i502b13@voenmeh.ru", PasswordHash = HashHelper.GetHash("34Ihinah1!"), RoleId = Guid.Parse(Roles.SuperAdminId), Created = DateTime.UtcNow, IsBanned = false });
 
         await dbContext.SaveChangesAsync();
 

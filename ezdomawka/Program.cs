@@ -36,27 +36,28 @@ using (var serviceScope = ((IApplicationBuilder)app)
         context.Database.Migrate();
     }
 }
-//if (app.Environment.IsDevelopment())
-//{
+if (app.Environment.IsDevelopment())
+{
 
-//    using (var scope = app.Services.CreateScope())
-//    {
-//        var dbContext = scope.ServiceProvider.GetService<DataContext>();
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetService<DataContext>();
+        if (!await dbContext.BaseUserRolesAdded())
+            await dbContext.AddBaseUserRoles();
+        if (!await dbContext.BaseInstituteAdded())
+            await dbContext.AddBaseInstitutes();
+        if (!await dbContext.AnySubjectAdded())
+            await dbContext.AddSubjectFromFile(@"./subjects.txt");
+        if (!await dbContext.AnyThemeAdded())
+            await dbContext.AddThemeFromFile(@"./themes.txt");
+        if (!await dbContext.SuperAdminAdded())
+            await dbContext.AddBaseAdmin();
 
-//        if (!await dbContext.BaseUserRolesAdded())
-//            await dbContext.AddBaseUserRoles();
 
-//        if (!await dbContext.AnySubjectAdded())
-//            await dbContext.AddSubjectFromFile(@"~\предметы.txt");
 
-//        if (!await dbContext.AnyThemeAdded())
-//            await dbContext.AddThemeFromFile(@"~\темы.txt");
-
-        
-
-//        dbContext.SaveChanges();
-//    }
-//}
+        dbContext.SaveChanges();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
