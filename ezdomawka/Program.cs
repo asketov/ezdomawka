@@ -36,8 +36,7 @@ using (var serviceScope = ((IApplicationBuilder)app)
         context.Database.Migrate();
     }
 }
-if (app.Environment.IsDevelopment())
-{
+
 
     using (var scope = app.Services.CreateScope())
     {
@@ -57,7 +56,7 @@ if (app.Environment.IsDevelopment())
 
         dbContext.SaveChanges();
     }
-}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

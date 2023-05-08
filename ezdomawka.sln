@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{A56E583C-416F-4DBE-9101-5326D0925F2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{A61322FF-C52F-46F3-9F66-AC740146AC2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{A61322FF-C52F-46F3-9F66-AC740146AC2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelsConfiguration", "ModelsConfiguration\ModelsConfiguration.csproj", "{184941F7-D425-459B-9ED3-DF62FBCA9875}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModelsConfiguration", "ModelsConfiguration\ModelsConfiguration.csproj", "{184941F7-D425-459B-9ED3-DF62FBCA9875}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
