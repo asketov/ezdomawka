@@ -45,10 +45,10 @@ using (var serviceScope = ((IApplicationBuilder)app)
             await dbContext.AddBaseUserRoles();
         if (!await dbContext.BaseInstituteAdded())
             await dbContext.AddBaseInstitutes();
-        if (!await dbContext.AnySubjectAdded())
-            await dbContext.AddSubjectFromFile(@"./subjects.txt");
-        if (!await dbContext.AnyThemeAdded())
-            await dbContext.AddThemeFromFile(@"./themes.txt");
+        //if (!await dbContext.AnySubjectAdded())
+        //    await dbContext.AddSubjectFromFile(@"./subjects.txt");
+        //if (!await dbContext.AnyThemeAdded())
+        //    await dbContext.AddThemeFromFile(@"./themes.txt");
         if (!await dbContext.SuperAdminAdded())
             await dbContext.AddBaseAdmin();
 
