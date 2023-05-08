@@ -46,9 +46,9 @@ using (var serviceScope = ((IApplicationBuilder)app)
         if (!await dbContext.BaseInstituteAdded())
             await dbContext.AddBaseInstitutes();
     if (!await dbContext.AnySubjectAdded())
-        await dbContext.AddSubjectFromFile(@"/home/asketov/var/projects/ezdomawka/ezdomawka/subjects.txt");
+        await dbContext.AddSubjectFromFile(@"~/var/projects/ezdomawka/ezdomawka/subjects.txt");
     if (!await dbContext.AnyThemeAdded())
-        await dbContext.AddThemeFromFile(@"/home/asketov/var/projects/ezdomawka/ezdomawka/themes.txt");
+        await dbContext.AddThemeFromFile(@"~/var/projects/ezdomawka/ezdomawka/themes.txt");
     if (!await dbContext.SuperAdminAdded())
             await dbContext.AddBaseAdmin();
 
