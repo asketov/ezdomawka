@@ -48,7 +48,7 @@ using (var serviceScope = ((IApplicationBuilder)app)
     if (!await dbContext.AnySubjectAdded())
         await dbContext.AddSubjectFromFile(@"./subjects.txt");
     if (!await dbContext.AnyThemeAdded())
-        await dbContext.AddThemeFromFile(@"~./themes.txt");
+        await dbContext.AddThemeFromFile(@"./themes.txt");
     if (!await dbContext.SuperAdminAdded())
             await dbContext.AddBaseAdmin();
 
