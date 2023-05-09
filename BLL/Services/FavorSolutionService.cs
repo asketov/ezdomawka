@@ -92,7 +92,7 @@ namespace BLL.Services
         {
             var mdl = new UpdateFavorHistory()
             {
-                UpdateDate = DateTime.UtcNow, AuthorId = userId 
+                UpdateDate = DateTime.Now, AuthorId = userId 
             };
             _db.UpdateFavorHistory.Add(mdl);
             await _db.SaveChangesAsync();
@@ -103,7 +103,7 @@ namespace BLL.Services
             var favor = await _db.FavorSolutions.FirstOrDefaultAsync(x => x.Id == favorId);
             if (favor != null)
             {
-                favor.Created = DateTime.UtcNow;
+                favor.Created = DateTime.Now;
                 await _db.SaveChangesAsync();
                 return true;
             }
@@ -196,7 +196,7 @@ namespace BLL.Services
         public async Task<int> GetTodayUpdatesFavors(Guid userId)
         {
             var count = await _db.UpdateFavorHistory.CountAsync(x => x.AuthorId == userId 
-            && x.UpdateDate >= DateTime.UtcNow.Date && x.UpdateDate < DateTime.UtcNow.Date.AddDays(1));
+            && x.UpdateDate >= DateTime.Now.Date && x.UpdateDate < DateTime.Now.Date.AddDays(1));
             return count;
         }
     }

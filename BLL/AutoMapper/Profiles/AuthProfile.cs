@@ -20,7 +20,7 @@ namespace BLL.AutoMapper.Profiles
             CreateMap<RegisterModel, User>()
                 .ForMember(k => k.PasswordHash, f => f.MapFrom(m => HashHelper.GetHash(m.Password)))
                 .ForMember(k => k.RoleId, m => m.MapFrom(f => Roles.UserId))
-                .ForMember(d => d.Created, f => f.MapFrom(a => DateTime.UtcNow)); 
+                .ForMember(d => d.Created, f => f.MapFrom(a => DateTime.Now)); 
             CreateMap<ChangePasswordVm, ChangePasswordModel>()
                 .ForMember(x => x.PasswordHash, u => u.MapFrom(m => HashHelper.GetHash(m.Password)))
                 .ForMember(x=>x.Email, opt => opt.Ignore());

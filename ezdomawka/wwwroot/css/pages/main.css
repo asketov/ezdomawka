@@ -7,6 +7,9 @@
 
     margin-top: 25px;
 }
+span, td, h5, h6 {
+    word-break:break-all;
+}
 
 
 .go-to-section a{

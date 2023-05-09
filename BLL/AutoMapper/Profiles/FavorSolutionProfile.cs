@@ -13,12 +13,12 @@ namespace BLL.AutoMapper.Profiles
             CreateMap<SubjectVm, Subject>();
             CreateMap<ThemeVm, Theme>();
             CreateMap<AddSolutionRequest, SolutionModel>()
-                .ForMember(d=>d.Created, f=>f.MapFrom(a => DateTime.UtcNow));
+                .ForMember(d=>d.Created, f=>f.MapFrom(a => DateTime.Now));
             CreateMap<SolutionModel, AddSolutionRequest>();
             CreateMap<EditSolutionRequest, SolutionModel>()
-                .ForMember(d => d.Created, f => f.MapFrom(a => DateTime.UtcNow)); 
+                .ForMember(d => d.Created, f => f.MapFrom(a => DateTime.Now)); 
             CreateMap<SolutionModel, FavorSolution>()
-                .ForMember(u => u.Created, k => k.MapFrom(d => DateTime.UtcNow))
+                .ForMember(u => u.Created, k => k.MapFrom(d => DateTime.Now))
                 .ForMember(d => d.FavorSubjects, s => s.MapFrom(a => a.Subjects))
                 .ForMember(f => f.Theme, opt => opt.Ignore())
                 .ForMember(f=>f.ThemeId, k=>k.MapFrom(a=>a.Theme.Id));
@@ -38,7 +38,7 @@ namespace BLL.AutoMapper.Profiles
             CreateMap<SolutionModel, EditSolutionVm>()
                 .ForMember(x => x.Subjects, opt => opt.Ignore())
                 .ForMember(x => x.SelectedSubjects, f=>f.MapFrom(x => x.Subjects));
-            CreateMap<ReportRequest, Report>().ForMember(d => d.Created, f => f.MapFrom(a => DateTime.UtcNow));
+            CreateMap<ReportRequest, Report>().ForMember(d => d.Created, f => f.MapFrom(a => DateTime.Now));
 
             CreateMap<Report, ReportVm>();
         }

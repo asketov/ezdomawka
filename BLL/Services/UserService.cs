@@ -77,13 +77,13 @@ namespace BLL.Services
 
         public async Task<bool> UserIsBanned(Guid userId)
         {
-            return await _db.Bans.AnyAsync(f => f.BanTo > DateTime.UtcNow && f.UserId == userId && f.IsActual);
+            return await _db.Bans.AnyAsync(f => f.BanTo > DateTime.Now && f.UserId == userId && f.IsActual);
            
         }  
 
         public async Task<Ban?> GetCurrentBanOrDefault(Guid userId)
         {
-            var ban = await _db.Bans.FirstOrDefaultAsync(f => f.BanTo > DateTime.UtcNow && f.UserId == userId && f.IsActual);
+            var ban = await _db.Bans.FirstOrDefaultAsync(f => f.BanTo > DateTime.Now && f.UserId == userId && f.IsActual);
             return ban;
         }
 
@@ -92,8 +92,8 @@ namespace BLL.Services
         {
             var ban = new Ban()
             {
-                BanFrom = DateTime.UtcNow,
-                BanTo = DateTime.UtcNow.AddDays(request.Duration),
+                BanFrom = DateTime.Now,
+                BanTo = DateTime.Now.AddDays(request.Duration),
                 UserId = request.UserId,
                 Reason = request.Reason,
                 IsActual = true

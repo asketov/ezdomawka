@@ -40,7 +40,7 @@
 
     public static class NickConfiguration
     {
-        public const int MaxLength = 50;
+        public const int MaxLength = 15;
         public const int MinLength = 5;
     }
 
