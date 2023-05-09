@@ -12,6 +12,7 @@ namespace BLL.Models.ViewModels
     {
         public Guid Id { get; set; }
         [DataType(DataType.Url, ErrorMessage = "Связь должна являться одной активной ссылкой")]
+        [StringLength(ConnectionConfiguration.MaxConnectionLength, ErrorMessage = "Связь должна быть до {1} символов")]
         public string? Connection { get; set; } = null!;
         
         
