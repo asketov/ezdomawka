@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var emailSection = builder.Configuration.GetSection(EmailConfig.Position);
 builder.Services.Configure<EmailConfig>(emailSection);
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc(options =>
