@@ -3,15 +3,14 @@
 $(document).ready(function () {
 
 	$("#addFavor").click(function () {
-		if ($("#form").valid())
-		{
+		if ($("#form").valid()) {
 			$.ajax({
 				url: '/FavorSolution/AddSolution',
 				method: 'post',
 				dataType: 'json',
 				data: {
 					Subjects: selectedSubjects,
-					Theme: { id: $("#themes option:selected").val(), name: $("#themes option:selected").html()}, Text: $("#text").val(),
+					Theme: { id: $("#themes option:selected").val(), name: $("#themes option:selected").html() }, Text: $("#text").val(),
 					Price: $('#price').val(), Connection: $('#connect').val()
 				},
 				success: function (data) {
@@ -48,6 +47,9 @@ $(document).ready(function () {
 					}
 				}
 			});
+		}
+		else {
+			location.href = "#header";
 		}
 	});
 	$(document).on('click', '.Modal', function (event) {
