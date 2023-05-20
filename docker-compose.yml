@@ -23,7 +23,7 @@ services:
       - VIRTUAL_HOST=ezvuz.ru
       - LETSENCRYPT_HOST=ezvuz.ru
       - VIRTUAL_PORT=80
-      TZ: "Europe/Moscow"
+      - TZ=Europe/Moscow
     networks:
       - back
       - reverse-proxy
