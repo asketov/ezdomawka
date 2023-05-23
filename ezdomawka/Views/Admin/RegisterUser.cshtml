@@ -1,0 +1,65 @@
+﻿@using Common.Configs
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ModelsConfiguration
+@model BLL.Models.Auth.RegisterModel
+
+@section Styles
+    {
+    <link rel="stylesheet" href="~/css/pages/main.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/pages/login.css" asp-append-version="true">
+}
+
+<div class="contact-us section" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6  align-self-center">
+                <div class="section-heading">
+                    <h6>Зарегистрируйтесь</h6>
+                    <h2 class="no_extra_text_effects">На этой странице вы можете создать аккаунт.</h2>
+                    <strong>
+                        Если вы не хотите регистрировать аккаунт под учебной почтой, то напишите в "Высказать мнение" контакты для связи с текстом "Хочу аккаунт с другой почтой",
+                        я свяжусь для закрепления аккаунта за вами(желательно telegram)
+                    </strong>
+
+                    <div class="goto_login_panel">
+                        <h6>У вас уже есть Аккаунт? </h6>
+                        <a class="extra_login_link" asp-controller="Auth" asp-action="Login">Войти</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="contact-us-content">
+                    <form class="input_form" method="post" asp-action="CreateUser">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="email" asp-for="Email" type="text" required placeholder="Только почта вуза name@voenmeh.ru *" />
+                                    <span asp-validation-for="Email" class="text-danger text-danger--blue_style"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="nick" asp-for="Nick" type="text" required placeholder="Введите никнейм *" />
+                                    <span asp-validation-for="Nick" class="text-danger  text-danger--blue_style"></span>
+                                </fieldset>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <fieldset class="input_field">
+                                    <input id="password" asp-for="Password" type="password" required placeholder="Введите пароль *" />
+                                    <span asp-validation-for="Password" class="text-danger  text-danger--blue_style"></span>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-12 col-lg-12--flex" id="buttons">
+                                <div class="login_button">
+                                    <button type="submit" id="form-submit" class="orange-button">Создать</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

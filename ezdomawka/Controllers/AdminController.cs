@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Models.Admin;
+using BLL.Models.Auth;
 using BLL.Models.FavorSolution;
 using BLL.Models.ViewModels;
 using BLL.Services;
@@ -24,13 +25,15 @@ namespace ezdomawka.Controllers
         private readonly AdminService _adminService;
         private readonly UserService _userService;
         private readonly FavorSolutionService _favorSolutionService;
+        private readonly AuthService _authService;
 
-        public AdminController(IMapper mapper, AdminService adminService, UserService userService, FavorSolutionService favorSolutionService)
+        public AdminController(IMapper mapper, AdminService adminService, UserService userService, FavorSolutionService favorSolutionService, AuthService authService)
         {
             _mapper = mapper;
             _adminService = adminService;
             _userService = userService;
             _favorSolutionService = favorSolutionService;
+            _authService = authService;
         }
 
         #region Theme
@@ -427,6 +430,18 @@ namespace ezdomawka.Controllers
         {
             var isDeleted = await _adminService.DeleteWarns(favorId);
             return StatusCode((isDeleted ? StatusCodes.Status200OK : StatusCodes.Status400BadRequest), new { redirect = GetRedirectLink(null) });
+        }
+        [HttpGet]
+        public IActionResult RegisterUser()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async  Task<IActionResult> CreateUser(RegisterModel request)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            await _authService.RegisterUser(request);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
