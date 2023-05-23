@@ -8,7 +8,9 @@
     margin-top: 25px;
 }
 .wordbreak {
-    word-break:break-all;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
 }
 
 
@@ -39,8 +41,8 @@
     margin-bottom: 10px; !important;
 }
 
-.text-danger--blue_style{
-    color: #fff !important;
+.text-danger--blue_style {
+    color: #d9db6b !important;
     font-size: 15px !important;
     font-weight: bold !important;
     text-align: center !important;
